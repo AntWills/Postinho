@@ -27,4 +27,28 @@ public class MedicalCare {
         this.dateService = dateService;
         this.reasonForService = reasonForService;
     }
+
+    public int getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(int typeService) {
+        this.typeService = typeService;
+    }
+
+    public Date getDateService() {
+        return dateService;
+    }
+
+    public void setDateService(Date dateService) {
+        this.dateService = dateService;
+    }
+
+    public String getReasonForService() {
+        return reasonForService;
+    }
+
+    public void setReasonForService(String reasonForService) {
+        this.reasonForService = reasonForService;
+    }
 }

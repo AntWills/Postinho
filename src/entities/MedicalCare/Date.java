@@ -1,6 +1,6 @@
 package entities.MedicalCare;
 
-import entities.ReadData;
+import entities.terminal.ReadData;
 
 public class Date {
     private int day, month, year;

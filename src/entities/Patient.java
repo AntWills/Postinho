@@ -1,5 +1,7 @@
 package entities;
 
+import entities.terminal.ReadData;
+
 public class Patient {
     int id;
     String name;
