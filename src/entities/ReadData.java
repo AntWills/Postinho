@@ -1,4 +1,4 @@
-package Read;
+package entities;
 
 import java.util.Scanner;
 
