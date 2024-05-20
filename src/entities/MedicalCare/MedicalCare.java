@@ -1,5 +1,7 @@
 package entities.MedicalCare;
 
+import entities.terminal.*;;
+
 public class MedicalCare {
     /**
      * # data reading #
@@ -26,6 +28,39 @@ public class MedicalCare {
         this.typeService = typeService;
         this.dateService = dateService;
         this.reasonForService = reasonForService;
+    }
+
+    @Override
+    public String toString() {
+        return ColorOut.getText(typeServiceString(typeService), colorType(typeService))
+                + " " + dateService.toString() + "\n"
+                + reasonForService;
+    }
+
+    private String colorType(int i) {
+        switch (i) {
+            case 0:
+                return ColorOut.black + ColorOut.bgBlue + ColorOut.bold;
+            case 1:
+                return ColorOut.black + ColorOut.bgGreen + ColorOut.bold;
+            case 2:
+                return ColorOut.black + ColorOut.bgYellow + ColorOut.bold;
+            default:
+                return "";
+        }
+    }
+
+    private String typeServiceString(int i) {
+        switch (i) {
+            case 0:
+                return "[NOT URGENT]";
+            case 1:
+                return "[LITTLE URGENT]";
+            case 2:
+                return "[URGENT]";
+            default:
+                return "";
+        }
     }
 
     public int getTypeService() {
