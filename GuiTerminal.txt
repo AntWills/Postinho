@@ -5,6 +5,8 @@
 [1] : Registrar nova consultas.
 [2] : Agendar consulta para data futura.
 [3] : Consultas agendados para hoje+
+[*] : Cadastrar novos pacientes.
+[*] : Buscar clientes+
 [*] : Acessar banco de consultas+
 [0] : Encerrar programa.
 

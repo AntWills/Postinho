@@ -29,8 +29,8 @@ public class Date {
     @Override
     public String toString() {
         return String.format("%02d", day)
-                + " : " + String.format("%02d", month)
-                + " : " + String.format("%04d", year);
+                + "/" + String.format("%02d", month)
+                + "/" + String.format("%04d", year);
     }
 
     public int getDay() {

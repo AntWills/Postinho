@@ -1,19 +1,31 @@
 package entities;
 
 import entities.terminal.ReadData;
+import entities.MedicalCare.MedicalCare;
+import java.util.List;
+import java.util.ArrayList;
+// import java.util.LinkedList;
 
 public class Patient {
     int id;
     String name;
+    List<MedicalCare> consultateCarried;
 
     public Patient() {
         this.id = 0;
         this.name = "";
+        this.consultateCarried = new ArrayList<>();
     }
 
     public Patient(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Patient(int id, String name, List<MedicalCare> cultateList) {
+        this.id = id;
+        this.name = name;
+        this.consultateCarried = cultateList;
     }
 
     public void in() {
@@ -23,6 +35,27 @@ public class Patient {
         this.id = ReadData.INT();
         System.err.println("Digite o nome: ");
         this.name = ReadData.STRING();
+    }
+
+    @Override
+    public String toString() {
+        return "id: " + id + " : Nome: " + name
+                + "\nPossui um total de " + consultateCarried.size()
+                + " consultas realizadas.\n";
+    }
+
+    public void printAllCare() {
+        if (consultateCarried.size() == 0) {
+            System.err.println("O paciente " + name + " ainda não fez consultas.");
+            return;
+        }
+
+        System.err.println("\nTotas as consultas feitas por " + name + ":\n");
+
+        for (MedicalCare care : consultateCarried) {
+            System.err.println(care + "\n");
+        }
+
     }
 
     public int getId() {

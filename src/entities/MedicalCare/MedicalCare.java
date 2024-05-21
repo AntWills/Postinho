@@ -33,7 +33,7 @@ public class MedicalCare {
     @Override
     public String toString() {
         return ColorOut.getText(typeServiceString(typeService), colorType(typeService))
-                + " " + dateService.toString() + "\n"
+                + " Data: " + dateService.toString() + "\n"
                 + reasonForService;
     }
 
