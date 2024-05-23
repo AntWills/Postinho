@@ -7,23 +7,23 @@ import java.util.ArrayList;
 // import java.util.LinkedList;
 
 public class Patient {
-    int CPF;
+    CPF cpf;
     String name;
     List<MedicalCare> consultateCarried;
 
     public Patient() {
-        this.CPF = 0;
+        this.cpf = new CPF();
         this.name = "";
         this.consultateCarried = new ArrayList<>();
     }
 
-    public Patient(int CPF, String name) {
-        this.CPF = CPF;
+    public Patient(CPF cpf, String name) {
+        this.cpf = cpf;
         this.name = name;
     }
 
-    public Patient(int CPF, String name, List<MedicalCare> cultateList) {
-        this.CPF = CPF;
+    public Patient(CPF cpf, String name, List<MedicalCare> cultateList) {
+        this.cpf = cpf;
         this.name = name;
         this.consultateCarried = cultateList;
     }
@@ -31,15 +31,14 @@ public class Patient {
     public void in() {
         System.err.println("\nDigite os seguintes dados do paciente:\n");
 
-        System.err.println("Digite o CPF: ");
-        this.CPF = ReadData.INT();
+        this.cpf.in();
         System.err.println("Digite o nome: ");
         this.name = ReadData.STRING();
     }
 
     @Override
     public String toString() {
-        return "CPF: " + CPF + " : Nome: " + name
+        return "cpf: " + cpf + " - Nome: " + name
                 + "\nPossui um total de " + consultateCarried.size()
                 + " consultas realizadas.\n";
     }
@@ -58,12 +57,12 @@ public class Patient {
 
     }
 
-    public int getId() {
-        return CPF;
+    public CPF getId() {
+        return cpf;
     }
 
-    public void setId(int CPF) {
-        this.CPF = CPF;
+    public void setId(CPF cpf) {
+        this.cpf = cpf;
     }
 
     public String getName() {

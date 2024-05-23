@@ -6,11 +6,12 @@ public class CPF {
     private String numberCPF;
 
     public CPF() {
-        this.numberCPF = "";
+        this.numberCPF = "00000000000";
     }
 
     public CPF(String cpfString) {
         if (!checkStringCPF(cpfString)) {
+            this.numberCPF = "00000000000";
             return;
         }
         this.numberCPF = cpfString;
@@ -19,7 +20,7 @@ public class CPF {
     public void in() {
         String auxi = "";
         boolean cheking;
-        String msg = "\nDigite apenas os numeros do CPF:";
+        String msg = "Digite apenas os numeros do CPF:";
         do {
             auxi = "";
             System.err.println(msg);
@@ -32,7 +33,6 @@ public class CPF {
             }
         } while (cheking);
         this.numberCPF = auxi;
-
     }
 
     private boolean checkStringCPF(String cpfString) {
@@ -65,22 +65,21 @@ public class CPF {
         // Use StringBuilder para construir a string formatada
         StringBuilder formattedCPF = new StringBuilder();
         formattedCPF.append(numberCPF.charAt(0))
-                    .append(numberCPF.charAt(1))
-                    .append(numberCPF.charAt(2))
-                    .append('.')
-                    .append(numberCPF.charAt(3))
-                    .append(numberCPF.charAt(4))
-                    .append(numberCPF.charAt(5))
-                    .append('.')
-                    .append(numberCPF.charAt(6))
-                    .append(numberCPF.charAt(7))
-                    .append(numberCPF.charAt(8))
-                    .append('-')
-                    .append(numberCPF.charAt(9))
-                    .append(numberCPF.charAt(10));
+                .append(numberCPF.charAt(1))
+                .append(numberCPF.charAt(2))
+                .append('.')
+                .append(numberCPF.charAt(3))
+                .append(numberCPF.charAt(4))
+                .append(numberCPF.charAt(5))
+                .append('.')
+                .append(numberCPF.charAt(6))
+                .append(numberCPF.charAt(7))
+                .append(numberCPF.charAt(8))
+                .append('-')
+                .append(numberCPF.charAt(9))
+                .append(numberCPF.charAt(10));
         return formattedCPF.toString();
     }
-
 
     public String getNumberCPF() {
         return numberCPF;

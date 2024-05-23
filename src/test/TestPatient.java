@@ -1,5 +1,6 @@
 package test;
 
+import entities.CPF;
 import entities.Patient;
 import entities.MedicalCare.*;
 import java.util.List;
@@ -12,7 +13,7 @@ public class TestPatient {
         list.add(new MedicalCare(1, new Date(), "Dor de dente"));
         list.add(new MedicalCare(1, new Date(), "Dor de dente"));
         list.add(new MedicalCare(2, new Date(), "Sangramento nasal"));
-        Patient paci = new Patient(0, "Wills", list);
+        Patient paci = new Patient(new CPF(), "Wills", list);
 
         System.err.println(paci);
 

@@ -4,10 +4,19 @@
 
 [1] : Registrar nova consultas.
 [2] : Agendar consulta para data futura.
-[3] : Consultas agendados para hoje+
+[3] : Consultas agendados para hoje.
 [*] : Cadastrar novos pacientes.
-[*] : Buscar clientes+
-[*] : Acessar banco de consultas+
+[*] : Buscar pacientes(+).
+[*] : Acessar banco de consultas(+).
 [0] : Encerrar programa.
 
-Digite uma das opções: 
+Digite uma das opções:
+
+## Menu Do Banco ##
+
+[1] : Buscar por um CPF.
+[2] : Quantidade de pacientes cadastrados.
+[3] : 
+[0] : Voltar.
+
+Digite uma das opções:  
