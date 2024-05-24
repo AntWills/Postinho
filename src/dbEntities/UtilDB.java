@@ -3,23 +3,18 @@ package dbEntities;
 import java.sql.*;
 
 public class UtilDB {
-    private Connection connection;
-    private String nameDB;
+    private static Connection connection;
 
-    public UtilDB(String name) {
-        this.nameDB = name;
-    }
-
-    public void openBank() {
+    public static void openBank() {
         try {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:data/ " + nameDB + ".sqlite");
+            connection = DriverManager.getConnection("jdbc:sqlite:data/PostinhoDB.sqlite");
         } catch (Exception e) {
             System.err.println("Error when opening the bank: " + e.getMessage());
         }
     }
 
-    public void closeBank() {
+    public static void closeBank() {
         if (connection == null)
             return;
         try {
@@ -30,7 +25,7 @@ public class UtilDB {
         }
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         try {
             if (connection == null)
                 openBank();
@@ -40,6 +35,13 @@ public class UtilDB {
             System.err.println("Error when connecting to the bank: " + e.getMessage());
         }
         return connection;
+    }
+
+    public static void execQuery(String query) throws Exception {
+        Connection dbConnection = getConnection();
+        Statement stm = dbConnection.createStatement();
+        stm.executeUpdate(query);
+        stm.close();
     }
 
 }
