@@ -17,6 +17,22 @@ public class Date {
         this.year = year;
     }
 
+    public Date(String dateString) {
+        String[] parts = dateString.split("/");
+
+        if (parts.length == 3) {
+            try {
+                this.day = Integer.parseInt(parts[0]);
+                this.month = Integer.parseInt(parts[1]);
+                this.year = Integer.parseInt(parts[2]);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Data inválida: " + dateString);
+            }
+        } else {
+            throw new IllegalArgumentException("Formato de data inválido. Use 'dd/mm/yyyy'.");
+        }
+    }
+
     public void in() {
         System.err.print("\nDigite o dia: ");
         this.day = ReadData.INT();
