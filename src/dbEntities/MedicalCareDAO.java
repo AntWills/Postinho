@@ -1,7 +1,8 @@
 package dbEntities;
 
-import entities.MedicalCare.*;
-import entities.CPF;
+import entities.patient.CPF;
+import entities.patient.MedicalCare.*;
+
 import java.util.List;
 import java.sql.Connection;
 import java.sql.ResultSet;

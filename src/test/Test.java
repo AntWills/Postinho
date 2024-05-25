@@ -1,7 +1,7 @@
 package test;
 
-import entities.CPF;
-import entities.MedicalCare.Date;;
+import entities.patient.CPF;
+import entities.patient.MedicalCare.Date;;
 
 public class Test {
     public static void main(String[] args) {

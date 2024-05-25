@@ -1,8 +1,9 @@
 package test;
 
-import entities.CPF;
-import entities.Patient;
-import entities.MedicalCare.*;
+import entities.patient.CPF;
+import entities.patient.Patient;
+import entities.patient.MedicalCare.*;
+
 import java.util.List;
 import java.util.ArrayList;
 

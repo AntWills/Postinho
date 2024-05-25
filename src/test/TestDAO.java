@@ -1,9 +1,9 @@
 package test;
 
-import entities.MedicalCare.Date;
-import entities.MedicalCare.MedicalCare;
 import dbEntities.*;
-import entities.CPF;
+import entities.patient.CPF;
+import entities.patient.MedicalCare.Date;
+import entities.patient.MedicalCare.MedicalCare;
 
 import java.util.*;
 

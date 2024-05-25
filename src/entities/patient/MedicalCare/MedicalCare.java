@@ -1,4 +1,4 @@
-package entities.MedicalCare;
+package entities.patient.MedicalCare;
 
 import entities.terminal.*;;
 

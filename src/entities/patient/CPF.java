@@ -1,4 +1,4 @@
-package entities;
+package entities.patient;
 
 import entities.terminal.ReadData;
 

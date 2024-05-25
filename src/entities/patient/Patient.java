@@ -1,7 +1,8 @@
-package entities;
+package entities.patient;
 
+import entities.patient.MedicalCare.MedicalCare;
 import entities.terminal.ReadData;
-import entities.MedicalCare.MedicalCare;
+
 import java.util.List;
 import java.util.ArrayList;
 // import java.util.LinkedList;
@@ -20,6 +21,7 @@ public class Patient {
     public Patient(CPF cpf, String name) {
         this.cpf = cpf;
         this.name = name;
+        this.consultateCarried = new ArrayList<>();
     }
 
     public Patient(CPF cpf, String name, List<MedicalCare> cultateList) {
