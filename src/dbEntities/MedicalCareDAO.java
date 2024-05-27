@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MedicalCareDAO {
-    public MedicalCareDAO() {
+    public static void initi() {
         String query = "CREATE TABLE IF NOT EXISTS "
                 + "MedicalCare ("
                 + "id_MedicalCare INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -25,7 +25,7 @@ public class MedicalCareDAO {
         }
     }
 
-    public void add(MedicalCare mc, CPF cpf) {
+    public static void add(MedicalCare mc, CPF cpf) {
         String query = "INSERT INTO MedicalCare"
                 + "(type_MedicalCare,cpf_patient_MedicalCare,date_care_MedicalCare,reason_service)"
                 + "VALUES('" + mc.getTypeService() + "',"
@@ -40,7 +40,7 @@ public class MedicalCareDAO {
         }
     }
 
-    public void delete(int id) {
+    public static void delete(int id) {
         String query = "DELETE FROM MedicalCare WHERE id_MedicalCare = " + id;
         try {
             UtilDB.execQuery(query);
@@ -49,24 +49,55 @@ public class MedicalCareDAO {
         }
     }
 
-    public List<MedicalCare> seek(CPF cpf) {
-        List<MedicalCare> list = new ArrayList<>();
+    public static MedicalCare seek(int id) {
+        MedicalCare mCare = null;
+
+        String query = "SELECT * FROM MedicalCare "
+                + "WHERE id_MedicalCare = '" + id + "'";
 
         try {
             Connection db = UtilDB.getConnection();
             Statement stm = db.createStatement();
-            String query = "SELECT * FROM MedicalCare "
-                    + "WHERE cpf_patient_MedicalCare = '"
-                    + cpf.getNumberCPF() + "'";
             ResultSet rSet = stm.executeQuery(query);
 
             while (rSet.next()) {
+                int idMedicalCare = rSet.getInt(1);
                 int type = rSet.getInt(2);
-                String dateString = rSet.getString(4);
+                CPF cpf = new CPF(rSet.getString(3));
+                Date date = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                MedicalCare mc = new MedicalCare(type,
-                        new Date(dateString), reazon);
+                mCare = new MedicalCare(idMedicalCare,
+                        type, cpf, date, reazon);
+            }
+        } catch (Exception e) {
+            System.err.println("Error MedicalCareDAO: " + e.getMessage());
+        }
+
+        return mCare;
+    }
+
+    public static List<MedicalCare> seek(CPF cpf) {
+        List<MedicalCare> list = new ArrayList<>();
+
+        String query = "SELECT * FROM MedicalCare "
+                + "WHERE cpf_patient_MedicalCare = '"
+                + cpf.getNumberCPF() + "'";
+
+        try {
+            Connection db = UtilDB.getConnection();
+            Statement stm = db.createStatement();
+            ResultSet rSet = stm.executeQuery(query);
+
+            while (rSet.next()) {
+                int idMedicalCare = rSet.getInt(1);
+                int type = rSet.getInt(2);
+                CPF cpfMedicalCare = new CPF(rSet.getString(3));
+                Date date = new Date(rSet.getString(4));
+                String reazon = rSet.getString(5);
+
+                MedicalCare mc = new MedicalCare(idMedicalCare,
+                        type, cpfMedicalCare, date, reazon);
 
                 list.add(mc);
             }

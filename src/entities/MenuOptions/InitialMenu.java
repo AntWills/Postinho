@@ -1,5 +1,6 @@
 package entities.MenuOptions;
 
+import entities.patient.CPF;
 import entities.terminal.ReadData;
 import entities.terminal.Terminal;
 
@@ -8,10 +9,11 @@ public class InitialMenu implements InterfaceMenuOptions {
 
     public void menu() {
         Terminal.clear();
-        System.err.println("## Postinho ##");
-        System.err.println("[1] : Registrar nova consultas.");
+        System.out.println("## Postinho ##");
+        System.out.println("[1] : Registrar nova consultas.");
+        System.out.println("[4] : Buscar paciente.");
 
-        System.err.println("Digite uma das opções: ");
+        System.out.println("Digite uma das opções: ");
         op = ReadData.INT();
     }
 
@@ -19,6 +21,9 @@ public class InitialMenu implements InterfaceMenuOptions {
         switch (op) {
             case 1:
                 registerNewCare();
+                break;
+            case 4:
+                seekPatient();
                 break;
             case 0:
                 insertioNewCleinte();
@@ -37,6 +42,12 @@ public class InitialMenu implements InterfaceMenuOptions {
     }
 
     private void insertioNewCleinte() {
+
+    }
+
+    private void seekPatient() {
+        CPF cpf = new CPF();
+        cpf.in();
 
     }
 }

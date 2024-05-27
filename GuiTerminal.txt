@@ -14,9 +14,20 @@ Digite uma das opções:
 
 ## Menu Do Banco ##
 
-[1] : Buscar por um CPF.
+[1] : Buscar paciente por CPF.
 [2] : Quantidade de pacientes cadastrados.
 [3] : 
 [0] : Voltar.
 
 Digite uma das opções:  
+
+## Paciente : "nome" ##
+
+Dados do paciente: 
+Nome: "nome", CPF: "cpf".
+Total de consultas: "total".
+
+[1] : Imprimir ultimas consultas.
+[2] : Adicionar nova consulta realizada.
+[4] : Marcar consulta.
+[3] : Buscar consulta.

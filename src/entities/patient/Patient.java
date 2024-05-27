@@ -5,7 +5,6 @@ import entities.terminal.ReadData;
 
 import java.util.List;
 import java.util.ArrayList;
-// import java.util.LinkedList;
 
 public class Patient {
     CPF cpf;

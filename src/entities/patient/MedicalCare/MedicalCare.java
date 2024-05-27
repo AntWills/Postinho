@@ -1,6 +1,7 @@
 package entities.patient.MedicalCare;
 
-import entities.terminal.*;;
+import entities.terminal.*;
+import entities.patient.CPF;
 
 public class MedicalCare {
     /**
@@ -15,17 +16,25 @@ public class MedicalCare {
      * (2) : [URGENT] : Yellow
      */
     private int typeService;
+    private int id;
+    private CPF cpfPatient;
     private Date dateService;
     private String reasonForService;
 
     public MedicalCare() {
+        this.id = 0;
         this.typeService = 0;
+        this.cpfPatient = new CPF();
         this.dateService = new Date();
         this.reasonForService = "";
     }
 
-    public MedicalCare(int typeService, Date dateService, String reasonForService) {
+    public MedicalCare(int id, int typeService,
+            CPF cpf, Date dateService,
+            String reasonForService) {
+        this.id = id;
         this.typeService = typeService;
+        this.cpfPatient = cpf;
         this.dateService = dateService;
         this.reasonForService = reasonForService;
     }
@@ -34,7 +43,8 @@ public class MedicalCare {
     public String toString() {
         return ColorOut.getText(typeServiceString(typeService), colorType(typeService))
                 + " Data: " + dateService.toString() + "\n"
-                + reasonForService;
+                + "CPF do paciente: " + cpfPatient + " ID: " + id + "\n"
+                + "Motivação: " + reasonForService;
     }
 
     private String colorType(int i) {

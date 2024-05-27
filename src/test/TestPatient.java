@@ -1,5 +1,6 @@
 package test;
 
+import dbEntities.*;
 import entities.patient.CPF;
 import entities.patient.Patient;
 import entities.patient.MedicalCare.*;
@@ -9,15 +10,9 @@ import java.util.ArrayList;
 
 public class TestPatient {
     public static void main(String[] args) {
-        List<MedicalCare> list = new ArrayList<>();
-        list.add(new MedicalCare(0, new Date(), "Dor de cabeca"));
-        list.add(new MedicalCare(1, new Date(), "Dor de dente"));
-        list.add(new MedicalCare(1, new Date(), "Dor de dente"));
-        list.add(new MedicalCare(2, new Date(), "Sangramento nasal"));
-        Patient paci = new Patient(new CPF(), "Wills", list);
+        PatientDAO.initi();
 
-        System.err.println(paci);
+        PatientDAO.delete(new CPF("00000000001"));
 
-        paci.printAllCare();
     }
 }
