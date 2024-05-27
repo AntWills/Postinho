@@ -3,9 +3,8 @@ package dbEntities;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
-import entities.patient.*;;
+import entities.patient.*;
 
 public class PatientDAO {
     public static void initi() {
