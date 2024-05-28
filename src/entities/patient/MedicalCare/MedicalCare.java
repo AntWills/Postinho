@@ -39,6 +39,16 @@ public class MedicalCare {
         this.reasonForService = reasonForService;
     }
 
+    public MedicalCare(int typeService,
+            CPF cpf, Date dateService,
+            String reasonForService) {
+        this.id = 0;
+        this.typeService = typeService;
+        this.cpfPatient = cpf;
+        this.dateService = dateService;
+        this.reasonForService = reasonForService;
+    }
+
     @Override
     public String toString() {
         return ColorOut.getText(typeServiceString(typeService), colorType(typeService))
@@ -79,6 +89,14 @@ public class MedicalCare {
 
     public void setTypeService(int typeService) {
         this.typeService = typeService;
+    }
+
+    public CPF getCpfPatient() {
+        return cpfPatient;
+    }
+
+    public void setCpfPatient(CPF cpf) {
+        this.cpfPatient = cpf;
     }
 
     public Date getDateService() {

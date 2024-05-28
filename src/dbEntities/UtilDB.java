@@ -43,5 +43,4 @@ public class UtilDB {
         stm.executeUpdate(query);
         stm.close();
     }
-
 }

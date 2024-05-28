@@ -25,11 +25,11 @@ public class MedicalCareDAO {
         }
     }
 
-    public static void add(MedicalCare mc, CPF cpf) {
+    public static void add(MedicalCare mc) {
         String query = "INSERT INTO MedicalCare"
                 + "(type_MedicalCare,cpf_patient_MedicalCare,date_care_MedicalCare,reason_service)"
                 + "VALUES('" + mc.getTypeService() + "',"
-                + "'" + cpf.getNumberCPF() + "',"
+                + "'" + mc.getCpfPatient().getNumberCPF() + "',"
                 + "'" + mc.getDateService().toString() + "',"
                 + "'" + mc.getReasonForService() + "'"
                 + ")";
