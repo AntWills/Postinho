@@ -1,6 +1,7 @@
 package entities.patient;
 
 import entities.terminal.ReadData;
+import entities.terminal.Terminal;
 
 public class CPF {
     private String numberCPF;
@@ -22,11 +23,35 @@ public class CPF {
         boolean cheking;
         String msg = "Digite apenas os numeros do CPF:";
         do {
+            Terminal.clear();
             auxi = "";
-            System.err.println(msg);
+            System.out.print(msg);
             auxi = ReadData.STRING();
 
-            cheking = !checkStringCPF(numberCPF);
+            cheking = !checkStringCPF(auxi);
+
+            if (cheking) {
+                msg = "\nUm erro foi detectado. Insira os dados novamente:";
+            }
+        } while (cheking);
+        this.numberCPF = auxi;
+    }
+
+    public void in(boolean confirmation) {
+        if (confirmation) {
+            this.in();
+            return;
+        }
+
+        String auxi = "";
+        boolean cheking;
+        String msg = "Digite apenas os numeros do CPF:";
+        do {
+            auxi = "";
+            System.out.print(msg);
+            auxi = ReadData.STRING();
+
+            cheking = !checkStringCPF(auxi);
 
             if (cheking) {
                 msg = "\nUm erro foi detectado. Insira os dados novamente:";
@@ -36,6 +61,9 @@ public class CPF {
     }
 
     private boolean checkStringCPF(String cpfString) {
+        if (cpfString.length() == 13)
+            return characterChecking(cpfString);
+
         if (cpfString.length() != 11) {
             System.err.println("Error. String is not compatible with cpf format.");
             return false;
@@ -57,6 +85,30 @@ public class CPF {
                 return false;
             }
         }
+        return true;
+    }
+
+    private boolean characterChecking(String cpfString) {
+        char charNumber[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+        Boolean auxi;
+
+        for (int i = 0; i < 13; i++) {
+            auxi = false;
+            if ((i == 3 || i == 7 || i == 11))
+                i++;
+            for (int j = 0; j < 10; j++) {
+                if (cpfString.charAt(i) == charNumber[j]) {
+                    auxi = true;
+                    break;
+                }
+            }
+            if (!auxi) {
+                System.err.println("Error. Letter detected");
+                return false;
+            }
+        }
+        cpfString = cpfString.replace(".", "");
+        cpfString = cpfString.replace("-", "");
         return true;
     }
 

@@ -1,6 +1,7 @@
 package entities.patient.MedicalCare;
 
 import entities.terminal.ReadData;
+import entities.terminal.Terminal;
 
 public class Date {
     private int day, month, year;
@@ -34,11 +35,33 @@ public class Date {
     }
 
     public void in() {
-        System.err.print("\nDigite o dia: ");
+        char confirmation = '1';
+        do {
+            if (confirmation == '1')
+                Terminal.clear();
+            System.out.print("Digite o dia: ");
+            this.day = ReadData.INT();
+            System.out.print("Digite o mês: ");
+            this.day = ReadData.INT();
+            System.out.print("Digite o ano: ");
+            this.day = ReadData.INT();
+            Terminal.clear();
+
+            System.out.println("\nA data: " + this.toString() + " está correta? [y][n]");
+            confirmation = ReadData.CHAR();
+        } while (confirmation != 'y');
+    }
+
+    public void in(boolean confirmation) {
+        if (confirmation) {
+            this.in();
+            return;
+        }
+        System.out.print("Digite o dia: ");
         this.day = ReadData.INT();
-        System.err.print("Digite o mês: ");
+        System.out.print("Digite o mês: ");
         this.day = ReadData.INT();
-        System.err.print("Digite o ano: ");
+        System.out.print("Digite o ano: ");
         this.day = ReadData.INT();
     }
 

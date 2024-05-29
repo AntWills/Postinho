@@ -1,16 +1,12 @@
 package test;
 
 import entities.patient.CPF;
-import entities.patient.MedicalCare.Date;;
+import entities.patient.MedicalCare.*;
 
 public class Test {
     public static void main(String[] args) {
-        CPF cpf = new CPF("00100100101");
-        System.err.println(cpf);
-        System.err.println(cpf.getNumberCPF());
-
-        Date date = new Date("00/00/0000");
-        System.err.println("\n\n" + date);
-
+        CPF cpf = new CPF();
+        cpf.in();
+        System.out.println(cpf);
     }
 }

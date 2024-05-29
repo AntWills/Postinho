@@ -14,6 +14,8 @@ public class MedicalCare {
      * (1) : [LITTLE URGENT] : Green
      * <p>
      * (2) : [URGENT] : Yellow
+     * <p>
+     * (3) : [EMERGING] : RED
      */
     private int typeService;
     private int id;
@@ -47,6 +49,42 @@ public class MedicalCare {
         this.cpfPatient = cpf;
         this.dateService = dateService;
         this.reasonForService = reasonForService;
+    }
+
+    public void in() {
+        char confirmation = 'n';
+        String msg = "## Digite os dados do atendimento ##\n";
+        do {
+            Terminal.clear();
+            System.out.println(msg);
+
+            System.out.println("Tipo de serviço: ");
+            System.out.println("(0) : [NOT URGENT] : Blue");
+            System.out.println("(1) : [LITTLE URGENT] : Green");
+            System.out.println("(2) : [URGENT] : Yellow");
+            System.out.println("(3) : [EMERGING] : Red");
+
+            System.out.print("\nDigite o tipo: ");
+            this.typeService = ReadData.INT();
+            System.out.println("");
+
+            this.cpfPatient.in(false);
+            System.out.println("");
+
+            this.dateService.in(false);
+            System.out.println("");
+
+            System.out.println("Digite a razão do atendimento: ");
+            System.out.print(":: ");
+            this.reasonForService = ReadData.STRING();
+            Terminal.clear();
+
+            System.out.print("\nA consulta:\n" + this.toString() + "\nEstá correta? [y][n]");
+            confirmation = ReadData.CHAR();
+
+            if (confirmation != 'y')
+                msg = "## Digite novamente os dados do atendimento ##\n";
+        } while (confirmation != 'y');
     }
 
     @Override

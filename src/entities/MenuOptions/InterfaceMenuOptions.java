@@ -5,5 +5,5 @@ public interface InterfaceMenuOptions {
 
     void options();
 
-    int getOp();
+    String getMenu();
 }

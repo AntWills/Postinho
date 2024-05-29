@@ -20,4 +20,13 @@ public class ReadData {
     public static String STRING() {
         return input.nextLine();
     }
+
+    public static char CHAR() {
+        String charString = ReadData.STRING();
+        if (charString.length() > 1) {
+            System.out.println("ERROR : len = " + charString.length());
+            return '0';
+        }
+        return charString.charAt(0);
+    }
 }
