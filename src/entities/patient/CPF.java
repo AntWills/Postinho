@@ -15,7 +15,6 @@ public class CPF {
             this.numberCPF = "00000000000";
             return;
         }
-        this.numberCPF = cpfString;
     }
 
     public void in() {
@@ -23,7 +22,6 @@ public class CPF {
         boolean cheking;
         String msg = "Digite apenas os numeros do CPF:";
         do {
-            Terminal.clear();
             auxi = "";
             System.out.print(msg);
             auxi = ReadData.STRING();
@@ -34,34 +32,11 @@ public class CPF {
                 msg = "\nUm erro foi detectado. Insira os dados novamente:";
             }
         } while (cheking);
-        this.numberCPF = auxi;
-    }
-
-    public void in(boolean confirmation) {
-        if (confirmation) {
-            this.in();
-            return;
-        }
-
-        String auxi = "";
-        boolean cheking;
-        String msg = "Digite apenas os numeros do CPF:";
-        do {
-            auxi = "";
-            System.out.print(msg);
-            auxi = ReadData.STRING();
-
-            cheking = !checkStringCPF(auxi);
-
-            if (cheking) {
-                msg = "\nUm erro foi detectado. Insira os dados novamente:";
-            }
-        } while (cheking);
-        this.numberCPF = auxi;
     }
 
     private boolean checkStringCPF(String cpfString) {
-        if (cpfString.length() == 13)
+        System.out.println("aa\n");
+        if (cpfString.length() == 14)
             return characterChecking(cpfString);
 
         if (cpfString.length() != 11) {
@@ -85,14 +60,15 @@ public class CPF {
                 return false;
             }
         }
+        this.numberCPF = cpfString;
         return true;
     }
 
     private boolean characterChecking(String cpfString) {
         char charNumber[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
         Boolean auxi;
-
-        for (int i = 0; i < 13; i++) {
+        System.out.println("bb\n");
+        for (int i = 0; i < 14; i++) {
             auxi = false;
             if ((i == 3 || i == 7 || i == 11))
                 i++;
@@ -107,8 +83,11 @@ public class CPF {
                 return false;
             }
         }
+        System.out.println("cc\n");
         cpfString = cpfString.replace(".", "");
         cpfString = cpfString.replace("-", "");
+
+        this.numberCPF = cpfString;
         return true;
     }
 
