@@ -68,7 +68,7 @@ public class MedicalCare {
             this.typeService = ReadData.INT();
             System.out.println("");
 
-            this.cpfPatient.in(false);
+            // this.cpfPatient.in(false); OLHAR ISTO
             System.out.println("");
 
             this.dateService.in(false);
@@ -103,6 +103,8 @@ public class MedicalCare {
                 return ColorOut.black + ColorOut.bgGreen + ColorOut.bold;
             case 2:
                 return ColorOut.black + ColorOut.bgYellow + ColorOut.bold;
+            case 3:
+                return ColorOut.black + ColorOut.bgRed + ColorOut.bold;
             default:
                 return "";
         }
@@ -116,6 +118,8 @@ public class MedicalCare {
                 return "[LITTLE URGENT]";
             case 2:
                 return "[URGENT]";
+            case 3:
+                return "[EMERGING]";
             default:
                 return "";
         }

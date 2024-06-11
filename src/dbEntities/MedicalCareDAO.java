@@ -5,12 +5,13 @@ import entities.patient.MedicalCare.*;
 
 import java.util.List;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class MedicalCareDAO {
     public static void initi() {
+        UtilDB.openBank();
         String query = "CREATE TABLE IF NOT EXISTS "
                 + "MedicalCare ("
                 + "id_MedicalCare INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -27,23 +28,31 @@ public class MedicalCareDAO {
 
     public static void add(MedicalCare mc) {
         String query = "INSERT INTO MedicalCare"
-                + "(type_MedicalCare,cpf_patient_MedicalCare,date_care_MedicalCare,reason_service)"
-                + "VALUES('" + mc.getTypeService() + "',"
-                + "'" + mc.getCpfPatient().getNumberCPF() + "',"
-                + "'" + mc.getDateService().toString() + "',"
-                + "'" + mc.getReasonForService() + "'"
-                + ")";
+                + "(type_MedicalCare, cpf_patient_MedicalCare, date_care_MedicalCare,reason_service)"
+                + "VALUES(?, ?, ?, ?)";
         try {
-            UtilDB.execQuery(query);
+            Connection db = UtilDB.getConnection();
+            PreparedStatement pstmt = db.prepareStatement(query);
+
+            pstmt.setInt(1, mc.getTypeService());
+            pstmt.setString(2, mc.getCpfPatient().getNumberCPF());
+            pstmt.setString(3, mc.getDateService().toString());
+            pstmt.setString(4, mc.getReasonForService());
+
+            pstmt.executeUpdate();
         } catch (Exception e) {
             System.err.println("Error MedicalCareDAO: " + e.getMessage());
         }
     }
 
     public static void delete(int id) {
-        String query = "DELETE FROM MedicalCare WHERE id_MedicalCare = " + id;
+        String query = "DELETE FROM MedicalCare WHERE id_MedicalCare = ?";
         try {
-            UtilDB.execQuery(query);
+            Connection db = UtilDB.getConnection();
+            PreparedStatement pstmt = db.prepareStatement(query);
+            pstmt.setInt(1, id);
+
+            pstmt.executeUpdate();
         } catch (Exception e) {
             System.err.println("Error MedicalCareDAO: " + e.getMessage());
         }
@@ -53,12 +62,14 @@ public class MedicalCareDAO {
         MedicalCare mCare = null;
 
         String query = "SELECT * FROM MedicalCare "
-                + "WHERE id_MedicalCare = '" + id + "'";
+                + "WHERE id_MedicalCare = ?";
 
         try {
             Connection db = UtilDB.getConnection();
-            Statement stm = db.createStatement();
-            ResultSet rSet = stm.executeQuery(query);
+            PreparedStatement pstmt = db.prepareStatement(query);
+            pstmt.setInt(1, id);
+
+            ResultSet rSet = pstmt.executeQuery();
 
             while (rSet.next()) {
                 int idMedicalCare = rSet.getInt(1);
@@ -81,13 +92,15 @@ public class MedicalCareDAO {
         List<MedicalCare> list = new ArrayList<>();
 
         String query = "SELECT * FROM MedicalCare "
-                + "WHERE cpf_patient_MedicalCare = '"
-                + cpf.getNumberCPF() + "'";
+                + "WHERE cpf_patient_MedicalCare = ?";
 
         try {
             Connection db = UtilDB.getConnection();
-            Statement stm = db.createStatement();
-            ResultSet rSet = stm.executeQuery(query);
+            PreparedStatement pstmt = db.prepareStatement(query);
+            pstmt.setString(1, cpf.getNumberCPF());
+
+            ResultSet rSet = pstmt.executeQuery();
+            // System.out.println(pstmt.toString());
 
             while (rSet.next()) {
                 int idMedicalCare = rSet.getInt(1);

@@ -1,7 +1,6 @@
 package entities.patient;
 
-import entities.terminal.ReadData;
-import entities.terminal.Terminal;
+import entities.terminal.*;
 
 public class CPF {
     private String numberCPF;
@@ -35,7 +34,6 @@ public class CPF {
     }
 
     private boolean checkStringCPF(String cpfString) {
-        System.out.println("aa\n");
         if (cpfString.length() == 14)
             return characterChecking(cpfString);
 
@@ -67,7 +65,6 @@ public class CPF {
     private boolean characterChecking(String cpfString) {
         char charNumber[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
         Boolean auxi;
-        System.out.println("bb\n");
         for (int i = 0; i < 14; i++) {
             auxi = false;
             if ((i == 3 || i == 7 || i == 11))
@@ -83,7 +80,6 @@ public class CPF {
                 return false;
             }
         }
-        System.out.println("cc\n");
         cpfString = cpfString.replace(".", "");
         cpfString = cpfString.replace("-", "");
 
