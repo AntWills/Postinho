@@ -12,7 +12,12 @@ public class TestPatient {
     public static void main(String[] args) {
         PatientDAO.initi();
 
-        PatientDAO.delete(new CPF("00000000001"));
+        // PatientDAO.add(new Patient(
+        // new CPF("000.000.000-01"),
+        // "João Silva"));
 
+        Patient patient = PatientDAO.seek(new CPF("000.000.000-01"));
+
+        System.out.println(patient);
     }
 }

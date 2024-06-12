@@ -23,11 +23,16 @@ public class PatientDAO {
 
     public static void add(Patient patient) {
         String query = "INSERT INTO Patient "
-                + "VALUES ('" + patient.getId().getNumberCPF() + "',"
-                + "'" + patient.getName() + "'"
-                + ")";
+                + "(cpf_Patient, nome_Patient)"
+                + "VALUES (?, ?)";
         try {
-            UtilDB.execQuery(query);
+            Connection db = UtilDB.getConnection();
+            PreparedStatement pstmt = db.prepareStatement(query);
+
+            pstmt.setString(1, patient.getId().getNumberCPF());
+            pstmt.setString(2, patient.getName());
+
+            pstmt.executeUpdate();
         } catch (Exception e) {
             System.err.println("Error PatientDAO: " + e.getMessage());
         }
