@@ -30,7 +30,7 @@ public class Patient {
     }
 
     public void in() {
-        System.err.println("\nDigite os seguintes dados do paciente:\n");
+        System.err.println("Digite os seguintes dados do paciente:\n");
 
         this.cpf.in();
         System.err.println("Digite o nome: ");
