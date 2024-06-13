@@ -61,9 +61,9 @@ public class FutureMedicalCareDAO {
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error FutureMedicalCareDAO.add: " + e.getMessage());
+            System.err.println("Error FutureMedicalCareDAO.delete(int): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error FutureMedicalCareDAO.add: " + e.getMessage());
+            System.err.println("Error FutureMedicalCareDAO.delete(int): " + e.getMessage());
         }
     }
 
@@ -93,9 +93,9 @@ public class FutureMedicalCareDAO {
                 list.add(mc);
             }
         } catch (SQLException e) {
-            System.err.println("Error FutureMedicalCareDAO.add: " + e.getMessage());
+            System.err.println("Error FutureMedicalCareDAO.seek(Date): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error FutureMedicalCareDAO.add: " + e.getMessage());
+            System.err.println("Error FutureMedicalCareDAO.seek(Date): " + e.getMessage());
         }
         return list;
     }
@@ -127,9 +127,9 @@ public class FutureMedicalCareDAO {
                 list.add(mc);
             }
         } catch (SQLException e) {
-            System.err.println("Error FutureMedicalCareDAO.add: " + e.getMessage());
+            System.err.println("Error FutureMedicalCareDAO.seek(CPF): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error FutureMedicalCareDAO.add: " + e.getMessage());
+            System.err.println("Error FutureMedicalCareDAO.seek(CPF): " + e.getMessage());
         }
         return list;
     }
@@ -160,9 +160,9 @@ public class FutureMedicalCareDAO {
 
             }
         } catch (SQLException e) {
-            System.err.println("Error FutureMedicalCareDAO.add: " + e.getMessage());
+            System.err.println("Error FutureMedicalCareDAO.seek(int): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error FutureMedicalCareDAO.add: " + e.getMessage());
+            System.err.println("Error FutureMedicalCareDAO.seek(int): " + e.getMessage());
         }
         return mc;
     }

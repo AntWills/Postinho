@@ -1,11 +1,10 @@
 package entities.MenuOptions;
 
-import dbEntities.FutureMedicalCareDAO;
-import dbEntities.MedicalCareDAO;
-import dbEntities.PatientDAO;
+import dbEntities.*;
 
 import entities.patient.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import entities.patient.MedicalCare.*;
@@ -74,19 +73,19 @@ public class InitialMenu {
 
     private void appointmentRegisterToday() {
         Date dateToday = new Date();
-        dateToday.in();
-        List<MedicalCare> mcList = FutureMedicalCareDAO.seek(dateToday);
-
+        dateToday.in("Digite os dados do dia de hoje:");
+        List<MedicalCare> mcList = MedicalCareDAO.seek(dateToday);
         Terminal.clear();
         if (mcList.size() == 0) {
-            System.out.println("Não há consultas agendadas para hoje: ");
-            return;
+            System.out.println("Não há consultas agendadas para hoje.");
         } else {
             System.out.println("-- Consultas para hoje --\n");
 
             for (MedicalCare mc : mcList) {
-                System.out.println(mc);
+                System.out.println(mc + "\n");
             }
+            System.out.println("Um total de " + mcList.size()
+                    + " agendadas para hoje");
         }
 
         Terminal.pause();

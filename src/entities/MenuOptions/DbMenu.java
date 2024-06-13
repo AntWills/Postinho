@@ -22,7 +22,7 @@ public class DbMenu {
         System.out.println("[1] : Buscar paciente por CPF.");
         System.out.println("[2] : Quantidade de pacientes cadastrados.");
         System.out.println("[3] : Buscar consultas.");
-        System.out.println("[0] : Voltar.");
+        System.out.println("[0] : Voltar.\n");
 
         System.out.print("Digite uma das opções: ");
         this.op = ReadData.INT();

@@ -34,11 +34,12 @@ public class Date {
         }
     }
 
-    public void in() {
+    public void in(String msg) {
         char confirmation = '1';
         do {
             if (confirmation == '1')
                 Terminal.clear();
+            System.out.println(msg);
             System.out.print("Digite o dia: ");
             this.day = ReadData.INT();
             System.out.print("Digite o mês: ");
@@ -47,16 +48,17 @@ public class Date {
             this.day = ReadData.INT();
             Terminal.clear();
 
-            System.out.println("\nA data: " + this.toString() + " está correta? [y][n]");
+            System.out.print("\nA data: " + this.toString() + " está correta? [y][n]");
             confirmation = ReadData.CHAR();
         } while (confirmation != 'y');
     }
 
-    public void in(boolean confirmation) {
+    public void in(boolean confirmation, String msg) {
         if (confirmation) {
-            this.in();
+            this.in(msg);
             return;
         }
+        System.out.println(msg);
         System.out.print("Digite o dia: ");
         this.day = ReadData.INT();
         System.out.print("Digite o mês: ");

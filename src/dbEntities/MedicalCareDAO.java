@@ -7,6 +7,7 @@ import java.util.List;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MedicalCareDAO {
@@ -40,8 +41,10 @@ public class MedicalCareDAO {
             pstmt.setString(4, mc.getReasonForService());
 
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error MedicalCare.add: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalCareDAO: " + e.getMessage());
+            System.err.println("Error MedicalCare.add: " + e.getMessage());
         }
     }
 
@@ -53,8 +56,10 @@ public class MedicalCareDAO {
             pstmt.setInt(1, id);
 
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error MedicalCare.delete(int): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalCareDAO: " + e.getMessage());
+            System.err.println("Error MedicalCare.delete(int): " + e.getMessage());
         }
     }
 
@@ -81,8 +86,10 @@ public class MedicalCareDAO {
                 mCare = new MedicalCare(idMedicalCare,
                         type, cpf, date, reazon);
             }
+        } catch (SQLException e) {
+            System.err.println("Error MedicalCare.seek(int): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalCareDAO: " + e.getMessage());
+            System.err.println("Error MedicalCare.seek(int): " + e.getMessage());
         }
 
         return mCare;
@@ -115,10 +122,45 @@ public class MedicalCareDAO {
                 list.add(mc);
             }
 
+        } catch (SQLException e) {
+            System.err.println("Error MedicalCare.seek(CPF): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalCareDAO: " + e.getMessage());
+            System.err.println("Error MedicalCare.seek(CPF): " + e.getMessage());
         }
 
+        return list;
+    }
+
+    public static List<MedicalCare> seek(Date date) {
+        List<MedicalCare> list = new ArrayList<>();
+
+        String query = "SELECT * FROM MedicalCare "
+                + "WHERE date_care_MedicalCare = ?";
+        try {
+            Connection db = UtilDB.getConnection();
+            PreparedStatement pstmt = db.prepareStatement(query);
+
+            pstmt.setString(1, date.toString());
+
+            ResultSet rSet = pstmt.executeQuery();
+
+            while (rSet.next()) {
+                int idMedicalCare = rSet.getInt(1);
+                int type = rSet.getInt(2);
+                CPF cpfMedicalCare = new CPF(rSet.getString(3));
+                Date dateMedicalCare = new Date(rSet.getString(4));
+                String reazon = rSet.getString(5);
+
+                MedicalCare mc = new MedicalCare(
+                        idMedicalCare, type,
+                        cpfMedicalCare, dateMedicalCare, reazon);
+                list.add(mc);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error MedicalCare.seek(Date): " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error MedicalCare.seek(Date): " + e.getMessage());
+        }
         return list;
     }
 }
