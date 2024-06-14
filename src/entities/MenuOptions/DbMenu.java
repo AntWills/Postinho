@@ -1,5 +1,6 @@
 package entities.MenuOptions;
 
+import entities.patient.CPF;
 import entities.terminal.ReadData;
 import entities.terminal.Terminal;
 
@@ -29,7 +30,17 @@ public class DbMenu {
     }
 
     public void options() {
+        switch (this.op) {
+            case 1:
+                seekPatientForCPF();
+                break;
+            default:
+                break;
+        }
+    }
 
+    private void seekPatientForCPF() {
+        CPF cpf = CPF.inTerminal("Digite os dados do CPF:");
     }
 
     public int getOpInt() {

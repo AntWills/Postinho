@@ -72,9 +72,10 @@ public class InitialMenu {
     }
 
     private void appointmentRegisterToday() {
-        Date dateToday = new Date();
-        dateToday.in("Digite os dados do dia de hoje:");
-        List<MedicalCare> mcList = MedicalCareDAO.seek(dateToday);
+        Date dateToday = Date.inTerminal(true, "Digite os dados do dia de hoje:");
+
+        List<MedicalCare> mcList = FutureMedicalCareDAO.seek(dateToday);
+
         Terminal.clear();
         if (mcList.size() == 0) {
             System.out.println("Não há consultas agendadas para hoje.");

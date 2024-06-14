@@ -16,21 +16,47 @@ public class CPF {
         }
     }
 
-    public void in() {
+    public static CPF inTerminal(String msg) {
+        CPF cpf = new CPF();
         String auxi = "";
         boolean cheking;
-        String msg = "Digite apenas os numeros do CPF:";
         do {
             auxi = "";
             System.out.print(msg);
             auxi = ReadData.STRING();
 
-            cheking = !checkStringCPF(auxi);
+            cheking = !cpf.setNumberCPF(auxi);
 
             if (cheking) {
                 msg = "\nUm erro foi detectado. Insira os dados novamente:";
             }
         } while (cheking);
+        return cpf;
+    }
+
+    public static CPF inTerminal(boolean activateLopp, String msg) {
+        CPF cpf = new CPF();
+        char confirmation = '0';
+        String auxi = "";
+        boolean cheking;
+        do {
+            Terminal.clear();
+            auxi = "";
+            System.out.print(msg);
+            auxi = ReadData.STRING();
+
+            cheking = !cpf.setNumberCPF(auxi);
+
+            if (cheking) {
+                msg = "\nUm erro foi detectado. Insira os dados novamente:";
+            } else {
+                Terminal.clear();
+                System.out.print("\nO CPF: " + cpf + " está correta? [y][n]");
+                confirmation = ReadData.CHAR();
+            }
+
+        } while (cheking || confirmation != 'y');
+        return cpf;
     }
 
     private boolean checkStringCPF(String cpfString) {
@@ -112,10 +138,11 @@ public class CPF {
         return numberCPF;
     }
 
-    public void setNumberCPF(String cpfString) {
+    public boolean setNumberCPF(String cpfString) {
         if (!checkStringCPF(cpfString)) {
-            return;
+            return false;
         }
-        this.numberCPF = cpfString;
+        // this.numberCPF = cpfString;
+        return true;
     }
 }

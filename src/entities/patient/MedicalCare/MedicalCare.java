@@ -71,7 +71,7 @@ public class MedicalCare {
             // this.cpfPatient.in(false); OLHAR ISTO
             System.out.println("");
 
-            this.dateService.in(false);
+            // this.dateService.in(false);
             System.out.println("");
 
             System.out.println("Digite a razão do atendimento: ");

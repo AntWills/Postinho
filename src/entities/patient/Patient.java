@@ -32,7 +32,7 @@ public class Patient {
     public void in() {
         System.err.println("Digite os seguintes dados do paciente:\n");
 
-        this.cpf.in();
+        this.cpf = CPF.inTerminal("Digite o CPF: ");
         System.err.println("Digite o nome: ");
         this.name = ReadData.STRING();
     }

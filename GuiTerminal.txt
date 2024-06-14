@@ -1,5 +1,12 @@
 ███████ ░░ ───
 
+
+------ Tarefas ---------
+
+- Organizar as entradas de MedicalCare
+
+------------------------
+
 ## Postinho ##
 
 [1] : Registrar nova consultas.

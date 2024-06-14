@@ -34,37 +34,56 @@ public class Date {
         }
     }
 
-    public void in(String msg) {
-        char confirmation = '1';
-        do {
-            if (confirmation == '1')
-                Terminal.clear();
-            System.out.println(msg);
-            System.out.print("Digite o dia: ");
-            this.day = ReadData.INT();
-            System.out.print("Digite o mês: ");
-            this.day = ReadData.INT();
-            System.out.print("Digite o ano: ");
-            this.day = ReadData.INT();
-            Terminal.clear();
+    public static Date in() {
+        Date date = new Date();
 
-            System.out.print("\nA data: " + this.toString() + " está correta? [y][n]");
-            confirmation = ReadData.CHAR();
-        } while (confirmation != 'y');
+        System.out.print("Digite o dia: ");
+        date.setDay(ReadData.INT());
+        System.out.print("Digite o mês: ");
+        date.setMonth(ReadData.INT());
+        System.out.print("Digite o ano: ");
+        date.setYear(ReadData.INT());
+
+        return date;
     }
 
-    public void in(boolean confirmation, String msg) {
-        if (confirmation) {
-            this.in(msg);
-            return;
-        }
+    public static Date in(String msg) {
+        Date date = new Date();
+
         System.out.println(msg);
         System.out.print("Digite o dia: ");
-        this.day = ReadData.INT();
+        date.setDay(ReadData.INT());
         System.out.print("Digite o mês: ");
-        this.day = ReadData.INT();
+        date.setMonth(ReadData.INT());
         System.out.print("Digite o ano: ");
-        this.day = ReadData.INT();
+        date.setYear(ReadData.INT());
+
+        return date;
+    }
+
+    public static Date inTerminal(boolean activateLopp, String msg) {
+        if (!activateLopp)
+            return Date.in(msg);
+        Date date = new Date();
+
+        char confirmation = '0';
+        do {
+            // if (confirmation == '1')
+            Terminal.clear();
+            System.out.println(msg);
+            System.out.print("Digite o dia: ");
+            date.setDay(ReadData.INT());
+            System.out.print("Digite o mês: ");
+            date.setMonth(ReadData.INT());
+            System.out.print("Digite o ano: ");
+            date.setYear(ReadData.INT());
+            Terminal.clear();
+
+            System.out.print("\nA data: " + date.toString() + " está correta? [y][n]");
+            confirmation = ReadData.CHAR();
+        } while (confirmation != 'y');
+
+        return date;
     }
 
     @Override
