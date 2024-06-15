@@ -10,11 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MedicalCareDAO {
+public class MedicalAppointmentDAO {
     public static void initi() {
         UtilDB.openBank();
         String query = "CREATE TABLE IF NOT EXISTS "
-                + "MedicalCare ("
+                + "MedicalAppointment ("
                 + "id_MedicalCare INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + "type_MedicalCare INTEGER NOT NULL, "
                 + "cpf_patient_MedicalCare CHAR(11) NOT NULL, "
@@ -23,13 +23,13 @@ public class MedicalCareDAO {
         try {
             UtilDB.execQuery(query);
         } catch (Exception e) {
-            System.err.println("Error MedicalCareDAO: " + e.getMessage());
+            System.err.println("Error MedicalAppointmentDAO: " + e.getMessage());
         }
     }
 
     public static void add(MedicalAppointment mAppointment) {
-        String query = "INSERT INTO MedicalCare"
-                + "(type_MedicalCare, cpf_patient_MedicalCare, date_care_MedicalCare,reason_service)"
+        String query = "INSERT INTO MedicalAppointment"
+                + "(type_MedicalAppointment, cpf_patient_MedicalAppointment, date_care_MedicalAppointment,reason_service)"
                 + "VALUES(?, ?, ?, ?)";
         try {
             Connection db = UtilDB.getConnection();
@@ -42,14 +42,14 @@ public class MedicalCareDAO {
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error MedicalCare.add: " + e.getMessage());
+            System.err.println("Error MedicalAppointmentDAO.add: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalCare.add: " + e.getMessage());
+            System.err.println("Error MedicalAppointmentDAO.add: " + e.getMessage());
         }
     }
 
     public static void delete(int id) {
-        String query = "DELETE FROM MedicalCare WHERE id_MedicalCare = ?";
+        String query = "DELETE FROM MedicalAppointment WHERE id_MedicalAppointment = ?";
         try {
             Connection db = UtilDB.getConnection();
             PreparedStatement pstmt = db.prepareStatement(query);
@@ -57,17 +57,17 @@ public class MedicalCareDAO {
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error MedicalCare.delete(int): " + e.getMessage());
+            System.err.println("Error MedicalAppointmentDAO.delete(int): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalCare.delete(int): " + e.getMessage());
+            System.err.println("Error MedicalAppointmentDAO.delete(int): " + e.getMessage());
         }
     }
 
     public static MedicalAppointment seek(int id) {
-        MedicalAppointment mCare = null;
+        MedicalAppointment mAppointments = null;
 
-        String query = "SELECT * FROM MedicalCare "
-                + "WHERE id_MedicalCare = ?";
+        String query = "SELECT * FROM MedicalAppointment "
+                + "WHERE id_MedicalAppointment = ?";
 
         try {
             Connection db = UtilDB.getConnection();
@@ -83,23 +83,23 @@ public class MedicalCareDAO {
                 Date date = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                mCare = new MedicalAppointment(idMedicalCare,
+                mAppointments = new MedicalAppointment(idMedicalCare,
                         type, cpf, date, reazon);
             }
         } catch (SQLException e) {
-            System.err.println("Error MedicalCare.seek(int): " + e.getMessage());
+            System.err.println("Error MedicalAppointmentDAO.seek(int): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalCare.seek(int): " + e.getMessage());
+            System.err.println("Error MedicalAppointmentDAO.seek(int): " + e.getMessage());
         }
 
-        return mCare;
+        return mAppointments;
     }
 
     public static List<MedicalAppointment> seek(CPF cpf) {
         List<MedicalAppointment> list = new ArrayList<>();
 
-        String query = "SELECT * FROM MedicalCare "
-                + "WHERE cpf_patient_MedicalCare = ?";
+        String query = "SELECT * FROM MedicalAppointment "
+                + "WHERE cpf_patient_MedicalAppointment = ?";
 
         try {
             Connection db = UtilDB.getConnection();
@@ -123,9 +123,9 @@ public class MedicalCareDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("Error MedicalCare.seek(CPF): " + e.getMessage());
+            System.err.println("Error MedicalAppointment.seek(CPF): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalCare.seek(CPF): " + e.getMessage());
+            System.err.println("Error MedicalAppointment.seek(CPF): " + e.getMessage());
         }
 
         return list;
@@ -134,8 +134,8 @@ public class MedicalCareDAO {
     public static List<MedicalAppointment> seek(Date date) {
         List<MedicalAppointment> list = new ArrayList<>();
 
-        String query = "SELECT * FROM MedicalCare "
-                + "WHERE date_care_MedicalCare = ?";
+        String query = "SELECT * FROM MedicalAppointment "
+                + "WHERE date_care_MedicalAppointment = ?";
         try {
             Connection db = UtilDB.getConnection();
             PreparedStatement pstmt = db.prepareStatement(query);
@@ -157,9 +157,9 @@ public class MedicalCareDAO {
                 list.add(mc);
             }
         } catch (SQLException e) {
-            System.err.println("Error MedicalCare.seek(Date): " + e.getMessage());
+            System.err.println("Error MedicalAppointment.seek(Date): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalCare.seek(Date): " + e.getMessage());
+            System.err.println("Error MedicalAppointment.seek(Date): " + e.getMessage());
         }
         return list;
     }

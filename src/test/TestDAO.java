@@ -2,14 +2,13 @@ package test;
 
 import dbEntities.*;
 import entities.patient.CPF;
-import entities.patient.MedicalCare.Date;
-import entities.patient.MedicalCare.MedicalAppointment;
+import entities.patient.MedicalAppointment.*;
 
 import java.util.*;
 
 public class TestDAO {
     public static void main(String[] args) {
-        MedicalCareDAO.initi();
+        MedicalAppointmentDAO.initi();
 
         // MedicalCareDAO.add(new MedicalCare(0,
         // new CPF("11122233300"),
@@ -36,7 +35,7 @@ public class TestDAO {
          * };
          */
 
-        List<MedicalAppointment> mcList = MedicalCareDAO.seek(new CPF("000.000.000-01"));
+        List<MedicalAppointment> mcList = MedicalAppointmentDAO.seek(new CPF("000.000.000-01"));
 
         for (int i = 0; i < mcList.size(); i++) {
             System.out.println(mcList.get(i) + "\n");

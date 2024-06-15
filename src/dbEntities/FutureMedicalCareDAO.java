@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import entities.patient.MedicalCare.*;
+import entities.patient.MedicalAppointment.*;
 import entities.patient.CPF;
 
 public class FutureMedicalCareDAO {

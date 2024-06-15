@@ -67,7 +67,7 @@ public class InitialMenu {
 
     private void registerNewAppointment() {
         MedicalAppointment mAppointment = MedicalAppointment.inTerminal(true, "## Insira os dados da consulta ##\n");
-        MedicalCareDAO.add(mAppointment);
+        MedicalAppointmentDAO.add(mAppointment);
     }
 
     private void appointmentRegisterToday() {
@@ -92,12 +92,11 @@ public class InitialMenu {
     }
 
     private void registerNewCleinte() {
-        Patient patientNew = new Patient();
         Terminal.clear();
 
         System.out.println("-- Cadastrando novo paciente no banco --\n");
-        patientNew.in();
+        Patient patient = Patient.inTerminal(true, "Digite os dados do patiente:\n");
 
-        PatientDAO.add(patientNew);
+        PatientDAO.add(patient);
     }
 }

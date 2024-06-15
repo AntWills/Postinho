@@ -8,7 +8,7 @@ import entities.patient.*;
 
 public class PatientDAO {
     public static void initi() {
-        MedicalCareDAO.initi();
+        MedicalAppointmentDAO.initi();
         String query = "CREATE TABLE IF NOT EXISTS "
                 + "Patient(cpf_Patient CHAR(11) PRIMARY KEY,"
                 + "nome_Patient text"
@@ -64,7 +64,7 @@ public class PatientDAO {
                 CPF cpfPatient = new CPF(rSet.getString(1));
                 String name = rSet.getString(2);
 
-                patient = new Patient(cpfPatient, name, MedicalCareDAO.seek(cpf));
+                patient = new Patient(cpfPatient, name, MedicalAppointmentDAO.seek(cpf));
             }
         } catch (Exception e) {
             System.err.println("Error PatientDAO: " + e.getMessage());
