@@ -7,7 +7,7 @@ import entities.patient.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.patient.MedicalCare.*;
+import entities.patient.MedicalAppointment.*;
 import entities.terminal.ReadData;
 import entities.terminal.Terminal;
 
@@ -66,15 +66,14 @@ public class InitialMenu {
     }
 
     private void registerNewAppointment() {
-        MedicalCare mCare = new MedicalCare();
-        mCare.in();
-        MedicalCareDAO.add(mCare);
+        MedicalAppointment mAppointment = MedicalAppointment.inTerminal(true, "## Insira os dados da consulta ##\n");
+        MedicalCareDAO.add(mAppointment);
     }
 
     private void appointmentRegisterToday() {
         Date dateToday = Date.inTerminal(true, "Digite os dados do dia de hoje:");
 
-        List<MedicalCare> mcList = FutureMedicalCareDAO.seek(dateToday);
+        List<MedicalAppointment> mcList = FutureMedicalCareDAO.seek(dateToday);
 
         Terminal.clear();
         if (mcList.size() == 0) {
@@ -82,7 +81,7 @@ public class InitialMenu {
         } else {
             System.out.println("-- Consultas para hoje --\n");
 
-            for (MedicalCare mc : mcList) {
+            for (MedicalAppointment mc : mcList) {
                 System.out.println(mc + "\n");
             }
             System.out.println("Um total de " + mcList.size()

@@ -1,4 +1,4 @@
-package entities.patient.MedicalCare;
+package entities.patient.MedicalAppointment;
 
 import entities.terminal.ReadData;
 import entities.terminal.Terminal;
@@ -34,7 +34,7 @@ public class Date {
         }
     }
 
-    public static Date in() {
+    public static Date inTerminal() {
         Date date = new Date();
 
         System.out.print("Digite o dia: ");
@@ -47,36 +47,34 @@ public class Date {
         return date;
     }
 
-    public static Date in(String msg) {
+    private static void inTerminal(Date date) {
+        System.out.print("Digite o dia: ");
+        date.setDay(ReadData.INT());
+        System.out.print("Digite o mês: ");
+        date.setMonth(ReadData.INT());
+        System.out.print("Digite o ano: ");
+        date.setYear(ReadData.INT());
+    }
+
+    public static Date inTerminal(String msg) {
         Date date = new Date();
 
         System.out.println(msg);
-        System.out.print("Digite o dia: ");
-        date.setDay(ReadData.INT());
-        System.out.print("Digite o mês: ");
-        date.setMonth(ReadData.INT());
-        System.out.print("Digite o ano: ");
-        date.setYear(ReadData.INT());
+        Date.inTerminal(date);
 
         return date;
     }
 
-    public static Date inTerminal(boolean activateLopp, String msg) {
-        if (!activateLopp)
-            return Date.in(msg);
+    public static Date inTerminal(boolean activateLoop, String msg) {
+        if (!activateLoop)
+            return Date.inTerminal(msg);
         Date date = new Date();
 
         char confirmation = '0';
         do {
-            // if (confirmation == '1')
             Terminal.clear();
             System.out.println(msg);
-            System.out.print("Digite o dia: ");
-            date.setDay(ReadData.INT());
-            System.out.print("Digite o mês: ");
-            date.setMonth(ReadData.INT());
-            System.out.print("Digite o ano: ");
-            date.setYear(ReadData.INT());
+            Date.inTerminal(date);
             Terminal.clear();
 
             System.out.print("\nA data: " + date.toString() + " está correta? [y][n]");

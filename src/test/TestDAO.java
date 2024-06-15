@@ -3,7 +3,7 @@ package test;
 import dbEntities.*;
 import entities.patient.CPF;
 import entities.patient.MedicalCare.Date;
-import entities.patient.MedicalCare.MedicalCare;
+import entities.patient.MedicalCare.MedicalAppointment;
 
 import java.util.*;
 
@@ -36,7 +36,7 @@ public class TestDAO {
          * };
          */
 
-        List<MedicalCare> mcList = MedicalCareDAO.seek(new CPF("000.000.000-01"));
+        List<MedicalAppointment> mcList = MedicalCareDAO.seek(new CPF("000.000.000-01"));
 
         for (int i = 0; i < mcList.size(); i++) {
             System.out.println(mcList.get(i) + "\n");

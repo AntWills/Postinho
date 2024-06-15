@@ -1,9 +1,9 @@
-package entities.patient.MedicalCare;
+package entities.patient.MedicalAppointment;
 
 import entities.terminal.*;
 import entities.patient.CPF;
 
-public class MedicalCare {
+public class MedicalAppointment {
     /**
      * # data reading #
      * <p>
@@ -23,7 +23,7 @@ public class MedicalCare {
     private Date dateService;
     private String reasonForService;
 
-    public MedicalCare() {
+    public MedicalAppointment() {
         this.id = 0;
         this.typeService = 0;
         this.cpfPatient = new CPF();
@@ -31,7 +31,7 @@ public class MedicalCare {
         this.reasonForService = "";
     }
 
-    public MedicalCare(int id, int typeService,
+    public MedicalAppointment(int id, int typeService,
             CPF cpf, Date dateService,
             String reasonForService) {
         this.id = id;
@@ -41,7 +41,7 @@ public class MedicalCare {
         this.reasonForService = reasonForService;
     }
 
-    public MedicalCare(int typeService,
+    public MedicalAppointment(int typeService,
             CPF cpf, Date dateService,
             String reasonForService) {
         this.id = 0;
@@ -51,40 +51,50 @@ public class MedicalCare {
         this.reasonForService = reasonForService;
     }
 
-    public void in() {
-        char confirmation = 'n';
-        String msg = "## Digite os dados do atendimento ##\n";
+    private static void inTerminal(MedicalAppointment mAppointment) {
+        System.out.println("Tipo de serviço: ");
+        System.out.println("(0) : [NOT URGENT] : Blue");
+        System.out.println("(1) : [LITTLE URGENT] : Green");
+        System.out.println("(2) : [URGENT] : Yellow");
+        System.out.println("(3) : [EMERGING] : Red");
+
+        System.out.print("\nDigite o tipo: ");
+        mAppointment.setTypeService(ReadData.INT());
+
+        mAppointment.setCpfPatient(CPF.inTerminal("Digite os dados do CPF: "));
+        mAppointment.setDateService(Date.inTerminal("Digite a data:"));
+
+        System.out.print("\nDigite a razão da consulta: ");
+        mAppointment.setReasonForService(ReadData.STRING());
+    }
+
+    public static MedicalAppointment inTerminal(String msg) {
+        MedicalAppointment mAppointment = new MedicalAppointment();
+
+        System.out.println(msg);
+        MedicalAppointment.inTerminal(mAppointment);
+
+        return mAppointment;
+    }
+
+    public static MedicalAppointment inTerminal(boolean activateLoop, String msg) {
+        if (!activateLoop)
+            return MedicalAppointment.inTerminal(msg);
+
+        MedicalAppointment mAppointment = new MedicalAppointment();
+
+        char confirmation = '0';
         do {
             Terminal.clear();
             System.out.println(msg);
-
-            System.out.println("Tipo de serviço: ");
-            System.out.println("(0) : [NOT URGENT] : Blue");
-            System.out.println("(1) : [LITTLE URGENT] : Green");
-            System.out.println("(2) : [URGENT] : Yellow");
-            System.out.println("(3) : [EMERGING] : Red");
-
-            System.out.print("\nDigite o tipo: ");
-            this.typeService = ReadData.INT();
-            System.out.println("");
-
-            // this.cpfPatient.in(false); OLHAR ISTO
-            System.out.println("");
-
-            // this.dateService.in(false);
-            System.out.println("");
-
-            System.out.println("Digite a razão do atendimento: ");
-            System.out.print(":: ");
-            this.reasonForService = ReadData.STRING();
+            MedicalAppointment.inTerminal(mAppointment);
             Terminal.clear();
 
-            System.out.print("\nA consulta:\n" + this.toString() + "\nEstá correta? [y][n]");
+            System.out.print("\nOs dados da consulta::\n\n" + mAppointment.toString() + "\n\n::estão corretos? [y][n]");
             confirmation = ReadData.CHAR();
-
-            if (confirmation != 'y')
-                msg = "## Digite novamente os dados do atendimento ##\n";
         } while (confirmation != 'y');
+
+        return mAppointment;
     }
 
     @Override

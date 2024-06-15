@@ -1,12 +1,11 @@
 package test;
 
-import entities.patient.CPF;
-import entities.terminal.ColorOut;
+import entities.patient.MedicalAppointment.*;;
 
 public class TestConsole {
     public static void main(String[] args) {
-        CPF cpf = CPF.inTerminal(true, "Digite os dados do CPF:");
+        MedicalAppointment mAppointment = MedicalAppointment.inTerminal(true, "## Insira os dados da consulta ##\n");
 
-        System.out.println("\n\n" + cpf);
+        System.out.println(mAppointment);
     }
 }

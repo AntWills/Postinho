@@ -27,7 +27,7 @@ public class FutureMedicalCareDAO {
         }
     }
 
-    public static void add(MedicalCare mc) {
+    public static void add(MedicalAppointment mc) {
         String query = "INSERT INTO FutureMedicalCare"
                 + "(type_FutureMedicalCare, cpf_patient_FutureMedicalCare,"
                 + "date_care_FutureMedicalCare, reason_service_FutureMedicalCare)"
@@ -67,8 +67,8 @@ public class FutureMedicalCareDAO {
         }
     }
 
-    public static List<MedicalCare> seek(Date date) {
-        List<MedicalCare> list = new ArrayList<>();
+    public static List<MedicalAppointment> seek(Date date) {
+        List<MedicalAppointment> list = new ArrayList<>();
 
         String query = "SELECT * FROM FutureMedicalCare "
                 + "WHERE date_care_FutureMedicalCare = ?";
@@ -87,7 +87,7 @@ public class FutureMedicalCareDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                MedicalCare mc = new MedicalCare(
+                MedicalAppointment mc = new MedicalAppointment(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
                 list.add(mc);
@@ -100,8 +100,8 @@ public class FutureMedicalCareDAO {
         return list;
     }
 
-    public static List<MedicalCare> seek(CPF cpf) {
-        List<MedicalCare> list = new ArrayList<>();
+    public static List<MedicalAppointment> seek(CPF cpf) {
+        List<MedicalAppointment> list = new ArrayList<>();
 
         String query = "SELECT * FROM FutureMedicalCare "
                 + "WHERE cpf_patient_FutureMedicalCare = ?";
@@ -121,7 +121,7 @@ public class FutureMedicalCareDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                MedicalCare mc = new MedicalCare(
+                MedicalAppointment mc = new MedicalAppointment(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
                 list.add(mc);
@@ -134,8 +134,8 @@ public class FutureMedicalCareDAO {
         return list;
     }
 
-    public static MedicalCare seek(int id) {
-        MedicalCare mc = null;
+    public static MedicalAppointment seek(int id) {
+        MedicalAppointment mc = null;
 
         String query = "SELECT * FROM FutureMedicalCare "
                 + "WHERE id_FutureMedicalCare = ?";
@@ -154,7 +154,7 @@ public class FutureMedicalCareDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                mc = new MedicalCare(
+                mc = new MedicalAppointment(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
 

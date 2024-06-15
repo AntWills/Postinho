@@ -1,6 +1,6 @@
 package entities.patient;
 
-import entities.patient.MedicalCare.MedicalCare;
+import entities.patient.MedicalCare.MedicalAppointment;
 import entities.terminal.ReadData;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Patient {
     CPF cpf;
     String name;
-    List<MedicalCare> consultateCarried;
+    List<MedicalAppointment> consultateCarried;
 
     public Patient() {
         this.cpf = new CPF();
@@ -23,7 +23,7 @@ public class Patient {
         this.consultateCarried = new ArrayList<>();
     }
 
-    public Patient(CPF cpf, String name, List<MedicalCare> cultateList) {
+    public Patient(CPF cpf, String name, List<MedicalAppointment> cultateList) {
         this.cpf = cpf;
         this.name = name;
         this.consultateCarried = cultateList;
@@ -52,7 +52,7 @@ public class Patient {
 
         System.err.println("\nTotas as consultas feitas por " + name + ":\n");
 
-        for (MedicalCare care : consultateCarried) {
+        for (MedicalAppointment care : consultateCarried) {
             System.err.println(care + "\n");
         }
 

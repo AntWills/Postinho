@@ -1,7 +1,7 @@
 package dbEntities;
 
 import entities.patient.CPF;
-import entities.patient.MedicalCare.*;
+import entities.patient.MedicalAppointment.*;
 
 import java.util.List;
 import java.sql.Connection;
@@ -27,7 +27,7 @@ public class MedicalCareDAO {
         }
     }
 
-    public static void add(MedicalCare mc) {
+    public static void add(MedicalAppointment mAppointment) {
         String query = "INSERT INTO MedicalCare"
                 + "(type_MedicalCare, cpf_patient_MedicalCare, date_care_MedicalCare,reason_service)"
                 + "VALUES(?, ?, ?, ?)";
@@ -35,10 +35,10 @@ public class MedicalCareDAO {
             Connection db = UtilDB.getConnection();
             PreparedStatement pstmt = db.prepareStatement(query);
 
-            pstmt.setInt(1, mc.getTypeService());
-            pstmt.setString(2, mc.getCpfPatient().getNumberCPF());
-            pstmt.setString(3, mc.getDateService().toString());
-            pstmt.setString(4, mc.getReasonForService());
+            pstmt.setInt(1, mAppointment.getTypeService());
+            pstmt.setString(2, mAppointment.getCpfPatient().getNumberCPF());
+            pstmt.setString(3, mAppointment.getDateService().toString());
+            pstmt.setString(4, mAppointment.getReasonForService());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -63,8 +63,8 @@ public class MedicalCareDAO {
         }
     }
 
-    public static MedicalCare seek(int id) {
-        MedicalCare mCare = null;
+    public static MedicalAppointment seek(int id) {
+        MedicalAppointment mCare = null;
 
         String query = "SELECT * FROM MedicalCare "
                 + "WHERE id_MedicalCare = ?";
@@ -83,7 +83,7 @@ public class MedicalCareDAO {
                 Date date = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                mCare = new MedicalCare(idMedicalCare,
+                mCare = new MedicalAppointment(idMedicalCare,
                         type, cpf, date, reazon);
             }
         } catch (SQLException e) {
@@ -95,8 +95,8 @@ public class MedicalCareDAO {
         return mCare;
     }
 
-    public static List<MedicalCare> seek(CPF cpf) {
-        List<MedicalCare> list = new ArrayList<>();
+    public static List<MedicalAppointment> seek(CPF cpf) {
+        List<MedicalAppointment> list = new ArrayList<>();
 
         String query = "SELECT * FROM MedicalCare "
                 + "WHERE cpf_patient_MedicalCare = ?";
@@ -116,7 +116,7 @@ public class MedicalCareDAO {
                 Date date = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                MedicalCare mc = new MedicalCare(idMedicalCare,
+                MedicalAppointment mc = new MedicalAppointment(idMedicalCare,
                         type, cpfMedicalCare, date, reazon);
 
                 list.add(mc);
@@ -131,8 +131,8 @@ public class MedicalCareDAO {
         return list;
     }
 
-    public static List<MedicalCare> seek(Date date) {
-        List<MedicalCare> list = new ArrayList<>();
+    public static List<MedicalAppointment> seek(Date date) {
+        List<MedicalAppointment> list = new ArrayList<>();
 
         String query = "SELECT * FROM MedicalCare "
                 + "WHERE date_care_MedicalCare = ?";
@@ -151,7 +151,7 @@ public class MedicalCareDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                MedicalCare mc = new MedicalCare(
+                MedicalAppointment mc = new MedicalAppointment(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
                 list.add(mc);
