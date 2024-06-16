@@ -31,7 +31,7 @@ public class Patient {
     }
 
     private static void inTerminal(Patient patient) {
-        patient.setId(CPF.inTerminal("Digite o CPF: "));
+        patient.setCpfId(CPF.inTerminal("Digite o CPF: "));
         System.err.print("Digite o nome: ");
         patient.setName(ReadData.STRING());
     }
@@ -90,11 +90,11 @@ public class Patient {
 
     }
 
-    public CPF getId() {
+    public CPF geCpftId() {
         return cpf;
     }
 
-    public void setId(CPF cpf) {
+    public void setCpfId(CPF cpf) {
         this.cpf = cpf;
     }
 

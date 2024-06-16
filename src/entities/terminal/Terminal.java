@@ -7,7 +7,7 @@ public class Terminal {
     }
 
     public static void pause() {
-        System.err.print("\nPressione [ENTER] para continuar...");
+        System.err.print("Pressione [ENTER] para continuar...");
         ReadData.STRING();
     }
 }

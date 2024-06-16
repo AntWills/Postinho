@@ -15,11 +15,11 @@ public class MedicalAppointmentDAO {
         UtilDB.openBank();
         String query = "CREATE TABLE IF NOT EXISTS "
                 + "MedicalAppointment ("
-                + "id_MedicalCare INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "type_MedicalCare INTEGER NOT NULL, "
-                + "cpf_patient_MedicalCare CHAR(11) NOT NULL, "
-                + "date_care_MedicalCare CHAR(10), "
-                + "reason_service TEXT)";
+                + "id_MedicalAppointment INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "type_MedicalAppointment INTEGER NOT NULL, "
+                + "cpf_patient_MedicalAppointment CHAR(11) NOT NULL, "
+                + "date_care_MedicalAppointment CHAR(10), "
+                + "reason_service_MedicalAppointment TEXT)";
         try {
             UtilDB.execQuery(query);
         } catch (Exception e) {
@@ -29,7 +29,8 @@ public class MedicalAppointmentDAO {
 
     public static void add(MedicalAppointment mAppointment) {
         String query = "INSERT INTO MedicalAppointment"
-                + "(type_MedicalAppointment, cpf_patient_MedicalAppointment, date_care_MedicalAppointment,reason_service)"
+                + "(type_MedicalAppointment, cpf_patient_MedicalAppointment,"
+                + " date_care_MedicalAppointment,reason_service_MedicalAppointment)"
                 + "VALUES(?, ?, ?, ?)";
         try {
             Connection db = UtilDB.getConnection();

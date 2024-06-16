@@ -7,22 +7,25 @@
 
 ## Postinho ##
 
+## Postinho - Data: " + today + " ##\n
 [1] : Registrar nova consultas.
-[2] : Consultas agendados para hoje.
-[3] : Atender consulta de hoje.
-[4] : Cadastrar novos pacientes.
-[5] : Acessar banco de pacientes(+).
+[2] : Agender consulta.
+[3] : Consultas agendados para hoje.
+[4] : Atender consulta de hoje.
+[5] : Cadastrar novos pacientes.
+[6] : Acessar banco de pacientes(+).
+[7] : Acessar banco de consultas(+).
+[7] : Alterar data do dia atual.
 [0] : Encerrar programa.
 
 Digite uma das opções: 
 
 -------------------------------------------------
 
-## Menu Do Banco ##
+## Menu dos Pacientes ##
 
 [1] : Buscar paciente por CPF.
 [2] : Quantidade de pacientes cadastrados.
-[3] : Buscar consultas.
 [0] : Voltar.
 
 Digite uma das opções:  
@@ -36,7 +39,23 @@ Nome: "nome", CPF: "cpf".
 Total de consultas: "total".
 
 [1] : Imprimir ultimas consultas.
-[2] : Marcar consulta.
+[2] : Imprimir consultas futuras.
+[3] : Remarcar consulta.
+[4] : Atualizar consulta.
 [0] : Voltar.
 
 Digite uma das opções:  
+
+-------------------------------------------------
+
+## Menu das Consultas ##
+
+[1] : Buscar consulta por id.
+[2] : Buscar consulta por data.
+[3] : Buscar consulta por CPF.
+[4] : Deletar consulta.
+[0] : Voltar.
+
+Digite uma das opções:  
+
+-------------------------------------------------

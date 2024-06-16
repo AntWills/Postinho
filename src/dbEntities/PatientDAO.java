@@ -29,7 +29,7 @@ public class PatientDAO {
             Connection db = UtilDB.getConnection();
             PreparedStatement pstmt = db.prepareStatement(query);
 
-            pstmt.setString(1, patient.getId().getNumberCPF());
+            pstmt.setString(1, patient.geCpftId().getNumberCPF());
             pstmt.setString(2, patient.getName());
 
             pstmt.executeUpdate();
@@ -70,5 +70,12 @@ public class PatientDAO {
             System.err.println("Error PatientDAO: " + e.getMessage());
         }
         return patient;
+    }
+
+    public static boolean existPatient(CPF cpf) {
+        Patient patient = PatientDAO.seek(cpf);
+        if (patient == null)
+            return false;
+        return true;
     }
 }

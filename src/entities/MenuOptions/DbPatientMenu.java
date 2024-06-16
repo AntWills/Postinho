@@ -1,14 +1,18 @@
 package entities.MenuOptions;
 
+import javax.sound.midi.Patch;
+
+import dbEntities.PatientDAO;
 import entities.patient.CPF;
+import entities.patient.Patient;
 import entities.terminal.ReadData;
 import entities.terminal.Terminal;
 
-public class DbMenu {
+public class DbPatientMenu {
     private int op;
 
     public static void runDbMenu() {
-        DbMenu dbMenu = new DbMenu();
+        DbPatientMenu dbMenu = new DbPatientMenu();
 
         do {
             dbMenu.menu();
@@ -18,11 +22,10 @@ public class DbMenu {
 
     public void menu() {
         Terminal.clear();
-        System.out.println("## Menu do Banco de Dados ##\n");
+        System.out.println("## Menu dos Pacientes ##\n");
 
         System.out.println("[1] : Buscar paciente por CPF.");
         System.out.println("[2] : Quantidade de pacientes cadastrados.");
-        System.out.println("[3] : Buscar consultas.");
         System.out.println("[0] : Voltar.\n");
 
         System.out.print("Digite uma das opções: ");
@@ -40,7 +43,16 @@ public class DbMenu {
     }
 
     private void seekPatientForCPF() {
-        CPF cpf = CPF.inTerminal("Digite os dados do CPF:");
+        CPF cpf = CPF.inTerminal("Digite os dados do CPF: ");
+
+        Patient patient = PatientDAO.seek(cpf);
+
+        if (patient == null) {
+            System.out.println("paciente não encontrado.\n");
+            Terminal.pause();
+            return;
+        }
+
     }
 
     public int getOpInt() {

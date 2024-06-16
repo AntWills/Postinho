@@ -4,7 +4,6 @@ import dbEntities.*;
 
 import entities.patient.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import entities.patient.MedicalAppointment.*;
@@ -13,6 +12,7 @@ import entities.terminal.Terminal;
 
 public class InitialMenu {
     private int op;
+    private Date today;
 
     public static void runInitialMenu() {
         InitialMenu initialMenu = new InitialMenu();
@@ -25,14 +25,20 @@ public class InitialMenu {
         System.out.println("\nEncerrando programa...");
     }
 
+    public InitialMenu() {
+        this.today = new Date();
+    }
+
     public void menu() {
         Terminal.clear();
-        System.out.println("## Postinho ##\n");
+        System.out.println("## Postinho - Data: " + today + " ##\n");
         System.out.println("[1] : Registrar nova consultas.");
-        System.out.println("[2] : Consultas agendados para hoje.");
-        System.out.println("[3] : Atender consulta de hoje.");
-        System.out.println("[4] : Cadastrar novos pacientes.");
-        System.out.println("[5] : Acessar banco de pacientes(+).");
+        System.out.println("[2] : Agender consulta.");
+        System.out.println("[3] : Consultas agendados para hoje.");
+        System.out.println("[4] : Atender consulta de hoje.");
+        System.out.println("[5] : Cadastrar novos pacientes.");
+        System.out.println("[6] : Acessar banco de pacientes(+).");
+        System.out.println("[7] : Alterar data do dia atual.");
         System.out.println("[0] : Encerrar programa.");
 
         System.out.print("\nDigite uma das opções: ");
@@ -49,13 +55,22 @@ public class InitialMenu {
                 registerNewAppointment();
                 break;
             case 2:
+                scheduleNewAppointment();
+                break;
+            case 3:
                 appointmentRegisterToday();
                 break;
             case 4:
-                registerNewCleinte();
+                assistPatientToday();
                 break;
             case 5:
-                DbMenu.runDbMenu();
+                registerNewCleinte();
+                break;
+            case 6:
+                DbPatientMenu.runDbMenu();
+                break;
+            case 7:
+                changeDate();
                 break;
             case 0:
                 break;
@@ -70,14 +85,17 @@ public class InitialMenu {
         MedicalAppointmentDAO.add(mAppointment);
     }
 
-    private void appointmentRegisterToday() {
-        Date dateToday = Date.inTerminal(true, "Digite os dados do dia de hoje:");
+    private void scheduleNewAppointment() {
+        MedicalAppointment mAppointment = MedicalAppointment.inTerminal(true, "## Insira os dados da consulta ##\n");
+        FutureMedicalAppointmentDAO.add(mAppointment);
+    }
 
-        List<MedicalAppointment> mcList = FutureMedicalCareDAO.seek(dateToday);
+    private void appointmentRegisterToday() {
+        List<MedicalAppointment> mcList = FutureMedicalAppointmentDAO.seek(today);
 
         Terminal.clear();
         if (mcList.size() == 0) {
-            System.out.println("Não há consultas agendadas para hoje.");
+            System.out.println("Não há consultas agendadas para hoje.\n");
         } else {
             System.out.println("-- Consultas para hoje --\n");
 
@@ -85,9 +103,34 @@ public class InitialMenu {
                 System.out.println(mc + "\n");
             }
             System.out.println("Um total de " + mcList.size()
-                    + " agendadas para hoje");
+                    + " agendadas para hoje.\n\n");
         }
 
+        Terminal.pause();
+    }
+
+    private void assistPatientToday() {
+        Terminal.clear();
+        System.out.println("-- Atendendo consulta marcada para " + today + " --\n");
+        System.out.print("Digite o Id da consulta: ");
+        int id = ReadData.INT();
+        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.seek(id);
+
+        if (mAppointment == null) {
+            System.out.println("\nId da consulta não encontrado.\n");
+            Terminal.pause();
+            return;
+        }
+
+        System.out.print("\nDeseja antender está consulta?\n\n" + mAppointment
+                + "\n\n:[y][n]");
+        if (ReadData.CHAR() == 'y') {
+            FutureMedicalAppointmentDAO.delete(id);
+            MedicalAppointmentDAO.add(mAppointment);
+
+            System.out.println("Paciente atendido, seu id da consulta foi atualizado.\n\n");
+        } else
+            System.out.println("\n\nVoltando ao menu inicial.\n\n");
         Terminal.pause();
     }
 
@@ -97,6 +140,17 @@ public class InitialMenu {
         System.out.println("-- Cadastrando novo paciente no banco --\n");
         Patient patient = Patient.inTerminal(true, "Digite os dados do patiente:\n");
 
-        PatientDAO.add(patient);
+        if (!PatientDAO.existPatient(patient.geCpftId())) {
+            PatientDAO.add(patient);
+            return;
+        }
+        Terminal.clear();
+        System.out.println("Desculpe, um paciente com o cpf: " + patient.geCpftId()
+                + "já existe.\n\n");
+        Terminal.pause();
+    }
+
+    private void changeDate() {
+        this.today = Date.inTerminal(true, "Digite a nova data: ");
     }
 }
