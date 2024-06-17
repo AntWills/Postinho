@@ -1,6 +1,10 @@
 package entities.MenuOptions;
 
+import java.util.List;
+
+import dbEntities.FutureMedicalAppointmentDAO;
 import entities.patient.Patient;
+import entities.patient.MedicalAppointment.MedicalAppointment;
 import entities.terminal.ReadData;
 import entities.terminal.Terminal;
 
@@ -38,7 +42,48 @@ public class PatientMenu {
     }
 
     public void options() {
+        switch (this.op) {
+            case 1:
+                printAppointmentPatient();
+                break;
+            case 2:
+                printFutureAppointmentPatient();
+                break;
+            default:
+                break;
+        }
+    }
 
+    private void printAppointmentPatient() {
+        Terminal.clear();
+        List<MedicalAppointment> list = this.patient.getmedicalAppointmentsList();
+
+        if (list.size() == 0) {
+            System.out.println("Não há consultas realizadas para este paciente.\n");
+        } else {
+            System.out.println("Consultas realizadas pelo paciente: " + this.patient.getName() + "\n");
+
+            for (MedicalAppointment mAppointment : list) {
+                System.out.println(mAppointment + "\n");
+            }
+        }
+        Terminal.pause();
+    }
+
+    private void printFutureAppointmentPatient() {
+        Terminal.clear();
+        List<MedicalAppointment> list = FutureMedicalAppointmentDAO.seek(this.patient.geCpftId());
+
+        if (list.size() == 0) {
+            System.out.println("Não há consultas agendadas para este paciente.\n");
+        } else {
+            System.out.println("Consultas marcadas pelo paciente: " + this.patient.getName() + "\n");
+
+            for (MedicalAppointment mAppointment : list) {
+                System.out.println(mAppointment + "\n");
+            }
+        }
+        Terminal.pause();
     }
 
     public int getOp() {

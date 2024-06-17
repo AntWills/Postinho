@@ -1,8 +1,8 @@
 package dbEntities;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
 import entities.patient.*;
 
@@ -26,8 +26,7 @@ public class PatientDAO {
                 + "(cpf_Patient, nome_Patient)"
                 + "VALUES (?, ?)";
         try {
-            Connection db = UtilDB.getConnection();
-            PreparedStatement pstmt = db.prepareStatement(query);
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
 
             pstmt.setString(1, patient.geCpftId().getNumberCPF());
             pstmt.setString(2, patient.getName());
@@ -41,8 +40,7 @@ public class PatientDAO {
     public static void delete(CPF cpf) {
         String query = "DELETE FROM Patient WHERE cpf_Patient = ?";
         try {
-            Connection db = UtilDB.getConnection();
-            PreparedStatement pstmt = db.prepareStatement(query);
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
             pstmt.setString(1, cpf.getNumberCPF());
             pstmt.executeUpdate();
         } catch (Exception e) {
@@ -55,8 +53,7 @@ public class PatientDAO {
         String query = "SELECT * FROM Patient WHERE cpf_Patient = ?";
 
         try {
-            Connection db = UtilDB.getConnection();
-            PreparedStatement pstmt = db.prepareStatement(query);
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
             pstmt.setString(1, cpf.getNumberCPF());
             ResultSet rSet = pstmt.executeQuery();
 
@@ -67,7 +64,7 @@ public class PatientDAO {
                 patient = new Patient(cpfPatient, name, MedicalAppointmentDAO.seek(cpf));
             }
         } catch (Exception e) {
-            System.err.println("Error PatientDAO: " + e.getMessage());
+            System.err.println("Error PatientDAO.seek: " + e.getMessage());
         }
         return patient;
     }
@@ -77,5 +74,20 @@ public class PatientDAO {
         if (patient == null)
             return false;
         return true;
+    }
+
+    public static int numberPatient() {
+        String query = "SELECT COUNT(*) FROM Patient;";
+
+        try {
+            Statement stmt = UtilDB.getConnection().createStatement();
+            ResultSet rSet = stmt.executeQuery(query);
+
+            if (rSet.next())
+                return rSet.getInt("COUNT(*)");
+        } catch (Exception e) {
+            System.err.println("Error PatientDAO.numberPatient: " + e.getMessage());
+        }
+        return 0;
     }
 }

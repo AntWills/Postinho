@@ -106,4 +106,8 @@ public class Patient {
         this.name = name;
     }
 
+    public List<MedicalAppointment> getmedicalAppointmentsList() {
+        return medicalAppointmentsList;
+    }
+
 }

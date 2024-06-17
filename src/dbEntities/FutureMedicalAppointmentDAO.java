@@ -67,6 +67,29 @@ public class FutureMedicalAppointmentDAO {
         }
     }
 
+    public static void updade(int id, MedicalAppointment mAppointment) {
+        String query = "UPDATE FutureMedicalAppointment SET "
+                + "type_FutureMedicalAppointment = ?, "
+                + "cpf_patient_FutureMedicalAppointment = ?, "
+                + "date_care_FutureMedicalAppointment = ?, "
+                + "reason_service_FutureMedicalAppoint = ? "
+                + "WHERE id_FutureMedicalAppointment = " + id;
+        try {
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+
+            pstmt.setInt(1, mAppointment.getTypeService());
+            pstmt.setString(2, mAppointment.getCpfPatient().getNumberCPF());
+            pstmt.setString(3, mAppointment.getDateService().toString());
+            pstmt.setString(4, mAppointment.getReasonForService());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error FutureMedicalAppointmentDAO.update: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error FutureMedicalAppointmentDAO.update: " + e.getMessage());
+        }
+    }
+
     public static List<MedicalAppointment> seek(Date date) {
         List<MedicalAppointment> list = new ArrayList<>();
 
@@ -134,7 +157,7 @@ public class FutureMedicalAppointmentDAO {
     }
 
     public static MedicalAppointment seek(int id) {
-        MedicalAppointment mc = null;
+        MedicalAppointment mAppointment = null;
 
         String query = "SELECT * FROM FutureMedicalAppointment "
                 + "WHERE id_FutureMedicalAppointment = ?";
@@ -153,7 +176,7 @@ public class FutureMedicalAppointmentDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                mc = new MedicalAppointment(
+                mAppointment = new MedicalAppointment(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
 
@@ -163,6 +186,6 @@ public class FutureMedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error FutureMedicalAppointmentDAO.seek(int): " + e.getMessage());
         }
-        return mc;
+        return mAppointment;
     }
 }

@@ -1,7 +1,5 @@
 package entities.MenuOptions;
 
-import javax.sound.midi.Patch;
-
 import dbEntities.PatientDAO;
 import entities.patient.CPF;
 import entities.patient.Patient;
@@ -37,6 +35,9 @@ public class DbPatientMenu {
             case 1:
                 seekPatientForCPF();
                 break;
+            case 2:
+                numberOfPatientRegistered();
+                break;
             default:
                 break;
         }
@@ -52,7 +53,14 @@ public class DbPatientMenu {
             Terminal.pause();
             return;
         }
+        PatientMenu.runPatientMenu(patient);
+    }
 
+    private void numberOfPatientRegistered() {
+        Terminal.clear();
+        System.out.println("O posto tem um total de " + PatientDAO.numberPatient()
+                + " pacientes cadastrados.\n");
+        Terminal.pause();
     }
 
     public int getOpInt() {
