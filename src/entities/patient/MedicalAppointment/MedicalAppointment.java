@@ -52,13 +52,13 @@ public class MedicalAppointment {
     }
 
     private static void inTerminal(MedicalAppointment mAppointment) {
-        System.out.println("Tipo de serviço: ");
+        System.out.println("Tipos de atendimento: ");
         System.out.println("(0) : [NOT URGENT] : Blue");
         System.out.println("(1) : [LITTLE URGENT] : Green");
         System.out.println("(2) : [URGENT] : Yellow");
-        System.out.println("(3) : [EMERGING] : Red");
+        System.out.println("(3) : [EMERGING] : Red\n");
 
-        System.out.print("\nDigite o tipo: ");
+        System.out.print("Digite o tipo: ");
         mAppointment.setTypeService(ReadData.INT());
 
         mAppointment.setCpfPatient(CPF.inTerminal("Digite os dados do CPF: "));

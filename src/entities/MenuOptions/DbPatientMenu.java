@@ -44,7 +44,7 @@ public class DbPatientMenu {
     }
 
     private void seekPatientForCPF() {
-        CPF cpf = CPF.inTerminal("Digite os dados do CPF: ");
+        CPF cpf = CPF.inTerminal(true, "Digite os dados do CPF: ");
 
         Patient patient = PatientDAO.seek(cpf);
 

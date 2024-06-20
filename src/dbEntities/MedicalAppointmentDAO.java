@@ -64,6 +64,29 @@ public class MedicalAppointmentDAO {
         }
     }
 
+    public static void updade(int id, MedicalAppointment mAppointment) {
+        String query = "UPDATE MedicalAppointment SET "
+                + "type_MedicalAppointment = ?, "
+                + "cpf_patient_MedicalAppointment = ?, "
+                + "date_care_MedicalAppointment = ?, "
+                + "reason_service_MedicalAppoint = ? "
+                + "WHERE id_MedicalAppointment = " + id;
+        try {
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+
+            pstmt.setInt(1, mAppointment.getTypeService());
+            pstmt.setString(2, mAppointment.getCpfPatient().getNumberCPF());
+            pstmt.setString(3, mAppointment.getDateService().toString());
+            pstmt.setString(4, mAppointment.getReasonForService());
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error MedicalAppointmentDAO.update: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error MedicalAppointmentDAO.update: " + e.getMessage());
+        }
+    }
+
     public static MedicalAppointment seek(int id) {
         MedicalAppointment mAppointments = null;
 

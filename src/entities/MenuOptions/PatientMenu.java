@@ -3,6 +3,7 @@ package entities.MenuOptions;
 import java.util.List;
 
 import dbEntities.FutureMedicalAppointmentDAO;
+import dbEntities.MedicalAppointmentDAO;
 import entities.patient.Patient;
 import entities.patient.MedicalAppointment.MedicalAppointment;
 import entities.terminal.ReadData;
@@ -33,8 +34,8 @@ public class PatientMenu {
 
         System.out.println("[1] : Imprimir ultimas consultas.");
         System.out.println("[2] : Imprimir consultas futuras.");
-        System.out.println("[3] : Remarcar consulta.");
-        System.out.println("[4] : Atualizar consulta.");
+        System.out.println("[3] : Atualizar ultimas consulta.");
+        System.out.println("[4] : Remarcar consultas futuras.");
         System.out.println("[0] : Voltar.\n");
 
         System.out.print("Digite uma das opções: ");
@@ -48,6 +49,12 @@ public class PatientMenu {
                 break;
             case 2:
                 printFutureAppointmentPatient();
+                break;
+            case 3:
+                updateMedicalAppointment();
+                break;
+            case 4:
+                updateFutureMedicalAppointment();
                 break;
             default:
                 break;
@@ -84,6 +91,44 @@ public class PatientMenu {
             }
         }
         Terminal.pause();
+    }
+
+    private void updateMedicalAppointment() {
+        Terminal.clear();
+        System.out.print("Digite o id da consulta: ");
+        int id = ReadData.INT();
+
+        MedicalAppointment mAppointment = MedicalAppointmentDAO.seek(id);
+
+        if (mAppointment == null) {
+            Terminal.clear();
+            System.out.println("\nConsulta com o id igual a " + id + " não foi encontrada.");
+            System.out.println("Voltando ao menu.\n");
+            Terminal.pause();
+            return;
+        }
+
+        MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
+        MedicalAppointmentDAO.updade(id, mAppointment);
+    }
+
+    private void updateFutureMedicalAppointment() {
+        Terminal.clear();
+        System.out.print("Digite o id da consulta: ");
+        int id = ReadData.INT();
+
+        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.seek(id);
+
+        if (mAppointment == null) {
+            Terminal.clear();
+            System.out.println("\nConsulta com o id igual a " + id + " não foi encontrada.");
+            System.out.println("Voltando ao menu.\n");
+            Terminal.pause();
+            return;
+        }
+
+        MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
+        FutureMedicalAppointmentDAO.updade(id, mAppointment);
     }
 
     public int getOp() {
