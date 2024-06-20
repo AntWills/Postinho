@@ -25,17 +25,17 @@ public class MedicalAppointmentMenu {
 
     public void menu() {
         Terminal.clear();
-        System.out.println("## Atualizar Consulta Médica ##\n");
+        System.out.println("## Alterando Dados da Consulta Médica ##\n");
         System.out.println("Dados da consulta: ");
         System.out.println(this.mAppointment + "\n");
 
-        System.out.println("[1] : Atualizar tipo de consulta.");
-        System.out.println("[2] : Atualizar CPF.");
-        System.out.println("[3] : Atualizar a data.");
-        System.out.println("[4] : Atualizar a razão da consulta.");
+        System.out.println("[1] : O tipo de consulta.");
+        System.out.println("[2] : O CPF.");
+        System.out.println("[3] : A data.");
+        System.out.println("[4] : A razão da consulta.");
         System.out.println("[0] : Voltar.\n");
 
-        System.out.print("Digite uma das opções: ");
+        System.out.print("Digite uma das opções para alterar: ");
         this.op = ReadData.INT();
     }
 

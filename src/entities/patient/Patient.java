@@ -106,8 +106,18 @@ public class Patient {
         this.name = name;
     }
 
-    public List<MedicalAppointment> getmedicalAppointmentsList() {
+    public List<MedicalAppointment> getMedicalAppointmentsList() {
         return medicalAppointmentsList;
+    }
+
+    public MedicalAppointment getMedicalAppointmentID(int id) {
+        List<MedicalAppointment> list = this.medicalAppointmentsList;
+
+        for (MedicalAppointment mAppointment : list) {
+            if (mAppointment.getID() == id)
+                return mAppointment;
+        }
+        return null;
     }
 
 }

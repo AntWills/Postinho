@@ -63,7 +63,7 @@ public class PatientMenu {
 
     private void printAppointmentPatient() {
         Terminal.clear();
-        List<MedicalAppointment> list = this.patient.getmedicalAppointmentsList();
+        List<MedicalAppointment> list = this.patient.getMedicalAppointmentsList();
 
         if (list.size() == 0) {
             System.out.println("Não há consultas realizadas para este paciente.\n");
@@ -98,7 +98,7 @@ public class PatientMenu {
         System.out.print("Digite o id da consulta: ");
         int id = ReadData.INT();
 
-        MedicalAppointment mAppointment = MedicalAppointmentDAO.seek(id);
+        MedicalAppointment mAppointment = patient.getMedicalAppointmentID(id);
 
         if (mAppointment == null) {
             Terminal.clear();

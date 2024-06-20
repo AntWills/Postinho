@@ -135,6 +135,10 @@ public class MedicalAppointment {
         }
     }
 
+    public int getID() {
+        return id;
+    }
+
     public int getTypeService() {
         return typeService;
     }
