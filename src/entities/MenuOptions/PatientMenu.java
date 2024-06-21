@@ -117,7 +117,7 @@ public class PatientMenu {
         System.out.print("Digite o id da consulta: ");
         int id = ReadData.INT();
 
-        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.seek(id);
+        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.seek(id, patient.geCpftId());
 
         if (mAppointment == null) {
             Terminal.clear();

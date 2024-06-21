@@ -22,8 +22,9 @@ public class DbPatientMenu {
         Terminal.clear();
         System.out.println("## Menu dos Pacientes ##\n");
 
-        System.out.println("[1] : Buscar paciente por CPF.");
-        System.out.println("[2] : Quantidade de pacientes cadastrados.");
+        System.out.println("[1] : Cadastrar novos pacientes.");
+        System.out.println("[2] : Buscar paciente por CPF.");
+        System.out.println("[3] : Quantidade de pacientes cadastrados.");
         System.out.println("[0] : Voltar.\n");
 
         System.out.print("Digite uma das opções: ");
@@ -33,14 +34,33 @@ public class DbPatientMenu {
     public void options() {
         switch (this.op) {
             case 1:
-                seekPatientForCPF();
+                registerNewCleinte();
                 break;
             case 2:
+                seekPatientForCPF();
+                break;
+            case 3:
                 numberOfPatientRegistered();
                 break;
             default:
                 break;
         }
+    }
+
+    private void registerNewCleinte() {
+        Terminal.clear();
+
+        System.out.println("-- Cadastrando novo paciente no banco --\n");
+        Patient patient = Patient.inTerminal(true, "Digite os dados do patiente:\n");
+
+        if (!PatientDAO.existPatient(patient.geCpftId())) {
+            PatientDAO.add(patient);
+            return;
+        }
+        Terminal.clear();
+        System.out.println("Desculpe, um paciente com o cpf: " + patient.geCpftId()
+                + "já existe.\n\n");
+        Terminal.pause();
     }
 
     private void seekPatientForCPF() {

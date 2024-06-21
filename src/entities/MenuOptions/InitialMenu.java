@@ -2,8 +2,6 @@ package entities.MenuOptions;
 
 import dbEntities.*;
 
-import entities.patient.*;
-
 import java.util.List;
 
 import entities.patient.MedicalAppointment.*;
@@ -36,9 +34,8 @@ public class InitialMenu {
         System.out.println("[2] : Agender consulta.");
         System.out.println("[3] : Consultas agendados para hoje.");
         System.out.println("[4] : Atender consulta de hoje.");
-        System.out.println("[5] : Cadastrar novos pacientes.");
-        System.out.println("[6] : Acessar banco de pacientes(+).");
-        System.out.println("[7] : Alterar data do dia atual.");
+        System.out.println("[5] : Acessar banco de pacientes(+).");
+        System.out.println("[6] : Alterar data do dia atual.");
         System.out.println("[0] : Encerrar programa.");
 
         System.out.print("\nDigite uma das opções: ");
@@ -64,12 +61,9 @@ public class InitialMenu {
                 assistPatientToday();
                 break;
             case 5:
-                registerNewCleinte();
-                break;
-            case 6:
                 DbPatientMenu.runDbMenu();
                 break;
-            case 7:
+            case 6:
                 changeDate();
                 break;
             case 0:
@@ -131,22 +125,6 @@ public class InitialMenu {
             System.out.println("Paciente atendido, seu id da consulta foi atualizado.\n\n");
         } else
             System.out.println("\n\nVoltando ao menu inicial.\n\n");
-        Terminal.pause();
-    }
-
-    private void registerNewCleinte() {
-        Terminal.clear();
-
-        System.out.println("-- Cadastrando novo paciente no banco --\n");
-        Patient patient = Patient.inTerminal(true, "Digite os dados do patiente:\n");
-
-        if (!PatientDAO.existPatient(patient.geCpftId())) {
-            PatientDAO.add(patient);
-            return;
-        }
-        Terminal.clear();
-        System.out.println("Desculpe, um paciente com o cpf: " + patient.geCpftId()
-                + "já existe.\n\n");
         Terminal.pause();
     }
 
