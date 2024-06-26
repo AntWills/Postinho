@@ -34,8 +34,9 @@ public class InitialMenu {
         System.out.println("[2] : Agender consulta.");
         System.out.println("[3] : Consultas agendados para hoje.");
         System.out.println("[4] : Atender consulta de hoje.");
-        System.out.println("[5] : Acessar banco de pacientes(+).");
-        System.out.println("[6] : Alterar data do dia atual.");
+        System.out.println("[5] : Acessar banco de consultas(+).");
+        System.out.println("[6] : Acessar banco de pacientes(+).");
+        System.out.println("[7] : Alterar data do dia atual.");
         System.out.println("[0] : Encerrar programa.");
 
         System.out.print("\nDigite uma das opções: ");
@@ -61,9 +62,12 @@ public class InitialMenu {
                 assistPatientToday();
                 break;
             case 5:
-                DbPatientMenu.runDbMenu();
+                DbMedicalAppointmentMenu.runDbMedical();
                 break;
             case 6:
+                DbPatientMenu.runDbMenu();
+                break;
+            case 7:
                 changeDate();
                 break;
             case 0:

@@ -17,10 +17,4 @@ public class Test {
         InitialMenu.runInitialMenu();
 
     }
-
-    public static String ynString(boolean yn) {
-        if (yn)
-            return "YES";
-        return "NO";
-    }
 }
