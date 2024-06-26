@@ -1,6 +1,11 @@
 package entities.MenuOptions;
 
+import java.util.List;
+
+import dbEntities.FutureMedicalAppointmentDAO;
 import dbEntities.MedicalAppointmentDAO;
+import entities.patient.CPF;
+import entities.patient.MedicalAppointment.Date;
 import entities.patient.MedicalAppointment.MedicalAppointment;
 import entities.terminal.ReadData;
 import entities.terminal.Terminal;
@@ -27,9 +32,9 @@ public class DbMedicalAppointmentMenu {
         System.out.println("[4] : Buscar consulta futura por id.");
         System.out.println("[5] : Buscar consultas futura por CPF.");
         System.out.println("[6] : Buscar consulta futura por data.");
-        System.out.println("[0] : Voltar.");
+        System.out.println("[0] : Voltar.\n");
 
-        System.out.println("Digite uma das opções: ");
+        System.out.print("Digite uma das opções: ");
         this.op = ReadData.INT();
     }
 
@@ -37,6 +42,23 @@ public class DbMedicalAppointmentMenu {
         switch (this.op) {
             case 1:
                 searchMedicalAppointmentId();
+                break;
+            case 2:
+                searchMedicalAppointmentCpf();
+                break;
+            case 3:
+                searchMedicalAppointmentDate();
+                break;
+            case 4:
+                searchFutureMedicalAppointmentId();
+                break;
+            case 5:
+                searchFutureMedicalAppointmentCpf();
+                break;
+            case 6:
+                searchFutureMedicalAppointmentDate();
+                break;
+            case 0:
                 break;
             default:
                 break;
@@ -51,13 +73,97 @@ public class DbMedicalAppointmentMenu {
         Terminal.clear();
         System.out.println("Digite o id da consulta: ");
         MedicalAppointment mAppointment = MedicalAppointmentDAO.seek(ReadData.INT());
+
         Terminal.clear();
         if (mAppointment == null) {
             System.out.println("Consulta não encontrada.\n");
         } else {
             System.out.println("Dados da consulta:\n\n" + mAppointment + "\n");
-        }
 
+            System.out.println("Dejeja editar está consulta?[y][n]");
+            if (ReadData.CHAR() == 'y')
+                MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
+        }
+    }
+
+    private void searchMedicalAppointmentCpf() {
+        CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
+        List<MedicalAppointment> mAppointmentList = MedicalAppointmentDAO.seek(cpf);
+
+        Terminal.clear();
+        if (mAppointmentList == null) {
+            System.out.println("Nenhuma consulta foi encontrada.\n");
+        } else {
+            System.out.println("-- Consultas com CPF: " + cpf + " --\n");
+            for (MedicalAppointment mAppointment : mAppointmentList) {
+                System.out.println(mAppointment + "\n");
+            }
+        }
+        Terminal.pause();
+    }
+
+    private void searchMedicalAppointmentDate() {
+        Date date = Date.inTerminal(true, "Digite a data:");
+        List<MedicalAppointment> mAppointmentList = MedicalAppointmentDAO.seek(date);
+
+        Terminal.clear();
+        if (mAppointmentList == null) {
+            System.out.println("Nenhuma consulta foi encontrada.\n");
+        } else {
+            System.out.println("-- Consultas com a data: " + date + " --\n");
+            for (MedicalAppointment mAppointment : mAppointmentList) {
+                System.out.println(mAppointment + "\n");
+            }
+        }
+        Terminal.pause();
+    }
+
+    private void searchFutureMedicalAppointmentId() {
+        Terminal.clear();
+        System.out.println("Digite o id da consulta: ");
+        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.seek(ReadData.INT());
+
+        Terminal.clear();
+        if (mAppointment == null) {
+            System.out.println("Consulta não encontrada.\n");
+        } else {
+            System.out.println("Dados da consulta:\n\n" + mAppointment + "\n");
+
+            System.out.println("Dejeja editar está consulta?[y][n]");
+            if (ReadData.CHAR() == 'y')
+                MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
+        }
+    }
+
+    private void searchFutureMedicalAppointmentCpf() {
+        CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
+        List<MedicalAppointment> mAppointmentList = FutureMedicalAppointmentDAO.seek(cpf);
+
+        Terminal.clear();
+        if (mAppointmentList == null) {
+            System.out.println("Nenhuma consulta foi encontrada.\n");
+        } else {
+            System.out.println("-- Consultas com CPF: " + cpf + " --\n");
+            for (MedicalAppointment mAppointment : mAppointmentList) {
+                System.out.println(mAppointment + "\n");
+            }
+        }
+        Terminal.pause();
+    }
+
+    private void searchFutureMedicalAppointmentDate() {
+        Date date = Date.inTerminal(true, "Digite a data:");
+        List<MedicalAppointment> mAppointmentList = FutureMedicalAppointmentDAO.seek(date);
+
+        Terminal.clear();
+        if (mAppointmentList == null) {
+            System.out.println("Nenhuma consulta foi encontrada.\n");
+        } else {
+            System.out.println("-- Consultas com a data: " + date + " --\n");
+            for (MedicalAppointment mAppointment : mAppointmentList) {
+                System.out.println(mAppointment + "\n");
+            }
+        }
         Terminal.pause();
     }
 }

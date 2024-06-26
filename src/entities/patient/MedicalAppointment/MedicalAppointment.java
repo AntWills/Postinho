@@ -102,7 +102,7 @@ public class MedicalAppointment {
         return ColorOut.getText(typeServiceString(typeService), colorType(typeService))
                 + " Data: " + dateService.toString() + "\n"
                 + "CPF do paciente: " + cpfPatient + " ID: " + id + "\n"
-                + "Motivação: " + reasonForService;
+                + "Motivação: " + reasonForService + ".";
     }
 
     private String colorType(int i) {
