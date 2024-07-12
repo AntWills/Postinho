@@ -89,7 +89,7 @@ public class InitialMenu {
     }
 
     private void appointmentRegisterToday() {
-        List<MedicalAppointment> mcList = FutureMedicalAppointmentDAO.seek(today);
+        List<MedicalAppointment> mcList = FutureMedicalAppointmentDAO.search(today);
 
         Terminal.clear();
         if (mcList.size() == 0) {
@@ -112,7 +112,7 @@ public class InitialMenu {
         System.out.println("-- Atendendo consulta marcada para " + today + " --\n");
         System.out.print("Digite o Id da consulta: ");
         int id = ReadData.INT();
-        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.seek(id);
+        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.search(id);
 
         if (mAppointment == null) {
             System.out.println("\nId da consulta não encontrado.\n");

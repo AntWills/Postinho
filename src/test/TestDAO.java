@@ -35,7 +35,7 @@ public class TestDAO {
          * };
          */
 
-        List<MedicalAppointment> mcList = MedicalAppointmentDAO.seek(new CPF("000.000.000-01"));
+        List<MedicalAppointment> mcList = MedicalAppointmentDAO.search(new CPF("000.000.000-01"));
 
         for (int i = 0; i < mcList.size(); i++) {
             System.out.println(mcList.get(i) + "\n");

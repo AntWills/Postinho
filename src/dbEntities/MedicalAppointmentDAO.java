@@ -4,7 +4,6 @@ import entities.patient.CPF;
 import entities.patient.MedicalAppointment.*;
 
 import java.util.List;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +24,7 @@ public class MedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error MedicalAppointmentDAO: " + e.getMessage());
         }
+        UtilDB.closeBank();
     }
 
     public static void add(MedicalAppointment mAppointment) {
@@ -33,8 +33,7 @@ public class MedicalAppointmentDAO {
                 + " date_care_MedicalAppointment,reason_service_MedicalAppointment)"
                 + "VALUES(?, ?, ?, ?)";
         try {
-            Connection db = UtilDB.getConnection();
-            PreparedStatement pstmt = db.prepareStatement(query);
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, mAppointment.getTypeService());
             pstmt.setString(2, mAppointment.getCpfPatient().getNumberCPF());
@@ -47,13 +46,13 @@ public class MedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error MedicalAppointmentDAO.add: " + e.getMessage());
         }
+        UtilDB.closeBank();
     }
 
     public static void delete(int id) {
         String query = "DELETE FROM MedicalAppointment WHERE id_MedicalAppointment = ?";
         try {
-            Connection db = UtilDB.getConnection();
-            PreparedStatement pstmt = db.prepareStatement(query);
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
             pstmt.setInt(1, id);
 
             pstmt.executeUpdate();
@@ -62,6 +61,7 @@ public class MedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error MedicalAppointmentDAO.delete(int): " + e.getMessage());
         }
+        UtilDB.closeBank();
     }
 
     public static void updade(int id, MedicalAppointment mAppointment) {
@@ -85,17 +85,17 @@ public class MedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error MedicalAppointmentDAO.update: " + e.getMessage());
         }
+        UtilDB.closeBank();
     }
 
-    public static MedicalAppointment seek(int id) {
+    public static MedicalAppointment search(int id) {
         MedicalAppointment mAppointments = null;
 
         String query = "SELECT * FROM MedicalAppointment "
                 + "WHERE id_MedicalAppointment = ?";
 
         try {
-            Connection db = UtilDB.getConnection();
-            PreparedStatement pstmt = db.prepareStatement(query);
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
             pstmt.setInt(1, id);
 
             ResultSet rSet = pstmt.executeQuery();
@@ -116,22 +116,21 @@ public class MedicalAppointmentDAO {
             System.err.println("Error MedicalAppointmentDAO.seek(int): " + e.getMessage());
         }
 
+        UtilDB.closeBank();
         return mAppointments;
     }
 
-    public static List<MedicalAppointment> seek(CPF cpf) {
+    public static List<MedicalAppointment> search(CPF cpf) {
         List<MedicalAppointment> list = new ArrayList<>();
 
         String query = "SELECT * FROM MedicalAppointment "
                 + "WHERE cpf_patient_MedicalAppointment = ?";
 
         try {
-            Connection db = UtilDB.getConnection();
-            PreparedStatement pstmt = db.prepareStatement(query);
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
             pstmt.setString(1, cpf.getNumberCPF());
 
             ResultSet rSet = pstmt.executeQuery();
-            // System.out.println(pstmt.toString());
 
             while (rSet.next()) {
                 int idMedicalCare = rSet.getInt(1);
@@ -152,10 +151,11 @@ public class MedicalAppointmentDAO {
             System.err.println("Error MedicalAppointment.seek(CPF): " + e.getMessage());
         }
 
+        UtilDB.closeBank();
         return list;
     }
 
-    public static MedicalAppointment seek(int id, CPF cpf) {
+    public static MedicalAppointment search(int id, CPF cpf) {
         MedicalAppointment mAppointment = null;
 
         String query = "SELECT * FROM MedicalAppointment "
@@ -186,17 +186,18 @@ public class MedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error FutureMedicalAppointmentDAO.seek(int): " + e.getMessage());
         }
+
+        UtilDB.closeBank();
         return mAppointment;
     }
 
-    public static List<MedicalAppointment> seek(Date date) {
+    public static List<MedicalAppointment> search(Date date) {
         List<MedicalAppointment> list = new ArrayList<>();
 
         String query = "SELECT * FROM MedicalAppointment "
                 + "WHERE date_care_MedicalAppointment = ?";
         try {
-            Connection db = UtilDB.getConnection();
-            PreparedStatement pstmt = db.prepareStatement(query);
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
 
             pstmt.setString(1, date.toString());
 
@@ -219,6 +220,8 @@ public class MedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error MedicalAppointment.seek(Date): " + e.getMessage());
         }
+
+        UtilDB.closeBank();
         return list;
     }
 }

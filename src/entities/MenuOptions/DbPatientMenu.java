@@ -66,7 +66,7 @@ public class DbPatientMenu {
     private void seekPatientForCPF() {
         CPF cpf = CPF.inTerminal(true, "Digite os dados do CPF: ");
 
-        Patient patient = PatientDAO.seek(cpf);
+        Patient patient = PatientDAO.search(cpf);
 
         if (patient == null) {
             System.out.println("paciente não encontrado.\n");

@@ -72,7 +72,7 @@ public class DbMedicalAppointmentMenu {
     private void searchMedicalAppointmentId() {
         Terminal.clear();
         System.out.println("Digite o id da consulta: ");
-        MedicalAppointment mAppointment = MedicalAppointmentDAO.seek(ReadData.INT());
+        MedicalAppointment mAppointment = MedicalAppointmentDAO.search(ReadData.INT());
 
         Terminal.clear();
         if (mAppointment == null) {
@@ -88,7 +88,7 @@ public class DbMedicalAppointmentMenu {
 
     private void searchMedicalAppointmentCpf() {
         CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
-        List<MedicalAppointment> mAppointmentList = MedicalAppointmentDAO.seek(cpf);
+        List<MedicalAppointment> mAppointmentList = MedicalAppointmentDAO.search(cpf);
 
         Terminal.clear();
         if (mAppointmentList == null) {
@@ -104,7 +104,7 @@ public class DbMedicalAppointmentMenu {
 
     private void searchMedicalAppointmentDate() {
         Date date = Date.inTerminal(true, "Digite a data:");
-        List<MedicalAppointment> mAppointmentList = MedicalAppointmentDAO.seek(date);
+        List<MedicalAppointment> mAppointmentList = MedicalAppointmentDAO.search(date);
 
         Terminal.clear();
         if (mAppointmentList == null) {
@@ -121,7 +121,7 @@ public class DbMedicalAppointmentMenu {
     private void searchFutureMedicalAppointmentId() {
         Terminal.clear();
         System.out.println("Digite o id da consulta: ");
-        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.seek(ReadData.INT());
+        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.search(ReadData.INT());
 
         Terminal.clear();
         if (mAppointment == null) {
@@ -137,7 +137,7 @@ public class DbMedicalAppointmentMenu {
 
     private void searchFutureMedicalAppointmentCpf() {
         CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
-        List<MedicalAppointment> mAppointmentList = FutureMedicalAppointmentDAO.seek(cpf);
+        List<MedicalAppointment> mAppointmentList = FutureMedicalAppointmentDAO.search(cpf);
 
         Terminal.clear();
         if (mAppointmentList == null) {
@@ -153,7 +153,7 @@ public class DbMedicalAppointmentMenu {
 
     private void searchFutureMedicalAppointmentDate() {
         Date date = Date.inTerminal(true, "Digite a data:");
-        List<MedicalAppointment> mAppointmentList = FutureMedicalAppointmentDAO.seek(date);
+        List<MedicalAppointment> mAppointmentList = FutureMedicalAppointmentDAO.search(date);
 
         Terminal.clear();
         if (mAppointmentList == null) {
