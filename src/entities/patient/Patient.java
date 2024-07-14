@@ -61,14 +61,6 @@ public class Patient {
         return patient;
     }
 
-    public void in() {
-        System.err.println("Digite os seguintes dados do paciente:\n");
-
-        this.cpf = CPF.inTerminal("Digite o CPF: ");
-        System.err.println("Digite o nome: ");
-        this.name = ReadData.STRING();
-    }
-
     @Override
     public String toString() {
         return "cpf: " + cpf + " - Nome: " + name
@@ -76,7 +68,7 @@ public class Patient {
                 + " consultas realizadas.";
     }
 
-    public void printAllCare() {
+    public void printAllAppointment() {
         if (medicalAppointmentsList.size() == 0) {
             System.err.println("O paciente " + name + " ainda não fez consultas.");
             return;

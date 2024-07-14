@@ -17,8 +17,7 @@ public class MedicalAppointment {
      * <p>
      * (3) : [EMERGING] : RED
      */
-    private int typeService;
-    private int id;
+    private int typeService, id;
     private CPF cpfPatient;
     private Date dateService;
     private String reasonForService;

@@ -53,6 +53,21 @@ public class PatientDAO {
         UtilDB.closeBank();
     }
 
+    public static void update(Patient patient) {
+        String query = "UPDATE Patient SET "
+                + "nome_Patient = ?";
+
+        try {
+            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+
+            pstmt.setString(1, patient.getName());
+
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            System.err.println("Error PatientDAO: " + e.getMessage());
+        }
+    }
+
     public static Patient search(CPF cpf) {
         Patient patient = null;
         String query = "SELECT * FROM Patient WHERE cpf_Patient = ?";

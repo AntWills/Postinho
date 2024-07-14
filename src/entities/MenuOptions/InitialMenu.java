@@ -12,6 +12,10 @@ public class InitialMenu {
     private int op;
     private Date today;
 
+    public InitialMenu() {
+        this.today = new Date();
+    }
+
     public static void runInitialMenu() {
         InitialMenu initialMenu = new InitialMenu();
 
@@ -21,10 +25,6 @@ public class InitialMenu {
         } while (initialMenu.getOpInt() != 0);
 
         System.out.println("\nEncerrando programa...");
-    }
-
-    public InitialMenu() {
-        this.today = new Date();
     }
 
     public void menu() {
