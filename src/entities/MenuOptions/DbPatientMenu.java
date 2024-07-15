@@ -9,7 +9,7 @@ import entities.terminal.Terminal;
 public class DbPatientMenu {
     private int op;
 
-    public static void runDbMenu() {
+    public static void runDbPatientMenu() {
         DbPatientMenu dbMenu = new DbPatientMenu();
 
         do {
@@ -37,7 +37,7 @@ public class DbPatientMenu {
                 registerNewCleinte();
                 break;
             case 2:
-                seekPatientForCPF();
+                searchPatientForCPF();
                 break;
             case 3:
                 numberOfPatientRegistered();
@@ -63,7 +63,7 @@ public class DbPatientMenu {
         Terminal.pause();
     }
 
-    private void seekPatientForCPF() {
+    private void searchPatientForCPF() {
         CPF cpf = CPF.inTerminal(true, "Digite os dados do CPF: ");
 
         Patient patient = PatientDAO.search(cpf);

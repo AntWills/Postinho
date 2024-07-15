@@ -62,10 +62,10 @@ public class InitialMenu {
                 assistPatientToday();
                 break;
             case 5:
-                DbMedicalAppointmentMenu.runDbMedical();
+                DbMedicalAppointmentMenu.runDbMedicalAppointmentMenu();
                 break;
             case 6:
-                DbPatientMenu.runDbMenu();
+                DbPatientMenu.runDbPatientMenu();
                 break;
             case 7:
                 changeDate();

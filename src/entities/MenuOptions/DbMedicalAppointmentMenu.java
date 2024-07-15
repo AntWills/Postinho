@@ -13,7 +13,7 @@ import entities.terminal.Terminal;
 public class DbMedicalAppointmentMenu {
     private int op;
 
-    public static void runDbMedical() {
+    public static void runDbMedicalAppointmentMenu() {
         DbMedicalAppointmentMenu dbMenu = new DbMedicalAppointmentMenu();
 
         do {
