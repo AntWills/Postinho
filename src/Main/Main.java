@@ -1,3 +1,5 @@
+package Main;
+
 import dbEntities.FutureMedicalAppointmentDAO;
 import dbEntities.MedicalAppointmentDAO;
 import dbEntities.PatientDAO;
