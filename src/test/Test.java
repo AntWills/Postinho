@@ -1,9 +1,9 @@
 package test;
 
-import dbEntities.FutureMedicalAppointmentDAO;
-import dbEntities.MedicalAppointmentDAO;
-import dbEntities.PatientDAO;
-import entities.MenuOptions.*;
+import java.com.project.entity.MenuOptions.*;
+import java.model.FutureMedicalAppointmentDAO;
+import java.model.MedicalAppointmentDAO;
+import java.model.PatientDAO;
 
 public class Test {
     public static void main(String[] args) {

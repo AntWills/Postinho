@@ -1,9 +1,8 @@
 package test;
 
-import dbEntities.*;
-import entities.patient.CPF;
-import entities.patient.MedicalAppointment.*;
-
+import java.com.project.entity.patient.CPF;
+import java.com.project.entity.patient.MedicalAppointment.*;
+import java.model.*;
 import java.util.*;
 
 public class TestDAO {

@@ -1,6 +1,6 @@
 package test;
 
-import dbEntities.PatientDAO;
+import java.model.PatientDAO;
 
 public class TestConsole {
     public static void main(String[] args) {

@@ -1,6 +1,6 @@
 package test;
 
-import entities.patient.Patient;
+import java.com.project.entity.patient.Patient;
 
 public class TestPatient {
     public static void main(String[] args) {
