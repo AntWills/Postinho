@@ -2,15 +2,17 @@ package com.project.dao;
 
 import java.util.List;
 import java.util.ArrayList;
-import com.project.entity.patient.CPF;
-import com.project.entity.patient.MedicalAppointment.*;
+
+import com.project.entity.CPF;
+import com.project.entity.Date;
+import com.project.model.MedicalConsultation;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FutureMedicalAppointmentDAO {
     public static void initi() {
-        UtilDB.openBank();
+        DbConnect.openBank();
         String query = "CREATE TABLE IF NOT EXISTS "
                 + "FutureMedicalAppointment ("
                 + "id_FutureMedicalAppointment INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -20,21 +22,21 @@ public class FutureMedicalAppointmentDAO {
                 + "reason_service_FutureMedicalAppointment TEXT"
                 + ");";
         try {
-            UtilDB.execQuery(query);
+            DbConnect.execQuery(query);
         } catch (Exception e) {
             System.err.println("Error FutureMedicalCareDAO: " + e.getMessage());
         }
-        UtilDB.closeBank();
+        DbConnect.closeBank();
     }
 
-    public static void add(MedicalAppointment mc) {
+    public static void add(MedicalConsultation mc) {
         String query = "INSERT INTO FutureMedicalAppointment"
                 + "(type_FutureMedicalAppointment, cpf_patient_FutureMedicalAppointment,"
                 + "date_care_FutureMedicalAppointment, reason_service_FutureMedicalAppointment)"
                 + "VALUES (?, ?, ?, ?)";
 
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, mc.getTypeService());
             pstmt.setString(2, mc.getCpfPatient().getNumberCPF());
@@ -47,14 +49,14 @@ public class FutureMedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error FutureMedicalAppointmentDAO.add: " + e.getMessage());
         }
-        UtilDB.closeBank();
+        DbConnect.closeBank();
     }
 
     public static void delete(int id) {
         String query = "DELETE FROM FutureMedicalAppointment Where id_FutureMedicalAppointment = ?";
 
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, id);
 
@@ -64,10 +66,10 @@ public class FutureMedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error FutureMedicalAppointmentDAO.delete(int): " + e.getMessage());
         }
-        UtilDB.closeBank();
+        DbConnect.closeBank();
     }
 
-    public static void updade(int id, MedicalAppointment mAppointment) {
+    public static void updade(int id, MedicalConsultation mAppointment) {
         String query = "UPDATE FutureMedicalAppointment SET "
                 + "type_FutureMedicalAppointment = ?, "
                 + "cpf_patient_FutureMedicalAppointment = ?, "
@@ -75,7 +77,7 @@ public class FutureMedicalAppointmentDAO {
                 + "reason_service_FutureMedicalAppointment = ? "
                 + "WHERE id_FutureMedicalAppointment = " + id;
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, mAppointment.getTypeService());
             pstmt.setString(2, mAppointment.getCpfPatient().getNumberCPF());
@@ -88,16 +90,16 @@ public class FutureMedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error FutureMedicalAppointmentDAO.update: " + e.getMessage());
         }
-        UtilDB.closeBank();
+        DbConnect.closeBank();
     }
 
-    public static MedicalAppointment search(int id) {
-        MedicalAppointment mAppointment = null;
+    public static MedicalConsultation search(int id) {
+        MedicalConsultation mAppointment = null;
 
         String query = "SELECT * FROM FutureMedicalAppointment "
                 + "WHERE id_FutureMedicalAppointment = ?";
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, id);
 
@@ -110,7 +112,7 @@ public class FutureMedicalAppointmentDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                mAppointment = new MedicalAppointment(
+                mAppointment = new MedicalConsultation(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
 
@@ -120,17 +122,17 @@ public class FutureMedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error FutureMedicalAppointmentDAO.seek(int): " + e.getMessage());
         }
-        UtilDB.closeBank();
+        DbConnect.closeBank();
         return mAppointment;
     }
 
-    public static List<MedicalAppointment> search(CPF cpf) {
-        List<MedicalAppointment> list = new ArrayList<>();
+    public static List<MedicalConsultation> search(CPF cpf) {
+        List<MedicalConsultation> list = new ArrayList<>();
 
         String query = "SELECT * FROM FutureMedicalAppointment "
                 + "WHERE cpf_patient_FutureMedicalAppointment = ?";
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setString(1, cpf.getNumberCPF());
 
@@ -143,7 +145,7 @@ public class FutureMedicalAppointmentDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                MedicalAppointment mc = new MedicalAppointment(
+                MedicalConsultation mc = new MedicalConsultation(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
                 list.add(mc);
@@ -156,14 +158,14 @@ public class FutureMedicalAppointmentDAO {
         return list;
     }
 
-    public static MedicalAppointment search(int id, CPF cpf) {
-        MedicalAppointment mAppointment = null;
+    public static MedicalConsultation search(int id, CPF cpf) {
+        MedicalConsultation mAppointment = null;
 
         String query = "SELECT * FROM FutureMedicalAppointment "
                 + "WHERE id_FutureMedicalAppointment = ? AND " +
                 "cpf_patient_FutureMedicalAppointment ?";
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, id);
             pstmt.setString(2, cpf.getNumberCPF());
@@ -177,7 +179,7 @@ public class FutureMedicalAppointmentDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                mAppointment = new MedicalAppointment(
+                mAppointment = new MedicalConsultation(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
 
@@ -187,17 +189,17 @@ public class FutureMedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error FutureMedicalAppointmentDAO.seek(int): " + e.getMessage());
         }
-        UtilDB.closeBank();
+        DbConnect.closeBank();
         return mAppointment;
     }
 
-    public static List<MedicalAppointment> search(Date date) {
-        List<MedicalAppointment> list = new ArrayList<>();
+    public static List<MedicalConsultation> search(Date date) {
+        List<MedicalConsultation> list = new ArrayList<>();
 
         String query = "SELECT * FROM FutureMedicalAppointment "
                 + "WHERE date_care_FutureMedicalAppointment = ?";
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setString(1, date.toString());
 
@@ -210,7 +212,7 @@ public class FutureMedicalAppointmentDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                MedicalAppointment mc = new MedicalAppointment(
+                MedicalConsultation mc = new MedicalConsultation(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
                 list.add(mc);
@@ -220,7 +222,7 @@ public class FutureMedicalAppointmentDAO {
         } catch (Exception e) {
             System.err.println("Error FutureMedicalAppointmentDAO.seek(Date): " + e.getMessage());
         }
-        UtilDB.closeBank();
+        DbConnect.closeBank();
         return list;
     }
 }

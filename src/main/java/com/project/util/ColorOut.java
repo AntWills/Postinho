@@ -1,4 +1,4 @@
-package com.project.entity.terminal;
+package com.project.util;
 
 public class ColorOut {
     public static final String reset = "\033[0m";

@@ -1,9 +1,10 @@
-package com.project.entity.MenuOptions;
+package com.project.view.Menu;
 
-import com.project.entity.patient.CPF;
-import com.project.entity.patient.Patient;
-import com.project.entity.terminal.ReadData;
-import com.project.entity.terminal.Terminal;
+import com.project.entity.CPF;
+import com.project.model.Patient;
+import com.project.services.PatientService;
+import com.project.util.ReadDataFromTerminal;
+import com.project.util.Terminal;
 import com.project.dao.PatientDAO;
 
 public class DbPatientMenu {
@@ -28,7 +29,7 @@ public class DbPatientMenu {
         System.out.println("[0] : Voltar.\n");
 
         System.out.print("Digite uma das opções: ");
-        this.op = ReadData.INT();
+        this.op = ReadDataFromTerminal.INT();
     }
 
     public void options() {
@@ -51,7 +52,7 @@ public class DbPatientMenu {
         Terminal.clear();
 
         System.out.println("-- Cadastrando novo paciente no banco --\n");
-        Patient patient = Patient.inTerminal(true, "Digite os dados do patiente:\n");
+        Patient patient = PatientService.readDataInTerminal("Digite os dados do patiente:\n");
 
         if (!PatientDAO.existPatient(patient.geCpftId())) {
             PatientDAO.add(patient);
@@ -64,7 +65,7 @@ public class DbPatientMenu {
     }
 
     private void searchPatientForCPF() {
-        CPF cpf = CPF.inTerminal(true, "Digite os dados do CPF: ");
+        CPF cpf = null;
 
         Patient patient = PatientDAO.search(cpf);
 

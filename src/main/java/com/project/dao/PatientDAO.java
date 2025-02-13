@@ -1,13 +1,14 @@
 package com.project.dao;
 
-import com.project.entity.patient.*;
+import com.project.entity.CPF;
+import com.project.model.Patient;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class PatientDAO {
     public static void initi() {
-        UtilDB.openBank();
+        DbConnect.openBank();
         MedicalAppointmentDAO.initi();
         FutureMedicalAppointmentDAO.initi();
         String query = "CREATE TABLE IF NOT EXISTS "
@@ -16,7 +17,7 @@ public class PatientDAO {
                 + ");";
 
         try {
-            UtilDB.execQuery(query);
+            DbConnect.execQuery(query);
         } catch (Exception e) {
             System.err.println("Error PatientDAO: " + e.getMessage());
         }
@@ -27,7 +28,7 @@ public class PatientDAO {
                 + "(cpf_Patient, nome_Patient)"
                 + "VALUES (?, ?)";
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setString(1, patient.geCpftId().getNumberCPF());
             pstmt.setString(2, patient.getName());
@@ -36,20 +37,20 @@ public class PatientDAO {
         } catch (Exception e) {
             System.err.println("Error PatientDAO: " + e.getMessage());
         }
-        UtilDB.closeBank();
+        DbConnect.closeBank();
     }
 
     public static void delete(CPF cpf) {
         String query = "DELETE FROM Patient WHERE cpf_Patient = ?";
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
             pstmt.setString(1, cpf.getNumberCPF());
             pstmt.executeUpdate();
         } catch (Exception e) {
             System.err.println("Error PatientDAO: " + e.getMessage());
         }
 
-        UtilDB.closeBank();
+        DbConnect.closeBank();
     }
 
     public static void update(Patient patient) {
@@ -57,7 +58,7 @@ public class PatientDAO {
                 + "nome_Patient = ?";
 
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setString(1, patient.getName());
 
@@ -72,7 +73,7 @@ public class PatientDAO {
         String query = "SELECT * FROM Patient WHERE cpf_Patient = ?";
 
         try {
-            PreparedStatement pstmt = UtilDB.getConnection().prepareStatement(query);
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
             pstmt.setString(1, cpf.getNumberCPF());
             ResultSet rSet = pstmt.executeQuery();
 
@@ -86,7 +87,7 @@ public class PatientDAO {
             System.err.println("Error PatientDAO.seek: " + e.getMessage());
         }
 
-        UtilDB.closeBank();
+        DbConnect.closeBank();
         return patient;
     }
 
@@ -103,7 +104,7 @@ public class PatientDAO {
         int count = 0;
 
         try {
-            Statement stmt = UtilDB.getConnection().createStatement();
+            Statement stmt = DbConnect.getConnection().createStatement();
             ResultSet rSet = stmt.executeQuery(query);
 
             if (rSet.next())
@@ -111,7 +112,7 @@ public class PatientDAO {
         } catch (Exception e) {
             System.err.println("Error PatientDAO.numberPatient: " + e.getMessage());
         }
-        UtilDB.closeBank();
+        DbConnect.closeBank();
         return count;
     }
 }

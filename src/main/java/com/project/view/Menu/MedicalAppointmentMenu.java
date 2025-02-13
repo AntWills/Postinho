@@ -1,20 +1,20 @@
-package com.project.entity.MenuOptions;
+package com.project.view.Menu;
 
-import com.project.entity.patient.CPF;
-import com.project.entity.patient.MedicalAppointment.Date;
-import com.project.entity.patient.MedicalAppointment.MedicalAppointment;
-import com.project.entity.terminal.ReadData;
-import com.project.entity.terminal.Terminal;
+import com.project.entity.CPF;
+import com.project.entity.Date;
+import com.project.model.MedicalConsultation;
+import com.project.util.ReadDataFromTerminal;
+import com.project.util.Terminal;
 
 public class MedicalAppointmentMenu {
     private int op;
-    private MedicalAppointment mAppointment;
+    private MedicalConsultation mAppointment;
 
-    public MedicalAppointmentMenu(MedicalAppointment medicalAppointment) {
+    public MedicalAppointmentMenu(MedicalConsultation medicalAppointment) {
         this.mAppointment = medicalAppointment;
     }
 
-    public static void runMedicalAppointmentMenu(MedicalAppointment medicalAppointment) {
+    public static void runMedicalAppointmentMenu(MedicalConsultation medicalAppointment) {
         MedicalAppointmentMenu mAppointmentMenu = new MedicalAppointmentMenu(medicalAppointment);
 
         do {
@@ -36,7 +36,7 @@ public class MedicalAppointmentMenu {
         System.out.println("[0] : Voltar.\n");
 
         System.out.print("Digite uma das opções para alterar: ");
-        this.op = ReadData.INT();
+        this.op = ReadDataFromTerminal.INT();
     }
 
     public void options() {
@@ -67,23 +67,26 @@ public class MedicalAppointmentMenu {
         System.out.println("(3) : [EMERGING] : Red\n");
 
         System.out.print("Digite o tipo: ");
-        this.mAppointment.setTypeService(ReadData.INT());
+        this.mAppointment.setTypeService(ReadDataFromTerminal.INT());
     }
 
     private void updateCPF() {
-        this.mAppointment.setCpfPatient(CPF.inTerminal(true,
-                "Digite o novo CPF: "));
+        // this.mAppointment.setCpfPatient(CPF.inTerminal(true,
+        // "Digite o novo CPF: "));
     }
 
     private void updateDate() {
-        this.mAppointment.setDateService(Date.inTerminal(true,
-                "Digite a nova data da consulta: "));
+        System.out.println("Digite a nova data da consulta: ");
+        String dateStr = ReadDataFromTerminal.STRING();
+        Date date = new Date(dateStr);
+
+        this.mAppointment.setDateService(date);
     }
 
     private void updateReazon() {
         Terminal.clear();
         System.out.print("\nDigite a razão da consulta: ");
-        this.mAppointment.setReasonForService(ReadData.STRING());
+        this.mAppointment.setReasonForService(ReadDataFromTerminal.STRING());
     }
 
     public int getOp() {

@@ -1,9 +1,9 @@
-package com.project.entity.MenuOptions;
+package com.project.view.Menu;
 
-import com.project.entity.patient.Patient;
-import com.project.entity.patient.MedicalAppointment.MedicalAppointment;
-import com.project.entity.terminal.ReadData;
-import com.project.entity.terminal.Terminal;
+import com.project.model.MedicalConsultation;
+import com.project.model.Patient;
+import com.project.util.ReadDataFromTerminal;
+import com.project.util.Terminal;
 import com.project.dao.*;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class PatientMenu {
         System.out.println("[0] : Voltar.\n");
 
         System.out.print("Digite uma das opções: ");
-        this.op = ReadData.INT();
+        this.op = ReadDataFromTerminal.INT();
     }
 
     public void options() {
@@ -61,14 +61,14 @@ public class PatientMenu {
 
     private void printAppointmentPatient() {
         Terminal.clear();
-        List<MedicalAppointment> list = this.patient.getMedicalAppointmentsList();
+        List<MedicalConsultation> list = this.patient.getConsultations();
 
         if (list.size() == 0) {
             System.out.println("Não há consultas realizadas para este paciente.\n");
         } else {
             System.out.println("Consultas realizadas pelo paciente: " + this.patient.getName() + "\n");
 
-            for (MedicalAppointment mAppointment : list) {
+            for (MedicalConsultation mAppointment : list) {
                 System.out.println(mAppointment + "\n");
             }
         }
@@ -77,14 +77,14 @@ public class PatientMenu {
 
     private void printFutureAppointmentPatient() {
         Terminal.clear();
-        List<MedicalAppointment> list = FutureMedicalAppointmentDAO.search(this.patient.geCpftId());
+        List<MedicalConsultation> list = FutureMedicalAppointmentDAO.search(this.patient.geCpftId());
 
         if (list.size() == 0) {
             System.out.println("Não há consultas agendadas para este paciente.\n");
         } else {
             System.out.println("Consultas marcadas pelo paciente: " + this.patient.getName() + "\n");
 
-            for (MedicalAppointment mAppointment : list) {
+            for (MedicalConsultation mAppointment : list) {
                 System.out.println(mAppointment + "\n");
             }
         }
@@ -94,9 +94,9 @@ public class PatientMenu {
     private void updateMedicalAppointment() {
         Terminal.clear();
         System.out.print("Digite o id da consulta: ");
-        int id = ReadData.INT();
+        int id = ReadDataFromTerminal.INT();
 
-        MedicalAppointment mAppointment = patient.getMedicalAppointmentID(id);
+        MedicalConsultation mAppointment = patient.getMedicalAppointmentID(id);
 
         if (mAppointment == null) {
             Terminal.clear();
@@ -113,9 +113,9 @@ public class PatientMenu {
     private void updateFutureMedicalAppointment() {
         Terminal.clear();
         System.out.print("Digite o id da consulta: ");
-        int id = ReadData.INT();
+        int id = ReadDataFromTerminal.INT();
 
-        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.search(id, patient.geCpftId());
+        MedicalConsultation mAppointment = FutureMedicalAppointmentDAO.search(id, patient.geCpftId());
 
         if (mAppointment == null) {
             Terminal.clear();

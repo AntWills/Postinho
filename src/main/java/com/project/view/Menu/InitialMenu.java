@@ -1,8 +1,9 @@
-package com.project.entity.MenuOptions;
+package com.project.view.Menu;
 
-import com.project.entity.patient.MedicalAppointment.*;
-import com.project.entity.terminal.ReadData;
-import com.project.entity.terminal.Terminal;
+import com.project.entity.*;
+import com.project.model.MedicalConsultation;
+import com.project.util.ReadDataFromTerminal;
+import com.project.util.Terminal;
 import com.project.dao.*;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class InitialMenu {
         System.out.println("[0] : Encerrar programa.");
 
         System.out.print("\nDigite uma das opções: ");
-        op = ReadData.INT();
+        op = ReadDataFromTerminal.INT();
     }
 
     public int getOpInt() {
@@ -66,7 +67,7 @@ public class InitialMenu {
                 DbPatientMenu.runDbPatientMenu();
                 break;
             case 7:
-                changeDate();
+                // changeDate();
                 break;
             case 0:
                 break;
@@ -77,17 +78,42 @@ public class InitialMenu {
     }
 
     private void registerNewAppointment() {
-        MedicalAppointment mAppointment = MedicalAppointment.inTerminal(true, "## Insira os dados da consulta ##\n");
-        MedicalAppointmentDAO.add(mAppointment);
+
+        // MedicalConsultation mAppointment = MedicalConsultation.inTerminal(true, "##
+        // Insira os dados da consulta ##\n");
+        // MedicalAppointmentDAO.add(mAppointment);
     }
 
     private void scheduleNewAppointment() {
-        MedicalAppointment mAppointment = MedicalAppointment.inTerminal(true, "## Insira os dados da consulta ##\n");
+
+        System.out.println("Tipos de atendimento: ");
+        System.out.println("(0) : [NOT URGENT] : Blue");
+        System.out.println("(1) : [LITTLE URGENT] : Green");
+        System.out.println("(2) : [URGENT] : Yellow");
+        System.out.println("(3) : [EMERGING] : Red\n");
+
+        System.out.print("Digite o tipo: ");
+        int type = ReadDataFromTerminal.INT();
+
+        System.out.println("Digite o CPF: ");
+        String cpf = ReadDataFromTerminal.STRING();
+
+        System.out.println("Digite a data: ");
+        String date = ReadDataFromTerminal.STRING();
+
+        System.out.print("\nDigite a razão da consulta (Opcional): ");
+        String reaso = ReadDataFromTerminal.STRING();
+
+        MedicalConsultation mAppointment = new MedicalConsultation(type,
+                new CPF(cpf),
+                new Date(date),
+                reaso);
+
         FutureMedicalAppointmentDAO.add(mAppointment);
     }
 
     private void appointmentRegisterToday() {
-        List<MedicalAppointment> mcList = FutureMedicalAppointmentDAO.search(today);
+        List<MedicalConsultation> mcList = FutureMedicalAppointmentDAO.search(today);
 
         Terminal.clear();
         if (mcList.size() == 0) {
@@ -95,7 +121,7 @@ public class InitialMenu {
         } else {
             System.out.println("-- Consultas para hoje --\n");
 
-            for (MedicalAppointment mc : mcList) {
+            for (MedicalConsultation mc : mcList) {
                 System.out.println(mc + "\n");
             }
             System.out.println("Um total de " + mcList.size()
@@ -109,8 +135,8 @@ public class InitialMenu {
         Terminal.clear();
         System.out.println("-- Atendendo consulta marcada para " + today + " --\n");
         System.out.print("Digite o Id da consulta: ");
-        int id = ReadData.INT();
-        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.search(id);
+        int id = ReadDataFromTerminal.INT();
+        MedicalConsultation mAppointment = FutureMedicalAppointmentDAO.search(id);
 
         if (mAppointment == null) {
             System.out.println("\nId da consulta não encontrado.\n");
@@ -120,7 +146,7 @@ public class InitialMenu {
 
         System.out.print("\nDeseja antender está consulta?\n\n" + mAppointment
                 + "\n\n:[y][n]");
-        if (ReadData.CHAR() == 'y') {
+        if (ReadDataFromTerminal.CHAR() == 'y') {
             FutureMedicalAppointmentDAO.delete(id);
             MedicalAppointmentDAO.add(mAppointment);
 
@@ -130,7 +156,7 @@ public class InitialMenu {
         Terminal.pause();
     }
 
-    private void changeDate() {
-        this.today = Date.inTerminal(true, "Digite a nova data: ");
-    }
+    // private void changeDate() {
+    // this.today = Date.inTerminal(true, "Digite a nova data: ");
+    // }
 }

@@ -1,4 +1,4 @@
-package com.project.entity.terminal;
+package com.project.util;
 
 public class Terminal {
     public static void clear() {
@@ -8,6 +8,6 @@ public class Terminal {
 
     public static void pause() {
         System.err.print("Pressione [ENTER] para continuar...");
-        ReadData.STRING();
+        ReadDataFromTerminal.STRING();
     }
 }

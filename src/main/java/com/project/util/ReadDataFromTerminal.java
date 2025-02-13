@@ -1,8 +1,8 @@
-package com.project.entity.terminal;
+package com.project.util;
 
 import java.util.Scanner;
 
-public class ReadData {
+public class ReadDataFromTerminal {
     private static Scanner input = new Scanner(System.in);
 
     public static int INT() {
@@ -33,7 +33,7 @@ public class ReadData {
 
     public static char CHAR() {
         try {
-            String charString = ReadData.STRING();
+            String charString = ReadDataFromTerminal.STRING();
             if (charString.length() > 1) {
                 System.out.println("ERROR : len = " + charString.length());
                 return '0';

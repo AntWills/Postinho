@@ -1,13 +1,7 @@
 package com.project;
 
-import com.project.entity.MenuOptions.InitialMenu;
-import com.project.dao.*;;
-
-// public class Main {
-//     public static void main(String[] args) {
-//         System.out.println("Hello world!");
-//     }
-// }
+import com.project.dao.*;
+import com.project.view.Menu.InitialMenu;
 
 public class Main {
     public static void main(String[] args) {

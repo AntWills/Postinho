@@ -2,7 +2,7 @@ package com.project.dao;
 
 import java.sql.*;
 
-public class UtilDB {
+public class DbConnect {
     private static Connection connection;
 
     public static void openBank() {

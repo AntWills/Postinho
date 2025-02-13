@@ -1,13 +1,13 @@
-package test;
+// package test;
 
-import java.com.project.entity.patient.CPF;
-import java.com.project.entity.patient.MedicalAppointment.*;
-import java.model.*;
-import java.util.*;
+// import java.com.project.entity.patient.CPF;
+// import java.com.project.entity.patient.MedicalAppointment.*;
+// import java.model.*;
+// import java.util.*;
 
 public class TestDAO {
     public static void main(String[] args) {
-        MedicalAppointmentDAO.initi();
+        // MedicalAppointmentDAO.initi();
 
         // MedicalCareDAO.add(new MedicalCare(0,
         // new CPF("11122233300"),
@@ -34,10 +34,11 @@ public class TestDAO {
          * };
          */
 
-        List<MedicalAppointment> mcList = MedicalAppointmentDAO.search(new CPF("000.000.000-01"));
+        // List<MedicalAppointment> mcList = MedicalAppointmentDAO.search(new
+        // CPF("000.000.000-01"));
 
-        for (int i = 0; i < mcList.size(); i++) {
-            System.out.println(mcList.get(i) + "\n");
-        }
+        // for (int i = 0; i < mcList.size(); i++) {
+        // System.out.println(mcList.get(i) + "\n");
+        // }
     }
 }

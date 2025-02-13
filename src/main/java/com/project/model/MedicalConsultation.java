@@ -1,36 +1,19 @@
-package com.project.entity.patient.MedicalAppointment;
+package com.project.model;
 
-import com.project.entity.patient.CPF;
-import com.project.entity.terminal.*;
+import com.project.entity.CPF;
+import com.project.entity.Date;
+import com.project.util.ColorOut;
 
-public class MedicalAppointment {
-    /**
-     * # data reading #
-     * <p>
-     * number form : type servive : color form
-     * <p>
-     * (0) : [NOT URGENT] : Blue
-     * <P>
-     * (1) : [LITTLE URGENT] : Green
-     * <p>
-     * (2) : [URGENT] : Yellow
-     * <p>
-     * (3) : [EMERGING] : RED
-     */
+public class MedicalConsultation {
     private int typeService, id;
     private CPF cpfPatient;
     private Date dateService;
     private String reasonForService;
 
-    public MedicalAppointment() {
-        this.id = 0;
-        this.typeService = 0;
-        this.cpfPatient = new CPF();
-        this.dateService = new Date();
-        this.reasonForService = "";
+    public MedicalConsultation() {
     }
 
-    public MedicalAppointment(int id, int typeService,
+    public MedicalConsultation(int id, int typeService,
             CPF cpf, Date dateService,
             String reasonForService) {
         this.id = id;
@@ -40,60 +23,13 @@ public class MedicalAppointment {
         this.reasonForService = reasonForService;
     }
 
-    public MedicalAppointment(int typeService,
+    public MedicalConsultation(int typeService,
             CPF cpf, Date dateService,
             String reasonForService) {
-        this.id = 0;
         this.typeService = typeService;
         this.cpfPatient = cpf;
         this.dateService = dateService;
         this.reasonForService = reasonForService;
-    }
-
-    private static void inTerminal(MedicalAppointment mAppointment) {
-        System.out.println("Tipos de atendimento: ");
-        System.out.println("(0) : [NOT URGENT] : Blue");
-        System.out.println("(1) : [LITTLE URGENT] : Green");
-        System.out.println("(2) : [URGENT] : Yellow");
-        System.out.println("(3) : [EMERGING] : Red\n");
-
-        System.out.print("Digite o tipo: ");
-        mAppointment.setTypeService(ReadData.INT());
-
-        mAppointment.setCpfPatient(CPF.inTerminal("Digite os dados do CPF: "));
-        mAppointment.setDateService(Date.inTerminal("Digite a data:"));
-
-        System.out.print("\nDigite a razão da consulta: ");
-        mAppointment.setReasonForService(ReadData.STRING());
-    }
-
-    public static MedicalAppointment inTerminal(String msg) {
-        MedicalAppointment mAppointment = new MedicalAppointment();
-
-        System.out.println(msg);
-        MedicalAppointment.inTerminal(mAppointment);
-
-        return mAppointment;
-    }
-
-    public static MedicalAppointment inTerminal(boolean activateLoop, String msg) {
-        if (!activateLoop)
-            return MedicalAppointment.inTerminal(msg);
-
-        MedicalAppointment mAppointment = new MedicalAppointment();
-
-        char confirmation = '0';
-        do {
-            Terminal.clear();
-            System.out.println(msg);
-            MedicalAppointment.inTerminal(mAppointment);
-            Terminal.clear();
-
-            System.out.print("\nOs dados da consulta::\n\n" + mAppointment.toString() + "\n\n::estão corretos? [y][n]");
-            confirmation = ReadData.CHAR();
-        } while (confirmation != 'y');
-
-        return mAppointment;
     }
 
     @Override

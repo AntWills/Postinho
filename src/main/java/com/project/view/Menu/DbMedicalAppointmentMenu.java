@@ -1,10 +1,11 @@
-package com.project.entity.MenuOptions;
+package com.project.view.Menu;
 
-import com.project.entity.patient.CPF;
-// import java.com.project.entity.patient.MedicalAppointment;
-import com.project.entity.patient.MedicalAppointment.*;
-import com.project.entity.terminal.ReadData;
-import com.project.entity.terminal.Terminal;
+import com.project.entity.CPF;
+import com.project.entity.Date;
+import com.project.model.MedicalConsultation;
+import com.project.util.ReadDataFromTerminal;
+import com.project.util.Terminal;
+
 import java.util.List;
 
 import com.project.dao.*;
@@ -35,7 +36,7 @@ public class DbMedicalAppointmentMenu {
         System.out.println("[0] : Voltar.\n");
 
         System.out.print("Digite uma das opções: ");
-        this.op = ReadData.INT();
+        this.op = ReadDataFromTerminal.INT();
     }
 
     public void options() {
@@ -72,7 +73,7 @@ public class DbMedicalAppointmentMenu {
     private void searchMedicalAppointmentId() {
         Terminal.clear();
         System.out.println("Digite o id da consulta: ");
-        MedicalAppointment mAppointment = MedicalAppointmentDAO.search(ReadData.INT());
+        MedicalConsultation mAppointment = MedicalAppointmentDAO.search(ReadDataFromTerminal.INT());
 
         Terminal.clear();
         if (mAppointment == null) {
@@ -81,21 +82,23 @@ public class DbMedicalAppointmentMenu {
             System.out.println("Dados da consulta:\n\n" + mAppointment + "\n");
 
             System.out.println("Dejeja editar está consulta?[y][n]");
-            if (ReadData.CHAR() == 'y')
+            if (ReadDataFromTerminal.CHAR() == 'y')
                 MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
         }
     }
 
     private void searchMedicalAppointmentCpf() {
-        CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
-        List<MedicalAppointment> mAppointmentList = MedicalAppointmentDAO.search(cpf);
+        // CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
+
+        CPF cpf = null;
+        List<MedicalConsultation> mAppointmentList = MedicalAppointmentDAO.search(cpf);
 
         Terminal.clear();
         if (mAppointmentList == null) {
             System.out.println("Nenhuma consulta foi encontrada.\n");
         } else {
             System.out.println("-- Consultas com CPF: " + cpf + " --\n");
-            for (MedicalAppointment mAppointment : mAppointmentList) {
+            for (MedicalConsultation mAppointment : mAppointmentList) {
                 System.out.println(mAppointment + "\n");
             }
         }
@@ -103,15 +106,18 @@ public class DbMedicalAppointmentMenu {
     }
 
     private void searchMedicalAppointmentDate() {
-        Date date = Date.inTerminal(true, "Digite a data:");
-        List<MedicalAppointment> mAppointmentList = MedicalAppointmentDAO.search(date);
+        System.out.println("Digite a data: ");
+        String dateStr = ReadDataFromTerminal.STRING();
+        Date date = new Date(dateStr);
+
+        List<MedicalConsultation> mAppointmentList = MedicalAppointmentDAO.search(date);
 
         Terminal.clear();
         if (mAppointmentList == null) {
             System.out.println("Nenhuma consulta foi encontrada.\n");
         } else {
             System.out.println("-- Consultas com a data: " + date + " --\n");
-            for (MedicalAppointment mAppointment : mAppointmentList) {
+            for (MedicalConsultation mAppointment : mAppointmentList) {
                 System.out.println(mAppointment + "\n");
             }
         }
@@ -121,7 +127,7 @@ public class DbMedicalAppointmentMenu {
     private void searchFutureMedicalAppointmentId() {
         Terminal.clear();
         System.out.println("Digite o id da consulta: ");
-        MedicalAppointment mAppointment = FutureMedicalAppointmentDAO.search(ReadData.INT());
+        MedicalConsultation mAppointment = FutureMedicalAppointmentDAO.search(ReadDataFromTerminal.INT());
 
         Terminal.clear();
         if (mAppointment == null) {
@@ -130,21 +136,22 @@ public class DbMedicalAppointmentMenu {
             System.out.println("Dados da consulta:\n\n" + mAppointment + "\n");
 
             System.out.println("Dejeja editar está consulta?[y][n]");
-            if (ReadData.CHAR() == 'y')
+            if (ReadDataFromTerminal.CHAR() == 'y')
                 MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
         }
     }
 
     private void searchFutureMedicalAppointmentCpf() {
-        CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
-        List<MedicalAppointment> mAppointmentList = FutureMedicalAppointmentDAO.search(cpf);
+        // CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
+        CPF cpf = null;
+        List<MedicalConsultation> mAppointmentList = FutureMedicalAppointmentDAO.search(cpf);
 
         Terminal.clear();
         if (mAppointmentList == null) {
             System.out.println("Nenhuma consulta foi encontrada.\n");
         } else {
             System.out.println("-- Consultas com CPF: " + cpf + " --\n");
-            for (MedicalAppointment mAppointment : mAppointmentList) {
+            for (MedicalConsultation mAppointment : mAppointmentList) {
                 System.out.println(mAppointment + "\n");
             }
         }
@@ -152,15 +159,18 @@ public class DbMedicalAppointmentMenu {
     }
 
     private void searchFutureMedicalAppointmentDate() {
-        Date date = Date.inTerminal(true, "Digite a data:");
-        List<MedicalAppointment> mAppointmentList = FutureMedicalAppointmentDAO.search(date);
+        System.out.println("Digite a data: ");
+        String dateStr = ReadDataFromTerminal.STRING();
+        Date date = new Date(dateStr);
+
+        List<MedicalConsultation> mAppointmentList = FutureMedicalAppointmentDAO.search(date);
 
         Terminal.clear();
         if (mAppointmentList == null) {
             System.out.println("Nenhuma consulta foi encontrada.\n");
         } else {
             System.out.println("-- Consultas com a data: " + date + " --\n");
-            for (MedicalAppointment mAppointment : mAppointmentList) {
+            for (MedicalConsultation mAppointment : mAppointmentList) {
                 System.out.println(mAppointment + "\n");
             }
         }
