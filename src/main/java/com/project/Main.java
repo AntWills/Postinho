@@ -6,7 +6,7 @@ import com.project.view.Menu.InitialMenu;
 public class Main {
     public static void main(String[] args) {
         PatientDAO.initi();
-        MedicalAppointmentDAO.initi();
+        MedicalConsultationDAO.initi();
         FutureMedicalAppointmentDAO.initi();
 
         InitialMenu.runInitialMenu();

@@ -1,12 +1,12 @@
 package com.project.model;
 
-import com.project.entity.CPF;
+import com.project.entity.Cpf;
 import com.project.entity.Date;
 import com.project.util.ColorOut;
 
 public class MedicalConsultation {
     private int typeService, id;
-    private CPF cpfPatient;
+    private Cpf cpfPatient;
     private Date dateService;
     private String reasonForService;
 
@@ -14,7 +14,7 @@ public class MedicalConsultation {
     }
 
     public MedicalConsultation(int id, int typeService,
-            CPF cpf, Date dateService,
+            Cpf cpf, Date dateService,
             String reasonForService) {
         this.id = id;
         this.typeService = typeService;
@@ -24,7 +24,7 @@ public class MedicalConsultation {
     }
 
     public MedicalConsultation(int typeService,
-            CPF cpf, Date dateService,
+            Cpf cpf, Date dateService,
             String reasonForService) {
         this.typeService = typeService;
         this.cpfPatient = cpf;
@@ -82,11 +82,11 @@ public class MedicalConsultation {
         this.typeService = typeService;
     }
 
-    public CPF getCpfPatient() {
+    public Cpf getCpfPatient() {
         return cpfPatient;
     }
 
-    public void setCpfPatient(CPF cpf) {
+    public void setCpfPatient(Cpf cpf) {
         this.cpfPatient = cpf;
     }
 

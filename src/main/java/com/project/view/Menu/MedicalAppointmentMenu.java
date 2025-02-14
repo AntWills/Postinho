@@ -1,7 +1,7 @@
 package com.project.view.Menu;
 
-import com.project.entity.CPF;
 import com.project.entity.Date;
+import com.project.exception.InvalidDateException;
 import com.project.model.MedicalConsultation;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
@@ -78,7 +78,16 @@ public class MedicalAppointmentMenu {
     private void updateDate() {
         System.out.println("Digite a nova data da consulta: ");
         String dateStr = ReadDataFromTerminal.STRING();
-        Date date = new Date(dateStr);
+        Date date = new Date();
+
+        try {
+            date.setData(dateStr);
+        } catch (InvalidDateException e) {
+            System.out.println("## Erro ##");
+            System.out.println(e.getMessage());
+
+            return;
+        }
 
         this.mAppointment.setDateService(date);
     }

@@ -1,6 +1,8 @@
 package com.project.view.Menu;
 
 import com.project.entity.*;
+import com.project.exception.InvalidCpfException;
+import com.project.exception.InvalidDateException;
 import com.project.model.MedicalConsultation;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
@@ -104,12 +106,29 @@ public class InitialMenu {
         System.out.print("\nDigite a razão da consulta (Opcional): ");
         String reaso = ReadDataFromTerminal.STRING();
 
-        MedicalConsultation mAppointment = new MedicalConsultation(type,
-                new CPF(cpf),
-                new Date(date),
-                reaso);
+        MedicalConsultation mConsultation = new MedicalConsultation();
 
-        FutureMedicalAppointmentDAO.add(mAppointment);
+        try {
+            mConsultation.setTypeService(type);
+            mConsultation.setCpfPatient(new Cpf(cpf));
+            mConsultation.setDateService(new Date(date));
+            mConsultation.setReasonForService(reaso);
+
+            FutureMedicalAppointmentDAO.add(mConsultation);
+        } catch (InvalidCpfException e) {
+            System.out.println("## Erro ##");
+            System.out.println("- Cpf digitado de forma incorreta.");
+            System.out.println("- O cpf é invalido.");
+
+            return;
+        } catch (InvalidDateException e) {
+            System.out.println("## Erro ##");
+            System.out.println(e.getMessage());
+
+            return;
+        }
+
+        MedicalConsultationDAO.add(mConsultation);
     }
 
     private void appointmentRegisterToday() {
@@ -148,7 +167,7 @@ public class InitialMenu {
                 + "\n\n:[y][n]");
         if (ReadDataFromTerminal.CHAR() == 'y') {
             FutureMedicalAppointmentDAO.delete(id);
-            MedicalAppointmentDAO.add(mAppointment);
+            MedicalConsultationDAO.add(mAppointment);
 
             System.out.println("Paciente atendido, seu id da consulta foi atualizado.\n\n");
         } else

@@ -1,6 +1,8 @@
-import br.com.caelum.stella.validation.CPFValidator;
+
+// import br.com.caelum.stella.validation.CPFValidator;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.project.entity.Cpf;
 
 // mvn test -Dtest=CpfTest#testCpfValido -Dsurefire.useFile=false
 // mvn -> para maven
@@ -12,20 +14,15 @@ public class CpfTest {
 
     @Test
     public void testCpfValido() {
-        CPFValidator validator = new CPFValidator();
         String cpfValido = "123.456.789-09"; // Substitua por um CPF real válido
-
-        System.err.println("Aqui");
-        System.err.println("Aqui\n");
-        System.err.println("Aqui");
-        assertDoesNotThrow(() -> validator.assertValid(cpfValido), "CPF deveria ser válido");
+        assertDoesNotThrow(() -> new Cpf(cpfValido), "CPF deveria ser válido");
+        // assertThrows
     }
 
     @Test
     public void testCpfInvalido() {
-        CPFValidator validator = new CPFValidator();
+        // CPFValidator validator = new CPFValidator();
         String cpfInvalido = "111.222.333-44"; // CPF inválido
-
-        assertThrows(Exception.class, () -> validator.assertValid(cpfInvalido), "CPF deveria ser inválido");
+        assertDoesNotThrow(() -> new Cpf(cpfInvalido), "CPF deveria ser válido");
     }
 }

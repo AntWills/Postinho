@@ -1,6 +1,6 @@
 package com.project.dao;
 
-import com.project.entity.CPF;
+import com.project.entity.Cpf;
 import com.project.model.Patient;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class PatientDAO {
     public static void initi() {
         DbConnect.openBank();
-        MedicalAppointmentDAO.initi();
+        MedicalConsultationDAO.initi();
         FutureMedicalAppointmentDAO.initi();
         String query = "CREATE TABLE IF NOT EXISTS "
                 + "Patient(cpf_Patient CHAR(11) PRIMARY KEY,"
@@ -30,7 +30,7 @@ public class PatientDAO {
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
-            pstmt.setString(1, patient.geCpftId().getNumberCPF());
+            pstmt.setString(1, patient.geCpft().getStringCpf());
             pstmt.setString(2, patient.getName());
 
             pstmt.executeUpdate();
@@ -40,11 +40,11 @@ public class PatientDAO {
         DbConnect.closeBank();
     }
 
-    public static void delete(CPF cpf) {
+    public static void delete(Cpf cpf) {
         String query = "DELETE FROM Patient WHERE cpf_Patient = ?";
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, cpf.getNumberCPF());
+            pstmt.setString(1, cpf.getStringCpf());
             pstmt.executeUpdate();
         } catch (Exception e) {
             System.err.println("Error PatientDAO: " + e.getMessage());
@@ -68,20 +68,20 @@ public class PatientDAO {
         }
     }
 
-    public static Patient search(CPF cpf) {
+    public static Patient search(Cpf cpf) {
         Patient patient = null;
         String query = "SELECT * FROM Patient WHERE cpf_Patient = ?";
 
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, cpf.getNumberCPF());
+            pstmt.setString(1, cpf.getStringCpf());
             ResultSet rSet = pstmt.executeQuery();
 
             if (rSet.next()) {
-                CPF cpfPatient = new CPF(rSet.getString(1));
+                Cpf cpfPatient = new Cpf(rSet.getString(1));
                 String name = rSet.getString(2);
 
-                patient = new Patient(cpfPatient, name, MedicalAppointmentDAO.search(cpf));
+                patient = new Patient(cpfPatient, name, MedicalConsultationDAO.search(cpf));
             }
         } catch (Exception e) {
             System.err.println("Error PatientDAO.seek: " + e.getMessage());
@@ -91,7 +91,7 @@ public class PatientDAO {
         return patient;
     }
 
-    public static boolean existPatient(CPF cpf) {
+    public static boolean existPatient(Cpf cpf) {
         Patient patient = PatientDAO.search(cpf);
         if (patient == null)
             return false;

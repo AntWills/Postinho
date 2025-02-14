@@ -1,8 +1,8 @@
 package com.project.view.Menu;
 
-import com.project.entity.CPF;
+import com.project.entity.Cpf;
+import com.project.exception.InvalidCpfException;
 import com.project.model.Patient;
-import com.project.services.PatientService;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 import com.project.dao.PatientDAO;
@@ -50,22 +50,39 @@ public class DbPatientMenu {
 
     private void registerNewCleinte() {
         Terminal.clear();
+        Patient patient = new Patient();
 
-        System.out.println("-- Cadastrando novo paciente no banco --\n");
-        Patient patient = PatientService.readDataInTerminal("Digite os dados do patiente:\n");
+        System.out.println("-- Cadastrando novo paciente --\n");
 
-        if (!PatientDAO.existPatient(patient.geCpftId())) {
+        System.out.println("Digite o CPF: ");
+        String cpf = ReadDataFromTerminal.STRING();
+
+        System.out.println("Digite o nome: ");
+        String name = ReadDataFromTerminal.STRING();
+
+        try {
+            patient.setCpfId(new Cpf(cpf));
+            patient.setName(name);
+        } catch (InvalidCpfException e) {
+            System.out.println("## Erro ##");
+            System.out.println("- Cpf digitado de forma incorreta.");
+            System.out.println("- O cpf é invalido.");
+
+            return;
+        }
+
+        if (PatientDAO.existPatient(patient.geCpft())) {
             PatientDAO.add(patient);
             return;
         }
         Terminal.clear();
-        System.out.println("Desculpe, um paciente com o cpf: " + patient.geCpftId()
+        System.out.println("Desculpe, um paciente com o cpf: " + patient.geCpft()
                 + "já existe.\n\n");
         Terminal.pause();
     }
 
     private void searchPatientForCPF() {
-        CPF cpf = null;
+        Cpf cpf = null;
 
         Patient patient = PatientDAO.search(cpf);
 

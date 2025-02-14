@@ -1,7 +1,8 @@
 package com.project.view.Menu;
 
-import com.project.entity.CPF;
+import com.project.entity.Cpf;
 import com.project.entity.Date;
+import com.project.exception.InvalidDateException;
 import com.project.model.MedicalConsultation;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
@@ -73,7 +74,7 @@ public class DbMedicalAppointmentMenu {
     private void searchMedicalAppointmentId() {
         Terminal.clear();
         System.out.println("Digite o id da consulta: ");
-        MedicalConsultation mAppointment = MedicalAppointmentDAO.search(ReadDataFromTerminal.INT());
+        MedicalConsultation mAppointment = MedicalConsultationDAO.search(ReadDataFromTerminal.INT());
 
         Terminal.clear();
         if (mAppointment == null) {
@@ -90,8 +91,8 @@ public class DbMedicalAppointmentMenu {
     private void searchMedicalAppointmentCpf() {
         // CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
 
-        CPF cpf = null;
-        List<MedicalConsultation> mAppointmentList = MedicalAppointmentDAO.search(cpf);
+        Cpf cpf = null;
+        List<MedicalConsultation> mAppointmentList = MedicalConsultationDAO.search(cpf);
 
         Terminal.clear();
         if (mAppointmentList == null) {
@@ -108,9 +109,18 @@ public class DbMedicalAppointmentMenu {
     private void searchMedicalAppointmentDate() {
         System.out.println("Digite a data: ");
         String dateStr = ReadDataFromTerminal.STRING();
-        Date date = new Date(dateStr);
+        Date date = new Date();
 
-        List<MedicalConsultation> mAppointmentList = MedicalAppointmentDAO.search(date);
+        try {
+            date.setData(dateStr);
+        } catch (InvalidDateException e) {
+            System.out.println("## Erro ##");
+            System.out.println(e.getMessage());
+
+            return;
+        }
+
+        List<MedicalConsultation> mAppointmentList = MedicalConsultationDAO.search(date);
 
         Terminal.clear();
         if (mAppointmentList == null) {
@@ -143,7 +153,7 @@ public class DbMedicalAppointmentMenu {
 
     private void searchFutureMedicalAppointmentCpf() {
         // CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
-        CPF cpf = null;
+        Cpf cpf = null;
         List<MedicalConsultation> mAppointmentList = FutureMedicalAppointmentDAO.search(cpf);
 
         Terminal.clear();
@@ -161,7 +171,16 @@ public class DbMedicalAppointmentMenu {
     private void searchFutureMedicalAppointmentDate() {
         System.out.println("Digite a data: ");
         String dateStr = ReadDataFromTerminal.STRING();
-        Date date = new Date(dateStr);
+        Date date = new Date();
+
+        try {
+            date.setData(dateStr);
+        } catch (InvalidDateException e) {
+            System.out.println("## Erro ##");
+            System.out.println(e.getMessage());
+
+            return;
+        }
 
         List<MedicalConsultation> mAppointmentList = FutureMedicalAppointmentDAO.search(date);
 

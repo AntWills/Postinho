@@ -77,7 +77,7 @@ public class PatientMenu {
 
     private void printFutureAppointmentPatient() {
         Terminal.clear();
-        List<MedicalConsultation> list = FutureMedicalAppointmentDAO.search(this.patient.geCpftId());
+        List<MedicalConsultation> list = FutureMedicalAppointmentDAO.search(this.patient.geCpft());
 
         if (list.size() == 0) {
             System.out.println("Não há consultas agendadas para este paciente.\n");
@@ -107,7 +107,7 @@ public class PatientMenu {
         }
 
         MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
-        MedicalAppointmentDAO.updade(id, mAppointment);
+        MedicalConsultationDAO.updade(id, mAppointment);
     }
 
     private void updateFutureMedicalAppointment() {
@@ -115,7 +115,7 @@ public class PatientMenu {
         System.out.print("Digite o id da consulta: ");
         int id = ReadDataFromTerminal.INT();
 
-        MedicalConsultation mAppointment = FutureMedicalAppointmentDAO.search(id, patient.geCpftId());
+        MedicalConsultation mAppointment = FutureMedicalAppointmentDAO.search(id, patient.geCpft());
 
         if (mAppointment == null) {
             Terminal.clear();

@@ -3,7 +3,7 @@ package com.project.dao;
 import java.util.List;
 import java.util.ArrayList;
 
-import com.project.entity.CPF;
+import com.project.entity.Cpf;
 import com.project.entity.Date;
 import com.project.model.MedicalConsultation;
 import java.sql.PreparedStatement;
@@ -39,7 +39,7 @@ public class FutureMedicalAppointmentDAO {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, mc.getTypeService());
-            pstmt.setString(2, mc.getCpfPatient().getNumberCPF());
+            pstmt.setString(2, mc.getCpfPatient().getStringCpf());
             pstmt.setString(3, mc.getDateService().toString());
             pstmt.setString(4, mc.getReasonForService());
 
@@ -80,7 +80,7 @@ public class FutureMedicalAppointmentDAO {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, mAppointment.getTypeService());
-            pstmt.setString(2, mAppointment.getCpfPatient().getNumberCPF());
+            pstmt.setString(2, mAppointment.getCpfPatient().getStringCpf());
             pstmt.setString(3, mAppointment.getDateService().toString());
             pstmt.setString(4, mAppointment.getReasonForService());
 
@@ -108,7 +108,7 @@ public class FutureMedicalAppointmentDAO {
             while (rSet.next()) {
                 int idMedicalCare = rSet.getInt(1);
                 int type = rSet.getInt(2);
-                CPF cpfMedicalCare = new CPF(rSet.getString(3));
+                Cpf cpfMedicalCare = new Cpf(rSet.getString(3));
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
@@ -126,7 +126,7 @@ public class FutureMedicalAppointmentDAO {
         return mAppointment;
     }
 
-    public static List<MedicalConsultation> search(CPF cpf) {
+    public static List<MedicalConsultation> search(Cpf cpf) {
         List<MedicalConsultation> list = new ArrayList<>();
 
         String query = "SELECT * FROM FutureMedicalAppointment "
@@ -134,14 +134,14 @@ public class FutureMedicalAppointmentDAO {
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
-            pstmt.setString(1, cpf.getNumberCPF());
+            pstmt.setString(1, cpf.getStringCpf());
 
             ResultSet rSet = pstmt.executeQuery();
 
             while (rSet.next()) {
                 int idMedicalCare = rSet.getInt(1);
                 int type = rSet.getInt(2);
-                CPF cpfMedicalCare = new CPF(rSet.getString(3));
+                Cpf cpfMedicalCare = new Cpf(rSet.getString(3));
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
@@ -158,7 +158,7 @@ public class FutureMedicalAppointmentDAO {
         return list;
     }
 
-    public static MedicalConsultation search(int id, CPF cpf) {
+    public static MedicalConsultation search(int id, Cpf cpf) {
         MedicalConsultation mAppointment = null;
 
         String query = "SELECT * FROM FutureMedicalAppointment "
@@ -168,14 +168,14 @@ public class FutureMedicalAppointmentDAO {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, id);
-            pstmt.setString(2, cpf.getNumberCPF());
+            pstmt.setString(2, cpf.getStringCpf());
 
             ResultSet rSet = pstmt.executeQuery();
 
             while (rSet.next()) {
                 int idMedicalCare = rSet.getInt(1);
                 int type = rSet.getInt(2);
-                CPF cpfMedicalCare = new CPF(rSet.getString(3));
+                Cpf cpfMedicalCare = new Cpf(rSet.getString(3));
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
@@ -208,7 +208,7 @@ public class FutureMedicalAppointmentDAO {
             while (rSet.next()) {
                 int idMedicalCare = rSet.getInt(1);
                 int type = rSet.getInt(2);
-                CPF cpfMedicalCare = new CPF(rSet.getString(3));
+                Cpf cpfMedicalCare = new Cpf(rSet.getString(3));
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 

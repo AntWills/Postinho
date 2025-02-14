@@ -1,24 +1,24 @@
 package com.project.model;
 
 import java.util.List;
-import com.project.entity.CPF;
+import com.project.entity.Cpf;
 import java.util.ArrayList;
 
 public class Patient {
-    CPF cpf;
+    Cpf cpf;
     String name;
     List<MedicalConsultation> consultations;
 
     public Patient() {
     }
 
-    public Patient(CPF cpf, String name) {
+    public Patient(Cpf cpf, String name) {
         this.cpf = cpf;
         this.name = name;
         this.consultations = new ArrayList<>();
     }
 
-    public Patient(CPF cpf, String name, List<MedicalConsultation> cultateList) {
+    public Patient(Cpf cpf, String name, List<MedicalConsultation> cultateList) {
         this.cpf = cpf;
         this.name = name;
         this.consultations = cultateList;
@@ -31,11 +31,11 @@ public class Patient {
                 + " consultas realizadas.";
     }
 
-    public CPF geCpftId() {
+    public Cpf geCpft() {
         return cpf;
     }
 
-    public void setCpfId(CPF cpf) {
+    public void setCpfId(Cpf cpf) {
         this.cpf = cpf;
     }
 
