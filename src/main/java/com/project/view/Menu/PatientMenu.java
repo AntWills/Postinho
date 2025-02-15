@@ -92,22 +92,23 @@ public class PatientMenu {
     }
 
     private void updateMedicalAppointment() {
-        Terminal.clear();
-        System.out.print("Digite o id da consulta: ");
-        int id = ReadDataFromTerminal.INT();
+        // Terminal.clear();
+        // System.out.print("Digite o id da consulta: ");
+        // int id = ReadDataFromTerminal.INT();
 
-        MedicalConsultation mAppointment = patient.getMedicalAppointmentID(id);
+        // MedicalConsultation mAppointment = patient.getMedicalAppointmentID(id);
 
-        if (mAppointment == null) {
-            Terminal.clear();
-            System.out.println("\nConsulta com o id igual a " + id + " não foi encontrada.");
-            System.out.println("Voltando ao menu.\n");
-            Terminal.pause();
-            return;
-        }
+        // if (mAppointment == null) {
+        // Terminal.clear();
+        // System.out.println("\nConsulta com o id igual a " + id + " não foi
+        // encontrada.");
+        // System.out.println("Voltando ao menu.\n");
+        // Terminal.pause();
+        // return;
+        // }
 
-        MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
-        MedicalConsultationDAO.updade(id, mAppointment);
+        // MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
+        // MedicalConsultationDAO.updade(id, mAppointment);
     }
 
     private void updateFutureMedicalAppointment() {

@@ -1,12 +1,19 @@
 package com.project.dao;
 
 import com.project.entity.Cpf;
+import com.project.exception.InvalidCpfException;
 import com.project.model.Patient;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
-public class PatientDAO {
+public class PatientDAO implements Idao<Patient, Cpf> {
+    // public static PatientDAO staticPatient = new PatientDAO();
+
+    // @Override;
     public static void initi() {
         DbConnect.openBank();
         MedicalConsultationDAO.initi();
@@ -23,7 +30,16 @@ public class PatientDAO {
         }
     }
 
-    public static void add(Patient patient) {
+    @Override
+    public Patient mapResultSetToEntity(ResultSet rs) throws InvalidCpfException, SQLException {
+        Cpf cpf = new Cpf(rs.getString("cpf_Patient"));
+        String name = rs.getString("nome_Patient");
+
+        return new Patient(cpf, name);
+    }
+
+    @Override
+    public void save(Patient patient) {
         String query = "INSERT INTO Patient "
                 + "(cpf_Patient, nome_Patient)"
                 + "VALUES (?, ?)";
@@ -40,20 +56,8 @@ public class PatientDAO {
         DbConnect.closeBank();
     }
 
-    public static void delete(Cpf cpf) {
-        String query = "DELETE FROM Patient WHERE cpf_Patient = ?";
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, cpf.getStringCpf());
-            pstmt.executeUpdate();
-        } catch (Exception e) {
-            System.err.println("Error PatientDAO: " + e.getMessage());
-        }
-
-        DbConnect.closeBank();
-    }
-
-    public static void update(Patient patient) {
+    @Override
+    public void update(Patient patient) {
         String query = "UPDATE Patient SET "
                 + "nome_Patient = ?";
 
@@ -68,20 +72,32 @@ public class PatientDAO {
         }
     }
 
-    public static Patient search(Cpf cpf) {
+    @Override
+    public void delete(Cpf cpf) {
+        String query = "DELETE FROM Patient WHERE cpf_Patient = ?";
+        try {
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+            pstmt.setString(1, cpf.getStringCpf());
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            System.err.println("Error.PatientDAO.delete: " + e.getMessage());
+        }
+
+        DbConnect.closeBank();
+    }
+
+    @Override
+    public Patient findById(Cpf cpf) {
         Patient patient = null;
         String query = "SELECT * FROM Patient WHERE cpf_Patient = ?";
 
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
             pstmt.setString(1, cpf.getStringCpf());
-            ResultSet rSet = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
-            if (rSet.next()) {
-                Cpf cpfPatient = new Cpf(rSet.getString(1));
-                String name = rSet.getString(2);
-
-                patient = new Patient(cpfPatient, name, MedicalConsultationDAO.search(cpf));
+            if (rs.next()) {
+                patient = this.mapResultSetToEntity(rs);
             }
         } catch (Exception e) {
             System.err.println("Error PatientDAO.seek: " + e.getMessage());
@@ -91,14 +107,37 @@ public class PatientDAO {
         return patient;
     }
 
-    public static boolean existPatient(Cpf cpf) {
-        Patient patient = PatientDAO.search(cpf);
+    @Override
+    public List<Patient> findAll() {
+        List<Patient> patients = new ArrayList<Patient>();
+
+        String query = "SELECT * FROM Patient";
+
+        try {
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+            ResultSet rSet = pstmt.executeQuery();
+
+            if (rSet.next()) {
+                Patient patient = this.mapResultSetToEntity(rSet);
+                patients.add(patient);
+            }
+        } catch (Exception e) {
+            System.err.println("Error PatientDAO.findAll: " + e.getMessage());
+        }
+
+        DbConnect.closeBank();
+        return patients;
+    }
+
+    public boolean existPatient(Cpf cpf) {
+        // Patient patient = PatientDAO.findById(cpf);
+        Patient patient = this.findById(cpf);
         if (patient == null)
             return false;
         return true;
     }
 
-    public static int numberPatient() {
+    public int numberPatient() {
         String query = "SELECT COUNT(*) FROM Patient;";
 
         int count = 0;
@@ -115,4 +154,5 @@ public class PatientDAO {
         DbConnect.closeBank();
         return count;
     }
+
 }

@@ -4,6 +4,7 @@ import com.project.entity.Cpf;
 import com.project.entity.Date;
 import com.project.exception.InvalidDateException;
 import com.project.model.MedicalConsultation;
+import com.project.service.MedicalConsultationService;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 
@@ -46,7 +47,7 @@ public class DbMedicalAppointmentMenu {
                 searchMedicalAppointmentId();
                 break;
             case 2:
-                searchMedicalAppointmentCpf();
+                searchMedicalConsultationCpf();
                 break;
             case 3:
                 searchMedicalAppointmentDate();
@@ -74,7 +75,9 @@ public class DbMedicalAppointmentMenu {
     private void searchMedicalAppointmentId() {
         Terminal.clear();
         System.out.println("Digite o id da consulta: ");
-        MedicalConsultation mAppointment = MedicalConsultationDAO.search(ReadDataFromTerminal.INT());
+        int id = ReadDataFromTerminal.INT();
+
+        MedicalConsultation mAppointment = MedicalConsultationService.findById(id);
 
         Terminal.clear();
         if (mAppointment == null) {
@@ -88,11 +91,11 @@ public class DbMedicalAppointmentMenu {
         }
     }
 
-    private void searchMedicalAppointmentCpf() {
+    private void searchMedicalConsultationCpf() {
         // CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
 
         Cpf cpf = null;
-        List<MedicalConsultation> mAppointmentList = MedicalConsultationDAO.search(cpf);
+        List<MedicalConsultation> mAppointmentList = MedicalConsultationService.findByCpf(cpf);
 
         Terminal.clear();
         if (mAppointmentList == null) {
@@ -120,7 +123,7 @@ public class DbMedicalAppointmentMenu {
             return;
         }
 
-        List<MedicalConsultation> mAppointmentList = MedicalConsultationDAO.search(date);
+        List<MedicalConsultation> mAppointmentList = MedicalConsultationService.findByDate(date);
 
         Terminal.clear();
         if (mAppointmentList == null) {

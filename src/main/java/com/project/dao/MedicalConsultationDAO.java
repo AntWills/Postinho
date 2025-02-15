@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MedicalConsultationDAO {
+public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer> {
     public static void initi() {
         DbConnect.openBank();
         String query = "CREATE TABLE IF NOT EXISTS "
@@ -28,7 +28,8 @@ public class MedicalConsultationDAO {
         DbConnect.closeBank();
     }
 
-    public static void add(MedicalConsultation mAppointment) {
+    @Override
+    public void save(MedicalConsultation mAppointment) {
         String query = "INSERT INTO MedicalAppointment"
                 + "(type_MedicalAppointment, cpf_patient_MedicalAppointment,"
                 + " date_care_MedicalAppointment,reason_service_MedicalAppointment)"
@@ -50,28 +51,14 @@ public class MedicalConsultationDAO {
         DbConnect.closeBank();
     }
 
-    public static void delete(int id) {
-        String query = "DELETE FROM MedicalAppointment WHERE id_MedicalAppointment = ?";
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setInt(1, id);
-
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Error MedicalAppointmentDAO.delete(int): " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Error MedicalAppointmentDAO.delete(int): " + e.getMessage());
-        }
-        DbConnect.closeBank();
-    }
-
-    public static void updade(int id, MedicalConsultation mAppointment) {
+    @Override
+    public void update(MedicalConsultation mAppointment) {
         String query = "UPDATE MedicalAppointment SET "
                 + "type_MedicalAppointment = ?, "
                 + "cpf_patient_MedicalAppointment = ?, "
                 + "date_care_MedicalAppointment = ?, "
                 + "reason_service_MedicalAppointment = ? "
-                + "WHERE id_MedicalAppointment = " + id;
+                + "WHERE id_MedicalAppointment = " + mAppointment.getID();
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
@@ -89,7 +76,24 @@ public class MedicalConsultationDAO {
         DbConnect.closeBank();
     }
 
-    public static MedicalConsultation search(int id) {
+    @Override
+    public void delete(Integer id) {
+        String query = "DELETE FROM MedicalAppointment WHERE id_MedicalAppointment = ?";
+        try {
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+            pstmt.setInt(1, id);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error MedicalAppointmentDAO.delete(int): " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Error MedicalAppointmentDAO.delete(int): " + e.getMessage());
+        }
+        DbConnect.closeBank();
+    }
+
+    @Override
+    public MedicalConsultation findById(Integer id) {
         MedicalConsultation mAppointments = null;
 
         String query = "SELECT * FROM MedicalAppointment "
@@ -99,29 +103,41 @@ public class MedicalConsultationDAO {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
             pstmt.setInt(1, id);
 
-            ResultSet rSet = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
-            while (rSet.next()) {
-                int idMedicalCare = rSet.getInt(1);
-                int type = rSet.getInt(2);
-                Cpf cpf = new Cpf(rSet.getString(3));
-                Date date = new Date(rSet.getString(4));
-                String reazon = rSet.getString(5);
-
-                mAppointments = new MedicalConsultation(idMedicalCare,
-                        type, cpf, date, reazon);
+            if (rs.next()) {
+                mAppointments = this.mapResultSetToEntity(rs);
             }
-        } catch (SQLException e) {
-            System.err.println("Error MedicalAppointmentDAO.seek(int): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalAppointmentDAO.seek(int): " + e.getMessage());
+            System.err.println("Error.MedicalAppointmentDAO.findById: " + e.getMessage());
         }
 
         DbConnect.closeBank();
         return mAppointments;
     }
 
-    public static List<MedicalConsultation> search(Cpf cpf) {
+    @Override
+    public List<MedicalConsultation> findAll() {
+        List<MedicalConsultation> list = new ArrayList<>();
+        String query = "SELECT * FROM MedicalAppointment";
+
+        try {
+            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                MedicalConsultation mc = this.mapResultSetToEntity(rs);
+                list.add(mc);
+            }
+        } catch (Exception e) {
+            System.err.println("Error.MedicalAppointment.findAll: " + e.getMessage());
+        }
+
+        DbConnect.closeBank();
+        return list;
+    }
+
+    public List<MedicalConsultation> findByCpf(Cpf cpf) {
         List<MedicalConsultation> list = new ArrayList<>();
 
         String query = "SELECT * FROM MedicalAppointment "
@@ -131,32 +147,22 @@ public class MedicalConsultationDAO {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
             pstmt.setString(1, cpf.getStringCpf());
 
-            ResultSet rSet = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
-            while (rSet.next()) {
-                int idMedicalCare = rSet.getInt(1);
-                int type = rSet.getInt(2);
-                Cpf cpfMedicalCare = new Cpf(rSet.getString(3));
-                Date date = new Date(rSet.getString(4));
-                String reazon = rSet.getString(5);
-
-                MedicalConsultation mc = new MedicalConsultation(idMedicalCare,
-                        type, cpfMedicalCare, date, reazon);
-
+            while (rs.next()) {
+                MedicalConsultation mc = this.mapResultSetToEntity(rs);
                 list.add(mc);
             }
 
-        } catch (SQLException e) {
-            System.err.println("Error MedicalAppointment.seek(CPF): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalAppointment.seek(CPF): " + e.getMessage());
+            System.err.println("Error.MedicalAppointment.findByCpf: " + e.getMessage());
         }
 
         DbConnect.closeBank();
         return list;
     }
 
-    public static MedicalConsultation search(int id, Cpf cpf) {
+    public MedicalConsultation findByIdAndCpf(Integer id, Cpf cpf) {
         MedicalConsultation mAppointment = null;
 
         String query = "SELECT * FROM MedicalAppointment "
@@ -192,37 +198,38 @@ public class MedicalConsultationDAO {
         return mAppointment;
     }
 
-    public static List<MedicalConsultation> search(Date date) {
+    public List<MedicalConsultation> findByDate(Date date) {
         List<MedicalConsultation> list = new ArrayList<>();
 
         String query = "SELECT * FROM MedicalAppointment "
                 + "WHERE date_care_MedicalAppointment = ?";
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-
             pstmt.setString(1, date.toString());
+            ResultSet rs = pstmt.executeQuery();
 
-            ResultSet rSet = pstmt.executeQuery();
-
-            while (rSet.next()) {
-                int idMedicalCare = rSet.getInt(1);
-                int type = rSet.getInt(2);
-                Cpf cpfMedicalCare = new Cpf(rSet.getString(3));
-                Date dateMedicalCare = new Date(rSet.getString(4));
-                String reazon = rSet.getString(5);
-
-                MedicalConsultation mc = new MedicalConsultation(
-                        idMedicalCare, type,
-                        cpfMedicalCare, dateMedicalCare, reazon);
+            while (rs.next()) {
+                this.mapResultSetToEntity(rs);
+                MedicalConsultation mc = this.mapResultSetToEntity(rs);
                 list.add(mc);
             }
-        } catch (SQLException e) {
-            System.err.println("Error MedicalAppointment.seek(Date): " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalAppointment.seek(Date): " + e.getMessage());
+            System.err.println("Error MedicalAppointment.findByDate: " + e.getMessage());
         }
 
         DbConnect.closeBank();
         return list;
     }
+
+    @Override
+    public MedicalConsultation mapResultSetToEntity(ResultSet rs) throws Exception {
+        int idMedicalCare = rs.getInt(1);
+        int type = rs.getInt(2);
+        Cpf cpfMedicalCare = new Cpf(rs.getString(3));
+        Date dateMedicalCare = new Date(rs.getString(4));
+        String reazon = rs.getString(5);
+
+        return new MedicalConsultation(idMedicalCare, type, cpfMedicalCare, dateMedicalCare, reazon);
+    }
+
 }

@@ -7,7 +7,7 @@ public class DbConnect {
 
     public static void openBank() {
         try {
-            Class.forName("org.sqlite.JDBC");
+            // Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:data/PostinhoDB.sqlite");
         } catch (Exception e) {
             System.err.println("Error when opening the bank: " + e.getMessage());

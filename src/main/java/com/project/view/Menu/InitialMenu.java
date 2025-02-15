@@ -4,6 +4,7 @@ import com.project.entity.*;
 import com.project.exception.InvalidCpfException;
 import com.project.exception.InvalidDateException;
 import com.project.model.MedicalConsultation;
+import com.project.service.MedicalConsultationService;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 import com.project.dao.*;
@@ -14,7 +15,11 @@ public class InitialMenu {
     private Date today;
 
     public InitialMenu() {
-        this.today = new Date();
+        try {
+            this.today = new Date("2007-12-03");
+        } catch (InvalidDateException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void runInitialMenu() {
@@ -87,6 +92,8 @@ public class InitialMenu {
     }
 
     private void scheduleNewAppointment() {
+        Cpf cpf = null;
+        Date date = null;
 
         System.out.println("Tipos de atendimento: ");
         System.out.println("(0) : [NOT URGENT] : Blue");
@@ -98,10 +105,10 @@ public class InitialMenu {
         int type = ReadDataFromTerminal.INT();
 
         System.out.println("Digite o CPF: ");
-        String cpf = ReadDataFromTerminal.STRING();
+        String cpfString = ReadDataFromTerminal.STRING();
 
         System.out.println("Digite a data: ");
-        String date = ReadDataFromTerminal.STRING();
+        String dateString = ReadDataFromTerminal.STRING();
 
         System.out.print("\nDigite a razão da consulta (Opcional): ");
         String reaso = ReadDataFromTerminal.STRING();
@@ -109,12 +116,9 @@ public class InitialMenu {
         MedicalConsultation mConsultation = new MedicalConsultation();
 
         try {
-            mConsultation.setTypeService(type);
-            mConsultation.setCpfPatient(new Cpf(cpf));
-            mConsultation.setDateService(new Date(date));
-            mConsultation.setReasonForService(reaso);
+            cpf = new Cpf(cpfString);
+            date = new Date(dateString);
 
-            FutureMedicalAppointmentDAO.add(mConsultation);
         } catch (InvalidCpfException e) {
             System.out.println("## Erro ##");
             System.out.println("- Cpf digitado de forma incorreta.");
@@ -128,7 +132,7 @@ public class InitialMenu {
             return;
         }
 
-        MedicalConsultationDAO.add(mConsultation);
+        MedicalConsultationService.save(type, cpf, date, reaso);
     }
 
     private void appointmentRegisterToday() {
@@ -151,28 +155,29 @@ public class InitialMenu {
     }
 
     private void assistPatientToday() {
-        Terminal.clear();
-        System.out.println("-- Atendendo consulta marcada para " + today + " --\n");
-        System.out.print("Digite o Id da consulta: ");
-        int id = ReadDataFromTerminal.INT();
-        MedicalConsultation mAppointment = FutureMedicalAppointmentDAO.search(id);
+        // Terminal.clear();
+        // System.out.println("-- Atendendo consulta marcada para " + today + " --\n");
+        // System.out.print("Digite o Id da consulta: ");
+        // int id = ReadDataFromTerminal.INT();
+        // MedicalConsultation mAppointment = FutureMedicalAppointmentDAO.search(id);
 
-        if (mAppointment == null) {
-            System.out.println("\nId da consulta não encontrado.\n");
-            Terminal.pause();
-            return;
-        }
+        // if (mAppointment == null) {
+        // System.out.println("\nId da consulta não encontrado.\n");
+        // Terminal.pause();
+        // return;
+        // }
 
-        System.out.print("\nDeseja antender está consulta?\n\n" + mAppointment
-                + "\n\n:[y][n]");
-        if (ReadDataFromTerminal.CHAR() == 'y') {
-            FutureMedicalAppointmentDAO.delete(id);
-            MedicalConsultationDAO.add(mAppointment);
+        // System.out.print("\nDeseja antender está consulta?\n\n" + mAppointment
+        // + "\n\n:[y][n]");
+        // if (ReadDataFromTerminal.CHAR() == 'y') {
+        // FutureMedicalAppointmentDAO.delete(id);
+        // MedicalConsultationDAO.save(mAppointment);
 
-            System.out.println("Paciente atendido, seu id da consulta foi atualizado.\n\n");
-        } else
-            System.out.println("\n\nVoltando ao menu inicial.\n\n");
-        Terminal.pause();
+        // System.out.println("Paciente atendido, seu id da consulta foi
+        // atualizado.\n\n");
+        // } else
+        // System.out.println("\n\nVoltando ao menu inicial.\n\n");
+        // Terminal.pause();
     }
 
     // private void changeDate() {
