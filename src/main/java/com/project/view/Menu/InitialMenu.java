@@ -3,8 +3,12 @@ package com.project.view.Menu;
 import com.project.entity.*;
 import com.project.exception.InvalidCpfException;
 import com.project.exception.InvalidDateException;
-import com.project.model.MedicalConsultation;
-import com.project.service.MedicalConsultationService;
+import com.project.model.Consultation;
+import com.project.model.Doctor;
+import com.project.model.Patient;
+import com.project.service.ConsultationService;
+import com.project.service.DoctorService;
+import com.project.service.PatientService;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 import com.project.dao.*;
@@ -93,6 +97,8 @@ public class InitialMenu {
 
     private void scheduleNewAppointment() {
         Cpf cpf = null;
+        Patient patient = null;
+        Doctor doctor = null;
         Date date = null;
 
         System.out.println("Tipos de atendimento: ");
@@ -104,8 +110,11 @@ public class InitialMenu {
         System.out.print("Digite o tipo: ");
         int type = ReadDataFromTerminal.INT();
 
-        System.out.println("Digite o CPF: ");
+        System.out.println("Digite o CPF do paciente: ");
         String cpfString = ReadDataFromTerminal.STRING();
+
+        System.out.println("Digite o codigo do doutor de plantao: ");
+        int idDoctor = ReadDataFromTerminal.INT();
 
         System.out.println("Digite a data: ");
         String dateString = ReadDataFromTerminal.STRING();
@@ -113,10 +122,12 @@ public class InitialMenu {
         System.out.print("\nDigite a razão da consulta (Opcional): ");
         String reaso = ReadDataFromTerminal.STRING();
 
-        MedicalConsultation mConsultation = new MedicalConsultation();
+        // Consultation mConsultation = new Consultation();
 
         try {
             cpf = new Cpf(cpfString);
+            patient = PatientService.findById(cpf);
+            doctor = DoctorService.findById(idDoctor);
             date = new Date(dateString);
 
         } catch (InvalidCpfException e) {
@@ -132,11 +143,23 @@ public class InitialMenu {
             return;
         }
 
-        MedicalConsultationService.save(type, cpf, date, reaso);
+        if (patient == null) {
+            System.out.println("## Erro ##");
+            System.out.println("O paciente nao esta cadastrado.");
+            System.out.println("Favor cadastrar.");
+        }
+
+        if (doctor == null) {
+            System.out.println("## Erro ##");
+            System.out.println("O doutor nao esta cadastrado.");
+            System.out.println("Favor cadastrar.");
+        }
+
+        ConsultationService.save(type, patient, doctor, date, reaso);
     }
 
     private void appointmentRegisterToday() {
-        List<MedicalConsultation> mcList = FutureMedicalAppointmentDAO.search(today);
+        List<Consultation> mcList = FutureMedicalAppointmentDAO.search(today);
 
         Terminal.clear();
         if (mcList.size() == 0) {
@@ -144,7 +167,7 @@ public class InitialMenu {
         } else {
             System.out.println("-- Consultas para hoje --\n");
 
-            for (MedicalConsultation mc : mcList) {
+            for (Consultation mc : mcList) {
                 System.out.println(mc + "\n");
             }
             System.out.println("Um total de " + mcList.size()

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.project.entity.Cpf;
 import com.project.entity.Date;
-import com.project.model.MedicalConsultation;
+import com.project.model.Consultation;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class FutureMedicalAppointmentDAO {
         DbConnect.closeBank();
     }
 
-    public static void add(MedicalConsultation mc) {
+    public static void add(Consultation mc) {
         String query = "INSERT INTO FutureMedicalAppointment"
                 + "(type_FutureMedicalAppointment, cpf_patient_FutureMedicalAppointment,"
                 + "date_care_FutureMedicalAppointment, reason_service_FutureMedicalAppointment)"
@@ -39,8 +39,8 @@ public class FutureMedicalAppointmentDAO {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, mc.getTypeService());
-            pstmt.setString(2, mc.getCpfPatient().getStringCpf());
-            pstmt.setString(3, mc.getDateService().toString());
+            pstmt.setString(2, mc.getPatient().getStringCpf());
+            pstmt.setString(3, mc.getDateConsultation().toString());
             pstmt.setString(4, mc.getReasonForService());
 
             pstmt.executeUpdate();
@@ -69,7 +69,7 @@ public class FutureMedicalAppointmentDAO {
         DbConnect.closeBank();
     }
 
-    public static void updade(int id, MedicalConsultation mAppointment) {
+    public static void updade(int id, Consultation mAppointment) {
         String query = "UPDATE FutureMedicalAppointment SET "
                 + "type_FutureMedicalAppointment = ?, "
                 + "cpf_patient_FutureMedicalAppointment = ?, "
@@ -80,8 +80,8 @@ public class FutureMedicalAppointmentDAO {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, mAppointment.getTypeService());
-            pstmt.setString(2, mAppointment.getCpfPatient().getStringCpf());
-            pstmt.setString(3, mAppointment.getDateService().toString());
+            pstmt.setString(2, mAppointment.getPatient().getStringCpf());
+            pstmt.setString(3, mAppointment.getDateConsultation().toString());
             pstmt.setString(4, mAppointment.getReasonForService());
 
             pstmt.executeUpdate();
@@ -93,8 +93,8 @@ public class FutureMedicalAppointmentDAO {
         DbConnect.closeBank();
     }
 
-    public static MedicalConsultation search(int id) {
-        MedicalConsultation mAppointment = null;
+    public static Consultation search(int id) {
+        Consultation mAppointment = null;
 
         String query = "SELECT * FROM FutureMedicalAppointment "
                 + "WHERE id_FutureMedicalAppointment = ?";
@@ -112,7 +112,7 @@ public class FutureMedicalAppointmentDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                mAppointment = new MedicalConsultation(
+                mAppointment = new Consultation(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
 
@@ -126,8 +126,8 @@ public class FutureMedicalAppointmentDAO {
         return mAppointment;
     }
 
-    public static List<MedicalConsultation> search(Cpf cpf) {
-        List<MedicalConsultation> list = new ArrayList<>();
+    public static List<Consultation> search(Cpf cpf) {
+        List<Consultation> list = new ArrayList<>();
 
         String query = "SELECT * FROM FutureMedicalAppointment "
                 + "WHERE cpf_patient_FutureMedicalAppointment = ?";
@@ -145,7 +145,7 @@ public class FutureMedicalAppointmentDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                MedicalConsultation mc = new MedicalConsultation(
+                Consultation mc = new Consultation(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
                 list.add(mc);
@@ -158,8 +158,8 @@ public class FutureMedicalAppointmentDAO {
         return list;
     }
 
-    public static MedicalConsultation search(int id, Cpf cpf) {
-        MedicalConsultation mAppointment = null;
+    public static Consultation search(int id, Cpf cpf) {
+        Consultation mAppointment = null;
 
         String query = "SELECT * FROM FutureMedicalAppointment "
                 + "WHERE id_FutureMedicalAppointment = ? AND " +
@@ -179,7 +179,7 @@ public class FutureMedicalAppointmentDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                mAppointment = new MedicalConsultation(
+                mAppointment = new Consultation(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
 
@@ -193,8 +193,8 @@ public class FutureMedicalAppointmentDAO {
         return mAppointment;
     }
 
-    public static List<MedicalConsultation> search(Date date) {
-        List<MedicalConsultation> list = new ArrayList<>();
+    public static List<Consultation> search(Date date) {
+        List<Consultation> list = new ArrayList<>();
 
         String query = "SELECT * FROM FutureMedicalAppointment "
                 + "WHERE date_care_FutureMedicalAppointment = ?";
@@ -212,7 +212,7 @@ public class FutureMedicalAppointmentDAO {
                 Date dateMedicalCare = new Date(rSet.getString(4));
                 String reazon = rSet.getString(5);
 
-                MedicalConsultation mc = new MedicalConsultation(
+                Consultation mc = new Consultation(
                         idMedicalCare, type,
                         cpfMedicalCare, dateMedicalCare, reazon);
                 list.add(mc);

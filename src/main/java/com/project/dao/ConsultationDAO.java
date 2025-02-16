@@ -4,13 +4,18 @@ import java.util.List;
 
 import com.project.entity.Cpf;
 import com.project.entity.Date;
-import com.project.model.MedicalConsultation;
+import com.project.model.Consultation;
+import com.project.model.Doctor;
+import com.project.model.Patient;
+import com.project.service.DoctorService;
+import com.project.service.PatientService;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer> {
+public class ConsultationDAO implements Idao<Consultation, Integer> {
     public static void initi() {
         DbConnect.openBank();
         String query = "CREATE TABLE IF NOT EXISTS "
@@ -29,7 +34,7 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
     }
 
     @Override
-    public void save(MedicalConsultation mAppointment) {
+    public void save(Consultation mAppointment) {
         String query = "INSERT INTO MedicalAppointment"
                 + "(type_MedicalAppointment, cpf_patient_MedicalAppointment,"
                 + " date_care_MedicalAppointment,reason_service_MedicalAppointment)"
@@ -38,8 +43,8 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, mAppointment.getTypeService());
-            pstmt.setString(2, mAppointment.getCpfPatient().getStringCpf());
-            pstmt.setString(3, mAppointment.getDateService().toString());
+            pstmt.setString(2, mAppointment.getPatient().getStringCpf());
+            pstmt.setString(3, mAppointment.getDateConsultation().toString());
             pstmt.setString(4, mAppointment.getReasonForService());
 
             pstmt.executeUpdate();
@@ -52,20 +57,20 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
     }
 
     @Override
-    public void update(MedicalConsultation mAppointment) {
+    public void update(Consultation consultation) {
         String query = "UPDATE MedicalAppointment SET "
                 + "type_MedicalAppointment = ?, "
                 + "cpf_patient_MedicalAppointment = ?, "
                 + "date_care_MedicalAppointment = ?, "
                 + "reason_service_MedicalAppointment = ? "
-                + "WHERE id_MedicalAppointment = " + mAppointment.getID();
+                + "WHERE id_MedicalAppointment = " + consultation.getID();
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
-            pstmt.setInt(1, mAppointment.getTypeService());
-            pstmt.setString(2, mAppointment.getCpfPatient().getStringCpf());
-            pstmt.setString(3, mAppointment.getDateService().toString());
-            pstmt.setString(4, mAppointment.getReasonForService());
+            pstmt.setInt(1, consultation.getTypeService());
+            pstmt.setString(2, consultation.getPatient().getStringCpf());
+            pstmt.setString(3, consultation.getDateConsultation().toString());
+            pstmt.setString(4, consultation.getReasonForService());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -93,8 +98,8 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
     }
 
     @Override
-    public MedicalConsultation findById(Integer id) {
-        MedicalConsultation mAppointments = null;
+    public Consultation findById(Integer id) {
+        Consultation mAppointments = null;
 
         String query = "SELECT * FROM MedicalAppointment "
                 + "WHERE id_MedicalAppointment = ?";
@@ -117,8 +122,8 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
     }
 
     @Override
-    public List<MedicalConsultation> findAll() {
-        List<MedicalConsultation> list = new ArrayList<>();
+    public List<Consultation> findAll() {
+        List<Consultation> list = new ArrayList<>();
         String query = "SELECT * FROM MedicalAppointment";
 
         try {
@@ -126,7 +131,7 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                MedicalConsultation mc = this.mapResultSetToEntity(rs);
+                Consultation mc = this.mapResultSetToEntity(rs);
                 list.add(mc);
             }
         } catch (Exception e) {
@@ -137,20 +142,20 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
         return list;
     }
 
-    public List<MedicalConsultation> findByCpf(Cpf cpf) {
-        List<MedicalConsultation> list = new ArrayList<>();
+    public List<Consultation> findByPatient(Patient patient) {
+        List<Consultation> list = new ArrayList<>();
 
         String query = "SELECT * FROM MedicalAppointment "
                 + "WHERE cpf_patient_MedicalAppointment = ?";
 
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, cpf.getStringCpf());
+            pstmt.setString(1, patient.geCpft().getStringCpf());
 
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                MedicalConsultation mc = this.mapResultSetToEntity(rs);
+                Consultation mc = this.mapResultSetToEntity(rs);
                 list.add(mc);
             }
 
@@ -162,8 +167,8 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
         return list;
     }
 
-    public MedicalConsultation findByIdAndCpf(Integer id, Cpf cpf) {
-        MedicalConsultation mAppointment = null;
+    public Consultation findByIdAndPatient(Integer id, Patient patient) {
+        Consultation consultation = null;
 
         String query = "SELECT * FROM MedicalAppointment "
                 + "WHERE id_MedicalAppointment = ? AND " +
@@ -172,21 +177,12 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
             pstmt.setInt(1, id);
-            pstmt.setString(2, cpf.getStringCpf());
+            pstmt.setString(2, patient.geCpft().getStringCpf());
 
             ResultSet rSet = pstmt.executeQuery();
 
             while (rSet.next()) {
-                int idMedicalCare = rSet.getInt(1);
-                int type = rSet.getInt(2);
-                Cpf cpfMedicalCare = new Cpf(rSet.getString(3));
-                Date dateMedicalCare = new Date(rSet.getString(4));
-                String reazon = rSet.getString(5);
-
-                mAppointment = new MedicalConsultation(
-                        idMedicalCare, type,
-                        cpfMedicalCare, dateMedicalCare, reazon);
-
+                consultation = this.mapResultSetToEntity(rSet);
             }
         } catch (SQLException e) {
             System.err.println("Error FutureMedicalAppointmentDAO.seek(int): " + e.getMessage());
@@ -195,11 +191,11 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
         }
 
         DbConnect.closeBank();
-        return mAppointment;
+        return consultation;
     }
 
-    public List<MedicalConsultation> findByDate(Date date) {
-        List<MedicalConsultation> list = new ArrayList<>();
+    public List<Consultation> findByDate(Date date) {
+        List<Consultation> list = new ArrayList<>();
 
         String query = "SELECT * FROM MedicalAppointment "
                 + "WHERE date_care_MedicalAppointment = ?";
@@ -210,7 +206,7 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
 
             while (rs.next()) {
                 this.mapResultSetToEntity(rs);
-                MedicalConsultation mc = this.mapResultSetToEntity(rs);
+                Consultation mc = this.mapResultSetToEntity(rs);
                 list.add(mc);
             }
         } catch (Exception e) {
@@ -222,14 +218,20 @@ public class MedicalConsultationDAO implements Idao<MedicalConsultation, Integer
     }
 
     @Override
-    public MedicalConsultation mapResultSetToEntity(ResultSet rs) throws Exception {
-        int idMedicalCare = rs.getInt(1);
-        int type = rs.getInt(2);
-        Cpf cpfMedicalCare = new Cpf(rs.getString(3));
-        Date dateMedicalCare = new Date(rs.getString(4));
-        String reazon = rs.getString(5);
+    public Consultation mapResultSetToEntity(ResultSet rs) throws Exception {
+        int idConsultation = rs.getInt("consultation_id");
+        int type = 0;
 
-        return new MedicalConsultation(idMedicalCare, type, cpfMedicalCare, dateMedicalCare, reazon);
+        Cpf cpf = new Cpf(rs.getString("patient_id"));
+        Patient patient = PatientService.findById(cpf);
+
+        int idDoctor = rs.getInt("doctor_id");
+        Doctor doctor = DoctorService.findById(idDoctor);
+
+        Date dateconsultation = new Date(rs.getString("date_consultation"));
+        String reazon = rs.getString("reazon");
+
+        return new Consultation(idConsultation, type, patient, doctor, dateconsultation, reazon);
     }
 
 }

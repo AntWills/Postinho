@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Patient {
     Cpf cpf;
     String name;
-    List<MedicalConsultation> consultations;
+    List<Consultation> consultations;
 
     public Patient() {
     }
@@ -18,17 +18,10 @@ public class Patient {
         this.consultations = new ArrayList<>();
     }
 
-    public Patient(Cpf cpf, String name, List<MedicalConsultation> cultateList) {
+    public Patient(Cpf cpf, String name, List<Consultation> cultateList) {
         this.cpf = cpf;
         this.name = name;
         this.consultations = cultateList;
-    }
-
-    @Override
-    public String toString() {
-        return "cpf: " + cpf + " - Nome: " + name
-                + "\nPossui um total de " + consultations.size()
-                + " consultas realizadas.";
     }
 
     public Cpf geCpft() {
@@ -47,18 +40,7 @@ public class Patient {
         this.name = name;
     }
 
-    public List<MedicalConsultation> getConsultations() {
+    public List<Consultation> getConsultations() {
         return consultations;
     }
-
-    public MedicalConsultation getMedicalAppointmentID(int id) {
-        List<MedicalConsultation> list = this.consultations;
-
-        for (MedicalConsultation mAppointment : list) {
-            if (mAppointment.getID() == id)
-                return mAppointment;
-        }
-        return null;
-    }
-
 }

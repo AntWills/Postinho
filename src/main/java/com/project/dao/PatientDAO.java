@@ -16,7 +16,7 @@ public class PatientDAO implements Idao<Patient, Cpf> {
     // @Override;
     public static void initi() {
         DbConnect.openBank();
-        MedicalConsultationDAO.initi();
+        ConsultationDAO.initi();
         FutureMedicalAppointmentDAO.initi();
         String query = "CREATE TABLE IF NOT EXISTS "
                 + "Patient(cpf_Patient CHAR(11) PRIMARY KEY,"

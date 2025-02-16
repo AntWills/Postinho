@@ -1,6 +1,6 @@
 package com.project.view.Menu;
 
-import com.project.model.MedicalConsultation;
+import com.project.model.Consultation;
 import com.project.model.Patient;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
@@ -61,14 +61,14 @@ public class PatientMenu {
 
     private void printAppointmentPatient() {
         Terminal.clear();
-        List<MedicalConsultation> list = this.patient.getConsultations();
+        List<Consultation> list = this.patient.getConsultations();
 
         if (list.size() == 0) {
             System.out.println("Não há consultas realizadas para este paciente.\n");
         } else {
             System.out.println("Consultas realizadas pelo paciente: " + this.patient.getName() + "\n");
 
-            for (MedicalConsultation mAppointment : list) {
+            for (Consultation mAppointment : list) {
                 System.out.println(mAppointment + "\n");
             }
         }
@@ -77,14 +77,14 @@ public class PatientMenu {
 
     private void printFutureAppointmentPatient() {
         Terminal.clear();
-        List<MedicalConsultation> list = FutureMedicalAppointmentDAO.search(this.patient.geCpft());
+        List<Consultation> list = FutureMedicalAppointmentDAO.search(this.patient.geCpft());
 
         if (list.size() == 0) {
             System.out.println("Não há consultas agendadas para este paciente.\n");
         } else {
             System.out.println("Consultas marcadas pelo paciente: " + this.patient.getName() + "\n");
 
-            for (MedicalConsultation mAppointment : list) {
+            for (Consultation mAppointment : list) {
                 System.out.println(mAppointment + "\n");
             }
         }
@@ -116,7 +116,7 @@ public class PatientMenu {
         System.out.print("Digite o id da consulta: ");
         int id = ReadDataFromTerminal.INT();
 
-        MedicalConsultation mAppointment = FutureMedicalAppointmentDAO.search(id, patient.geCpft());
+        Consultation mAppointment = FutureMedicalAppointmentDAO.search(id, patient.geCpft());
 
         if (mAppointment == null) {
             Terminal.clear();

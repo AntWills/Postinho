@@ -2,19 +2,19 @@ package com.project.view.Menu;
 
 import com.project.entity.Date;
 import com.project.exception.InvalidDateException;
-import com.project.model.MedicalConsultation;
+import com.project.model.Consultation;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 
 public class MedicalAppointmentMenu {
     private int op;
-    private MedicalConsultation mAppointment;
+    private Consultation mAppointment;
 
-    public MedicalAppointmentMenu(MedicalConsultation medicalAppointment) {
+    public MedicalAppointmentMenu(Consultation medicalAppointment) {
         this.mAppointment = medicalAppointment;
     }
 
-    public static void runMedicalAppointmentMenu(MedicalConsultation medicalAppointment) {
+    public static void runMedicalAppointmentMenu(Consultation medicalAppointment) {
         MedicalAppointmentMenu mAppointmentMenu = new MedicalAppointmentMenu(medicalAppointment);
 
         do {
@@ -59,15 +59,15 @@ public class MedicalAppointmentMenu {
     }
 
     private void updateType() {
-        Terminal.clear();
-        System.out.println("Digite o novo tipo de atendimento: ");
-        System.out.println("(0) : [NOT URGENT] : Blue");
-        System.out.println("(1) : [LITTLE URGENT] : Green");
-        System.out.println("(2) : [URGENT] : Yellow");
-        System.out.println("(3) : [EMERGING] : Red\n");
+        // Terminal.clear();
+        // System.out.println("Digite o novo tipo de atendimento: ");
+        // System.out.println("(0) : [NOT URGENT] : Blue");
+        // System.out.println("(1) : [LITTLE URGENT] : Green");
+        // System.out.println("(2) : [URGENT] : Yellow");
+        // System.out.println("(3) : [EMERGING] : Red\n");
 
-        System.out.print("Digite o tipo: ");
-        this.mAppointment.setTypeService(ReadDataFromTerminal.INT());
+        // System.out.print("Digite o tipo: ");
+        // this.mAppointment.setTypeService(ReadDataFromTerminal.INT());
     }
 
     private void updateCPF() {
@@ -89,7 +89,7 @@ public class MedicalAppointmentMenu {
             return;
         }
 
-        this.mAppointment.setDateService(date);
+        this.mAppointment.setDateConsultation(date);
     }
 
     private void updateReazon() {
