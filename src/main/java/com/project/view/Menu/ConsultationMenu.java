@@ -6,16 +6,16 @@ import com.project.model.Consultation;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 
-public class MedicalAppointmentMenu {
+public class ConsultationMenu {
     private int op;
     private Consultation mAppointment;
 
-    public MedicalAppointmentMenu(Consultation medicalAppointment) {
+    public ConsultationMenu(Consultation medicalAppointment) {
         this.mAppointment = medicalAppointment;
     }
 
     public static void runMedicalAppointmentMenu(Consultation medicalAppointment) {
-        MedicalAppointmentMenu mAppointmentMenu = new MedicalAppointmentMenu(medicalAppointment);
+        ConsultationMenu mAppointmentMenu = new ConsultationMenu(medicalAppointment);
 
         do {
             mAppointmentMenu.menu();

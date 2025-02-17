@@ -27,6 +27,24 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
         }
     }
 
+    // public List<Consultation> findAllConsultation(String cpf) {
+    // List<Consultation> consultations = new ArrayList<>();
+
+    // String query = "";
+    // query += "SELECT";
+    // query += "consultation.consultation_id,";
+    // query += "consultation.patient_id,";
+    // query += "consultation.doctor_id,";
+    // query += "consultation.date_consultation";
+    // query += "FROM " + this.getTableName() + " ";
+    // query += "LEFT JOIN consultation ON patient.cpf_id =
+    // consultation.patient_id";
+    // query += "WHERE";
+    // query += "consultation.patient_id = ?;";
+
+    // return consultations;
+    // }
+
     public boolean existPatient(String cpf) {
         // Patient patient = PatientDAO.findById(cpf);
         Patient patient = this.findById("cpf_id", cpf);
@@ -78,7 +96,7 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
 
     @Override
     protected void setPstmtForSave(PreparedStatement pstmt, Patient obj) throws SQLException {
-        pstmt.setString(1, obj.geCpft());
+        pstmt.setString(1, obj.geCpf());
         pstmt.setString(2, obj.getName());
     }
 
@@ -95,7 +113,7 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
     @Override
     protected void setPstmtForUdate(PreparedStatement pstmt, Patient obj) throws SQLException {
         pstmt.setString(1, obj.getName());
-        pstmt.setString(2, obj.geCpft());
+        pstmt.setString(2, obj.geCpf());
     }
 
 }

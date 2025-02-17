@@ -1,7 +1,7 @@
 package com.project.view.Menu;
 
-import com.project.entity.Cpf;
 import com.project.exception.InvalidCpfException;
+import com.project.exception.UtilCpf;
 import com.project.model.Patient;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
@@ -51,44 +51,39 @@ public class DbPatientMenu {
     private void registerNewCleinte() {
         Terminal.clear();
         // Patient patient = new Patient();
-        Cpf cpf = null;
 
         System.out.println("-- Cadastrando novo paciente --\n");
 
         System.out.println("Digite o CPF: ");
-        String cpfString = ReadDataFromTerminal.STRING();
+        String cpf = ReadDataFromTerminal.STRING();
 
         System.out.println("Digite o nome: ");
         String name = ReadDataFromTerminal.STRING();
 
         try {
-            cpf = new Cpf(cpfString);
+            PatientService.save(cpf, name);
         } catch (InvalidCpfException e) {
             System.out.println("## Erro ##");
             System.out.println("- Cpf digitado de forma incorreta.");
             System.out.println("- O cpf é invalido.");
 
             return;
+        } catch (Exception e) {
+            Terminal.clear();
+            System.err.println("Desculpe, um paciente com o cpf: " + cpf
+                    + "já existe.\n\n");
+            Terminal.pause();
         }
 
-        if (PatientService.exist(cpf)) {
-            PatientService.save(cpf, name);
-            return;
-        }
-        Terminal.clear();
-        System.out.println("Desculpe, um paciente com o cpf: " + cpf
-                + "já existe.\n\n");
-        Terminal.pause();
     }
 
     private void searchPatientForCPF() {
-        Cpf cpf = null;
 
         System.out.println("Digite o CPF: ");
-        String cpfString = ReadDataFromTerminal.STRING();
+        String cpf = ReadDataFromTerminal.STRING();
 
         try {
-            cpf = new Cpf(cpfString);
+            UtilCpf.validator(cpf);
         } catch (InvalidCpfException e) {
             System.out.println("## Erro ##");
             System.out.println("- Cpf digitado de forma incorreta.");

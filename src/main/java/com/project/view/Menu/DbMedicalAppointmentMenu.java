@@ -1,6 +1,5 @@
 package com.project.view.Menu;
 
-import com.project.entity.Cpf;
 import com.project.entity.Date;
 import com.project.exception.InvalidDateException;
 import com.project.model.Consultation;
@@ -11,8 +10,6 @@ import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 
 import java.util.List;
-
-import com.project.dao.*;
 
 public class DbMedicalAppointmentMenu {
     private int op;
@@ -46,10 +43,10 @@ public class DbMedicalAppointmentMenu {
     public void options() {
         switch (this.op) {
             case 1:
-                searchMedicalAppointmentId();
+                searchConsultationId();
                 break;
             case 2:
-                searchMedicalConsultationCpf();
+                searchConsultationCpf();
                 break;
             case 3:
                 searchMedicalAppointmentDate();
@@ -74,7 +71,7 @@ public class DbMedicalAppointmentMenu {
         return op;
     }
 
-    private void searchMedicalAppointmentId() {
+    private void searchConsultationId() {
         Terminal.clear();
         System.out.println("Digite o id da consulta: ");
         int id = ReadDataFromTerminal.INT();
@@ -89,16 +86,25 @@ public class DbMedicalAppointmentMenu {
 
             System.out.println("Dejeja editar está consulta?[y][n]");
             if (ReadDataFromTerminal.CHAR() == 'y')
-                MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
+                ConsultationMenu.runMedicalAppointmentMenu(mAppointment);
         }
     }
 
-    private void searchMedicalConsultationCpf() {
+    private void searchConsultationCpf() {
         // CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
-
-        Cpf cpf = null;
+        System.out.println("Digite o cpf do paciente: ");
+        String cpf = ReadDataFromTerminal.STRING();
         Patient patient = new Patient();
-        patient.setCpfId(cpf);
+        // patient.setCpfId(cpf);
+
+        try {
+            patient.setCpfId(cpf);
+        } catch (Exception e) {
+            System.err.println("# Erro #");
+            System.err.println("Cpf digitado de forma incorreta.");
+            return;
+        }
+
         List<Consultation> consultations = ConsultationService.findByPatient(patient);
 
         Terminal.clear();
@@ -142,64 +148,67 @@ public class DbMedicalAppointmentMenu {
     }
 
     private void searchFutureMedicalAppointmentId() {
-        Terminal.clear();
-        System.out.println("Digite o id da consulta: ");
-        Consultation mAppointment = FutureMedicalAppointmentDAO.search(ReadDataFromTerminal.INT());
+        // Terminal.clear();
+        // System.out.println("Digite o id da consulta: ");
+        // Consultation mAppointment =
+        // FutureMedicalAppointmentDAO.search(ReadDataFromTerminal.INT());
 
-        Terminal.clear();
-        if (mAppointment == null) {
-            System.out.println("Consulta não encontrada.\n");
-        } else {
-            System.out.println("Dados da consulta:\n\n" + mAppointment + "\n");
+        // Terminal.clear();
+        // if (mAppointment == null) {
+        // System.out.println("Consulta não encontrada.\n");
+        // } else {
+        // System.out.println("Dados da consulta:\n\n" + mAppointment + "\n");
 
-            System.out.println("Dejeja editar está consulta?[y][n]");
-            if (ReadDataFromTerminal.CHAR() == 'y')
-                MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
-        }
+        // System.out.println("Dejeja editar está consulta?[y][n]");
+        // if (ReadDataFromTerminal.CHAR() == 'y')
+        // MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
+        // }
     }
 
     private void searchFutureMedicalAppointmentCpf() {
         // CPF cpf = CPF.inTerminal(true, "Digite o CPF: ");
-        Cpf cpf = null;
-        List<Consultation> mAppointmentList = FutureMedicalAppointmentDAO.search(cpf);
+        // Cpf cpf = null;
+        // List<Consultation> mAppointmentList =
+        // FutureMedicalAppointmentDAO.search(cpf);
 
-        Terminal.clear();
-        if (mAppointmentList == null) {
-            System.out.println("Nenhuma consulta foi encontrada.\n");
-        } else {
-            System.out.println("-- Consultas com CPF: " + cpf + " --\n");
-            for (Consultation mAppointment : mAppointmentList) {
-                System.out.println(mAppointment + "\n");
-            }
-        }
-        Terminal.pause();
+        // Terminal.clear();
+        // if (mAppointmentList == null) {
+        // System.out.println("Nenhuma consulta foi encontrada.\n");
+        // } else {
+        // System.out.println("-- Consultas com CPF: " + cpf + " --\n");
+        // for (Consultation mAppointment : mAppointmentList) {
+        // System.out.println(mAppointment + "\n");
+        // }
+        // }
+        // Terminal.pause();
     }
 
     private void searchFutureMedicalAppointmentDate() {
-        System.out.println("Digite a data: ");
-        String dateStr = ReadDataFromTerminal.STRING();
-        Date date = new Date();
+        // System.out.println("Digite a data: ");
+        // String dateStr = ReadDataFromTerminal.STRING();
+        // Date date = new Date();
 
-        try {
-            date.setData(dateStr);
-        } catch (InvalidDateException e) {
-            System.out.println("## Erro ##");
-            System.out.println(e.getMessage());
+        // try {
+        // date.setData(dateStr);
+        // } catch (InvalidDateException e) {
+        // System.out.println("## Erro ##");
+        // System.out.println(e.getMessage());
 
-            return;
-        }
+        // return;
+        // }
 
-        List<Consultation> mAppointmentList = FutureMedicalAppointmentDAO.search(date);
+        // List<Consultation> mAppointmentList =
+        // FutureMedicalAppointmentDAO.search(date);
 
-        Terminal.clear();
-        if (mAppointmentList == null) {
-            System.out.println("Nenhuma consulta foi encontrada.\n");
-        } else {
-            System.out.println("-- Consultas com a data: " + date + " --\n");
-            for (Consultation mAppointment : mAppointmentList) {
-                System.out.println(mAppointment + "\n");
-            }
-        }
-        Terminal.pause();
+        // Terminal.clear();
+        // if (mAppointmentList == null) {
+        // System.out.println("Nenhuma consulta foi encontrada.\n");
+        // } else {
+        // System.out.println("-- Consultas com a data: " + date + " --\n");
+        // for (Consultation mAppointment : mAppointmentList) {
+        // System.out.println(mAppointment + "\n");
+        // }
+        // }
+        // Terminal.pause();
     }
 }

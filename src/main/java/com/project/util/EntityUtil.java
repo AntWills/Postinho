@@ -5,7 +5,7 @@ import com.project.model.Patient;
 public class EntityUtil {
     public static String toString(Patient patient) {
         String patientString = "";
-        patientString += "Cpf: " + patient.geCpft() + "\n";
+        patientString += "Cpf: " + patient.geCpf() + "\n";
         patientString += "Nome: " + patient.getName() + ".\n";
         return patientString;
     }

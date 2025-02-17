@@ -76,19 +76,21 @@ public class PatientMenu {
     }
 
     private void printFutureAppointmentPatient() {
-        Terminal.clear();
-        List<Consultation> list = FutureMedicalAppointmentDAO.search(this.patient.geCpft());
+        // Terminal.clear();
+        // List<Consultation> list =
+        // FutureMedicalAppointmentDAO.search(this.patient.geCpft());
 
-        if (list.size() == 0) {
-            System.out.println("Não há consultas agendadas para este paciente.\n");
-        } else {
-            System.out.println("Consultas marcadas pelo paciente: " + this.patient.getName() + "\n");
+        // if (list.size() == 0) {
+        // System.out.println("Não há consultas agendadas para este paciente.\n");
+        // } else {
+        // System.out.println("Consultas marcadas pelo paciente: " +
+        // this.patient.getName() + "\n");
 
-            for (Consultation mAppointment : list) {
-                System.out.println(mAppointment + "\n");
-            }
-        }
-        Terminal.pause();
+        // for (Consultation mAppointment : list) {
+        // System.out.println(mAppointment + "\n");
+        // }
+        // }
+        // Terminal.pause();
     }
 
     private void updateMedicalAppointment() {
@@ -112,22 +114,24 @@ public class PatientMenu {
     }
 
     private void updateFutureMedicalAppointment() {
-        Terminal.clear();
-        System.out.print("Digite o id da consulta: ");
-        int id = ReadDataFromTerminal.INT();
+        // Terminal.clear();
+        // System.out.print("Digite o id da consulta: ");
+        // int id = ReadDataFromTerminal.INT();
 
-        Consultation mAppointment = FutureMedicalAppointmentDAO.search(id, patient.geCpft());
+        // Consultation mAppointment = FutureMedicalAppointmentDAO.search(id,
+        // patient.geCpft());
 
-        if (mAppointment == null) {
-            Terminal.clear();
-            System.out.println("\nConsulta com o id igual a " + id + " não foi encontrada.");
-            System.out.println("Voltando ao menu.\n");
-            Terminal.pause();
-            return;
-        }
+        // if (mAppointment == null) {
+        // Terminal.clear();
+        // System.out.println("\nConsulta com o id igual a " + id + " não foi
+        // encontrada.");
+        // System.out.println("Voltando ao menu.\n");
+        // Terminal.pause();
+        // return;
+        // }
 
-        MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
-        FutureMedicalAppointmentDAO.updade(id, mAppointment);
+        // MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
+        // FutureMedicalAppointmentDAO.updade(id, mAppointment);
     }
 
     public int getOp() {

@@ -1,6 +1,7 @@
 package com.project.service;
 
 import com.project.dao.PatientDAO;
+import com.project.exception.InvalidCpfException;
 // import com.project.exception.InvalidCpfException;
 import com.project.model.Patient;
 import java.util.List;
@@ -9,7 +10,11 @@ public class PatientService {
 
     private static PatientDAO patientDAO = new PatientDAO();
 
-    public static void save(String cpf, String name) throws Exception {
+    public static void start() {
+        patientDAO.start();
+    }
+
+    public static void save(String cpf, String name) throws InvalidCpfException, IllegalArgumentException {
         if (patientDAO.existPatient(cpf)) {
             throw new IllegalArgumentException("Paciente com este CPF já existe");
         }

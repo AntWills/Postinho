@@ -9,34 +9,44 @@ import com.project.model.Doctor;
 import com.project.model.Patient;
 
 public class ConsultationService {
-    private static ConsultationDAO mcDao = new ConsultationDAO();
+    private static ConsultationDAO consultationDao = new ConsultationDAO();
 
-    public static void save(int typeService,
-            Patient patient,
-            Doctor doctor,
-            Date dateService,
-            String reasonForService) {
-        Consultation mc = new Consultation(typeService, patient, doctor, dateService, reasonForService);
-
-        mcDao.save(mc);
+    public static void start() {
+        consultationDao.start();
     }
 
-    public static void update(int id,
-            int typeService,
+    public static void save(
+            int status,
             Patient patient,
             Doctor doctor,
             Date dateService,
             String reasonForService) {
-        Consultation mc = new Consultation(id, typeService, patient, doctor, dateService, reasonForService);
-        mcDao.update(mc);
+        Consultation mc = new Consultation(status, patient, doctor, dateService, reasonForService);
+
+        consultationDao.save(mc);
+    }
+
+    public static void update(
+            int id,
+            int status,
+            Patient patient,
+            Doctor doctor,
+            Date dateService,
+            String reasonForService) {
+        Consultation consultation = new Consultation(id, status, patient, doctor, dateService, reasonForService);
+        consultationDao.update(consultation);
+    }
+
+    public static void update(Consultation consultation) {
+        consultationDao.update(consultation);
     }
 
     public static void delete(int id) {
-        mcDao.delete(id);
+        consultationDao.delete(id);
     }
 
     public static Consultation findById(int id) {
-        Consultation mc = mcDao.findById(id);
+        Consultation mc = consultationDao.findById("consultation_id", id);
         if (mc == null) {
             throw new IllegalArgumentException("Paciente não encontrado");
         }
@@ -45,7 +55,7 @@ public class ConsultationService {
     }
 
     public static List<Consultation> findAll() {
-        List<Consultation> listMc = mcDao.findAll();
+        List<Consultation> listMc = consultationDao.findAll();
         if (listMc == null) {
             throw new IllegalArgumentException("Paciente não encontrado");
         }
@@ -54,15 +64,19 @@ public class ConsultationService {
     }
 
     public static List<Consultation> findByPatient(Patient patient) {
-        return mcDao.findByPatient(patient);
+        return consultationDao.findByPatient(patient);
     }
 
     public static Consultation findByIdAndPatient(Integer id, Patient patient) {
-        return mcDao.findByIdAndPatient(id, patient);
+        return consultationDao.findByIdAndPatient(id, patient);
     }
 
     public static List<Consultation> findByDate(Date date) {
-        return mcDao.findByDate(date);
+        return consultationDao.findByDate(date);
+    }
+
+    public static Consultation findByPatientAndDate(Patient patient, Date date) {
+        return consultationDao.findByPatientAndDate(patient, date);
     }
 
 }

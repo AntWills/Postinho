@@ -30,7 +30,7 @@ public class Patient {
         this.consultations = cultateList;
     }
 
-    public String geCpft() {
+    public String geCpf() {
         return cpf;
     }
 

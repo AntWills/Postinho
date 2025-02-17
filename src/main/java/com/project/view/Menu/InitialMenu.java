@@ -3,6 +3,7 @@ package com.project.view.Menu;
 import com.project.entity.*;
 import com.project.exception.InvalidCpfException;
 import com.project.exception.InvalidDateException;
+import com.project.exception.UtilCpf;
 import com.project.model.Consultation;
 import com.project.model.Doctor;
 import com.project.model.Patient;
@@ -63,7 +64,7 @@ public class InitialMenu {
                 registerNewAppointment();
                 break;
             case 2:
-                scheduleNewAppointment();
+                scheduleNewConsultation();
                 break;
             case 3:
                 appointmentRegisterToday();
@@ -95,19 +96,19 @@ public class InitialMenu {
         // MedicalAppointmentDAO.add(mAppointment);
     }
 
-    private void scheduleNewAppointment() {
+    private void scheduleNewConsultation() {
         Patient patient = null;
         Doctor doctor = null;
         Date date = null;
 
-        System.out.println("Tipos de atendimento: ");
-        System.out.println("(0) : [NOT URGENT] : Blue");
-        System.out.println("(1) : [LITTLE URGENT] : Green");
-        System.out.println("(2) : [URGENT] : Yellow");
-        System.out.println("(3) : [EMERGING] : Red\n");
+        System.out.println("Tipo de status: ");
+        System.out.println("(0) : Agendado");
+        System.out.println("(1) : Realizado");
+        System.out.println("(2) : Cancelado");
+        System.out.println("(3) : Nao realizado\n");
 
         System.out.print("Digite o tipo: ");
-        int type = ReadDataFromTerminal.INT();
+        int status = ReadDataFromTerminal.INT();
 
         System.out.println("Digite o CPF do paciente: ");
         String cpf = ReadDataFromTerminal.STRING();
@@ -124,6 +125,7 @@ public class InitialMenu {
         // Consultation mConsultation = new Consultation();
 
         try {
+            UtilCpf.validator(cpf);
             patient = PatientService.findById(cpf);
             doctor = DoctorService.findById(idDoctor);
             date = new Date(dateString);
@@ -153,52 +155,62 @@ public class InitialMenu {
             System.out.println("Favor cadastrar.");
         }
 
-        ConsultationService.save(type, patient, doctor, date, reaso);
+        ConsultationService.save(status, patient, doctor, date, reaso);
     }
 
     private void appointmentRegisterToday() {
-        List<Consultation> mcList = FutureMedicalAppointmentDAO.search(today);
+        // List<Consultation> mcList = FutureMedicalAppointmentDAO.search(today);
 
-        Terminal.clear();
-        if (mcList.size() == 0) {
-            System.out.println("Não há consultas agendadas para hoje.\n");
-        } else {
-            System.out.println("-- Consultas para hoje --\n");
+        // Terminal.clear();
+        // if (mcList.size() == 0) {
+        // System.out.println("Não há consultas agendadas para hoje.\n");
+        // } else {
+        // System.out.println("-- Consultas para hoje --\n");
 
-            for (Consultation mc : mcList) {
-                System.out.println(mc + "\n");
-            }
-            System.out.println("Um total de " + mcList.size()
-                    + " agendadas para hoje.\n\n");
-        }
+        // for (Consultation mc : mcList) {
+        // System.out.println(mc + "\n");
+        // }
+        // System.out.println("Um total de " + mcList.size()
+        // + " agendadas para hoje.\n\n");
+        // }
 
-        Terminal.pause();
+        // Terminal.pause();
     }
 
     private void assistPatientToday() {
-        // Terminal.clear();
-        // System.out.println("-- Atendendo consulta marcada para " + today + " --\n");
-        // System.out.print("Digite o Id da consulta: ");
-        // int id = ReadDataFromTerminal.INT();
-        // MedicalConsultation mAppointment = FutureMedicalAppointmentDAO.search(id);
+        Terminal.clear();
+        System.out.println("-- Atendendo consulta marcada para " + today + " --\n");
+        System.out.println("Digite o CPF do paciente: ");
+        String cpf = ReadDataFromTerminal.STRING();
+        Patient patient = new Patient();
 
-        // if (mAppointment == null) {
-        // System.out.println("\nId da consulta não encontrado.\n");
-        // Terminal.pause();
-        // return;
-        // }
+        try {
+            patient.setCpfId(cpf);
+        } catch (InvalidCpfException e) {
+            System.out.println("## Erro ##");
+            System.out.println("- Cpf digitado de forma incorreta.");
+            System.out.println("- O cpf é invalido.");
+        }
 
-        // System.out.print("\nDeseja antender está consulta?\n\n" + mAppointment
-        // + "\n\n:[y][n]");
-        // if (ReadDataFromTerminal.CHAR() == 'y') {
-        // FutureMedicalAppointmentDAO.delete(id);
-        // MedicalConsultationDAO.save(mAppointment);
+        Consultation consultation = ConsultationService.findByPatientAndDate(patient, today);
 
-        // System.out.println("Paciente atendido, seu id da consulta foi
-        // atualizado.\n\n");
-        // } else
-        // System.out.println("\n\nVoltando ao menu inicial.\n\n");
-        // Terminal.pause();
+        if (consultation == null) {
+            System.out.println("\nId da consulta não encontrado.\n");
+            Terminal.pause();
+            return;
+        }
+
+        System.out.print("\nDeseja antender está consulta?\n\n"
+                + "\n\n:[y][n]");
+        if (ReadDataFromTerminal.CHAR() == 'y') {
+            consultation.setStatus(1);
+            ConsultationService.update(consultation);
+
+            System.out.println("Paciente atendido, seu status da consulta foi atualizado.\n");
+        }
+
+        System.out.println("\n\nVoltando ao menu inicial.\n\n");
+        Terminal.pause();
     }
 
     // private void changeDate() {

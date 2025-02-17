@@ -8,6 +8,10 @@ import com.project.model.Doctor;
 public class DoctorService {
     private static DoctorDAO doctorDAO = new DoctorDAO();
 
+    public static void start() {
+        doctorDAO.start();
+    }
+
     public static void save(String name) {
         Doctor doctor = new Doctor();
         doctor.setName(name);

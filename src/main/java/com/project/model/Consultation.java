@@ -4,11 +4,16 @@ package com.project.model;
 import com.project.entity.Date;
 // import com.project.model.Doctor;
 // import com.project.service.PatientService;
-import com.project.util.ColorOut;
 
 public class Consultation {
     private int id;
-    // private int typeService;
+    /**
+     * 0 -> Agendado;
+     * 1 -> Realizado;
+     * 2 -> Cancelado;
+     * 3 -> Não realizado.
+     */
+    private int status;
     private Patient patient;
     private Doctor doctor;
     private Date dateConsultation;
@@ -17,26 +22,28 @@ public class Consultation {
     public Consultation() {
     }
 
-    public Consultation(int id,
-            int typeService,
+    public Consultation(
+            int id,
+            int status,
             Patient patient,
             Doctor doctor,
             Date dateService,
             String reasonForService) {
         this.id = id;
-        // this.typeService = typeService;
+        this.status = status;
         this.patient = patient;
         this.doctor = doctor;
         this.dateConsultation = dateService;
         this.reasonForService = reasonForService;
     }
 
-    public Consultation(int typeService,
+    public Consultation(
+            int status,
             Patient patient,
             Doctor doctor,
             Date dateService,
             String reasonForService) {
-        // this.typeService = typeService;
+        this.status = status;
         this.patient = patient;
         this.doctor = doctor;
         this.dateConsultation = dateService;
@@ -53,47 +60,13 @@ public class Consultation {
         return "";
     }
 
-    private String colorType(int i) {
-        switch (i) {
-            case 0:
-                return ColorOut.black + ColorOut.bgBlue + ColorOut.bold;
-            case 1:
-                return ColorOut.black + ColorOut.bgGreen + ColorOut.bold;
-            case 2:
-                return ColorOut.black + ColorOut.bgYellow + ColorOut.bold;
-            case 3:
-                return ColorOut.black + ColorOut.bgRed + ColorOut.bold;
-            default:
-                return "";
-        }
-    }
-
-    private String typeServiceString(int i) {
-        switch (i) {
-            case 0:
-                return "[NOT URGENT]";
-            case 1:
-                return "[LITTLE URGENT]";
-            case 2:
-                return "[URGENT]";
-            case 3:
-                return "[EMERGING]";
-            default:
-                return "";
-        }
-    }
-
-    public int getID() {
+    public int getId() {
         return id;
     }
 
-    // public int getTypeService() {
-    // return typeService;
-    // }
-
-    // public void setTypeService(int typeService) {
-    // this.typeService = typeService;
-    // }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Patient getPatient() {
         return this.patient;
@@ -103,7 +76,7 @@ public class Consultation {
         this.patient = patient;
     }
 
-    public Doctor geDoctor() {
+    public Doctor getDoctor() {
         return this.doctor;
     }
 
@@ -125,5 +98,13 @@ public class Consultation {
 
     public void setReasonForService(String reasonForService) {
         this.reasonForService = reasonForService;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
