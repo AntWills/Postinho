@@ -2,7 +2,6 @@ package com.project.dao;
 
 import java.util.List;
 
-import com.project.entity.Cpf;
 import com.project.entity.Date;
 import com.project.model.Consultation;
 import com.project.model.Doctor;
@@ -16,15 +15,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ConsultationDAO implements Idao<Consultation, Integer> {
-    public static void initi() {
+    public void initi() {
         DbConnect.openBank();
-        String query = "CREATE TABLE IF NOT EXISTS "
-                + "MedicalAppointment ("
-                + "id_MedicalAppointment INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "type_MedicalAppointment INTEGER NOT NULL, "
-                + "cpf_patient_MedicalAppointment CHAR(11) NOT NULL, "
-                + "date_care_MedicalAppointment CHAR(10), "
-                + "reason_service_MedicalAppointment TEXT)";
+        String query = "";
+        query += "CREATE TABLE IF NOT EXISTS " + this.getTableName() + " (";
+        query += "consultation_id INTEGER PRIMARY KEY AUTOINCREMENT, ";
+        query += "patient_id TEXT NOT NULL, ";
+        query += "doctor_id INTEGER NOT NULL, ";
+        query += "date_consultation TEXT, ";
+        query += "reason_service TEXT";
+        query += "FOREIGN KEY (patient_id) REFERENCES Patient(cpf_id), ";
+        query += "FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_id)";
+        query += ");";
+
         try {
             DbConnect.execQuery(query);
         } catch (Exception e) {
@@ -34,75 +37,81 @@ public class ConsultationDAO implements Idao<Consultation, Integer> {
     }
 
     @Override
-    public void save(Consultation mAppointment) {
-        String query = "INSERT INTO MedicalAppointment"
-                + "(type_MedicalAppointment, cpf_patient_MedicalAppointment,"
-                + " date_care_MedicalAppointment,reason_service_MedicalAppointment)"
-                + "VALUES(?, ?, ?, ?)";
+    public void save(Consultation consultation) {
+        // String query = "INSERT INTO MedicalAppointment"
+        // + "(type_MedicalAppointment, cpf_patient_MedicalAppointment,"
+        // + " date_care_MedicalAppointment,reason_service_MedicalAppointment)"
+        // + "VALUES(?, ?, ?, ?)";
+
+        String query = "";
+        query += "INSERT INTO " + this.getTableName() + " ";
+        query += "(patient_id, doctor_id, date_consultation) ";
+        query += "VALUES(?, ?, ?)";
+
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
-            pstmt.setInt(1, mAppointment.getTypeService());
-            pstmt.setString(2, mAppointment.getPatient().getStringCpf());
-            pstmt.setString(3, mAppointment.getDateConsultation().toString());
-            pstmt.setString(4, mAppointment.getReasonForService());
+            pstmt.setString(1, consultation.getPatient().geCpft().getStringCpf());
+            pstmt.setInt(2, consultation.geDoctor().getId());
+            pstmt.setString(3, consultation.getDateConsultation().getData().toString());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error MedicalAppointmentDAO.add: " + e.getMessage());
+            System.err.println("Error." + this.getTableName() + "DAO.save: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalAppointmentDAO.add: " + e.getMessage());
+            System.err.println("Error." + this.getTableName() + "DAO.save: " + e.getMessage());
         }
         DbConnect.closeBank();
     }
 
     @Override
     public void update(Consultation consultation) {
-        String query = "UPDATE MedicalAppointment SET "
-                + "type_MedicalAppointment = ?, "
-                + "cpf_patient_MedicalAppointment = ?, "
-                + "date_care_MedicalAppointment = ?, "
-                + "reason_service_MedicalAppointment = ? "
-                + "WHERE id_MedicalAppointment = " + consultation.getID();
+        String query = "";
+        query += "UPDATE " + this.getTableName() + " SET ";
+        query += "patient_id = ?, ";
+        query += "doctor_id = ?, ";
+        query += "date_consultation = ?, ";
+        query += "WHERE consultation_id = " + consultation.getID();
+
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
-            pstmt.setInt(1, consultation.getTypeService());
-            pstmt.setString(2, consultation.getPatient().getStringCpf());
-            pstmt.setString(3, consultation.getDateConsultation().toString());
-            pstmt.setString(4, consultation.getReasonForService());
+            pstmt.setString(1, consultation.getPatient().geCpft().getStringCpf());
+            pstmt.setInt(2, consultation.geDoctor().getId());
+            pstmt.setString(3, consultation.getDateConsultation().getData().toString());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error MedicalAppointmentDAO.update: " + e.getMessage());
+            System.err.println("Error." + this.getTableName() + "DAO.update: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalAppointmentDAO.update: " + e.getMessage());
+            System.err.println("Error." + this.getTableName() + "DAO.update: " + e.getMessage());
         }
         DbConnect.closeBank();
     }
 
     @Override
     public void delete(Integer id) {
-        String query = "DELETE FROM MedicalAppointment WHERE id_MedicalAppointment = ?";
+        String query = "DELETE FROM " + this.getTableName() + " WHERE consultation_id = ?";
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
             pstmt.setInt(1, id);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Error MedicalAppointmentDAO.delete(int): " + e.getMessage());
+            System.err.println("Error." + this.getTableName() + "DAO.delete: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Error MedicalAppointmentDAO.delete(int): " + e.getMessage());
+            System.err.println("Error." + this.getTableName() + "DAO.delete: " + e.getMessage());
         }
         DbConnect.closeBank();
     }
 
     @Override
     public Consultation findById(Integer id) {
-        Consultation mAppointments = null;
+        Consultation consultation = null;
 
-        String query = "SELECT * FROM MedicalAppointment "
-                + "WHERE id_MedicalAppointment = ?";
+        String query = "";
+        query += "SELECT * FROM " + this.getTableName() + " ";
+        query += "WHERE consultation_id = ?";
 
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
@@ -111,20 +120,20 @@ public class ConsultationDAO implements Idao<Consultation, Integer> {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                mAppointments = this.mapResultSetToEntity(rs);
+                consultation = this.mapResultSetToEntity(rs);
             }
         } catch (Exception e) {
             System.err.println("Error.MedicalAppointmentDAO.findById: " + e.getMessage());
         }
 
         DbConnect.closeBank();
-        return mAppointments;
+        return consultation;
     }
 
     @Override
     public List<Consultation> findAll() {
         List<Consultation> list = new ArrayList<>();
-        String query = "SELECT * FROM MedicalAppointment";
+        String query = "SELECT * FROM " + this.getTableName();
 
         try {
             PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
@@ -232,6 +241,11 @@ public class ConsultationDAO implements Idao<Consultation, Integer> {
         String reazon = rs.getString("reazon");
 
         return new Consultation(idConsultation, type, patient, doctor, dateconsultation, reazon);
+    }
+
+    @Override
+    public String getTableName() {
+        return "Consultation";
     }
 
 }

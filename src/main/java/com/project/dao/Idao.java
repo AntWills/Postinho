@@ -13,9 +13,11 @@ public interface Idao<T, K> {
 
     void delete(K id);
 
-    T findById(K id);
+    T findById(String nameId, K id);
 
     List<T> findAll();
 
     T mapResultSetToEntity(ResultSet rs) throws Exception;
+
+    String getTableName();
 }

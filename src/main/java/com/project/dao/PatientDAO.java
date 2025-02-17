@@ -1,27 +1,24 @@
 package com.project.dao;
 
-import com.project.entity.Cpf;
 import com.project.exception.InvalidCpfException;
 import com.project.model.Patient;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
-public class PatientDAO implements Idao<Patient, Cpf> {
+public class PatientDAO extends AbstractDAO<Patient, String> {
     // public static PatientDAO staticPatient = new PatientDAO();
 
     // @Override;
-    public static void initi() {
+    @Override
+    public void start() {
         DbConnect.openBank();
-        ConsultationDAO.initi();
-        FutureMedicalAppointmentDAO.initi();
-        String query = "CREATE TABLE IF NOT EXISTS "
-                + "Patient(cpf_Patient CHAR(11) PRIMARY KEY,"
-                + "nome_Patient text"
-                + ");";
+        String query = "";
+        query += "CREATE TABLE IF NOT EXISTS " + this.getTableName() + " ";
+        query += "cpf_id TEXT PRIMARY KEY,";
+        query += "name TEXT";
+        query += ");";
 
         try {
             DbConnect.execQuery(query);
@@ -30,108 +27,9 @@ public class PatientDAO implements Idao<Patient, Cpf> {
         }
     }
 
-    @Override
-    public Patient mapResultSetToEntity(ResultSet rs) throws InvalidCpfException, SQLException {
-        Cpf cpf = new Cpf(rs.getString("cpf_Patient"));
-        String name = rs.getString("nome_Patient");
-
-        return new Patient(cpf, name);
-    }
-
-    @Override
-    public void save(Patient patient) {
-        String query = "INSERT INTO Patient "
-                + "(cpf_Patient, nome_Patient)"
-                + "VALUES (?, ?)";
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-
-            pstmt.setString(1, patient.geCpft().getStringCpf());
-            pstmt.setString(2, patient.getName());
-
-            pstmt.executeUpdate();
-        } catch (Exception e) {
-            System.err.println("Error PatientDAO: " + e.getMessage());
-        }
-        DbConnect.closeBank();
-    }
-
-    @Override
-    public void update(Patient patient) {
-        String query = "UPDATE Patient SET "
-                + "nome_Patient = ?";
-
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-
-            pstmt.setString(1, patient.getName());
-
-            pstmt.executeUpdate();
-        } catch (Exception e) {
-            System.err.println("Error PatientDAO: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void delete(Cpf cpf) {
-        String query = "DELETE FROM Patient WHERE cpf_Patient = ?";
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, cpf.getStringCpf());
-            pstmt.executeUpdate();
-        } catch (Exception e) {
-            System.err.println("Error.PatientDAO.delete: " + e.getMessage());
-        }
-
-        DbConnect.closeBank();
-    }
-
-    @Override
-    public Patient findById(Cpf cpf) {
-        Patient patient = null;
-        String query = "SELECT * FROM Patient WHERE cpf_Patient = ?";
-
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, cpf.getStringCpf());
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                patient = this.mapResultSetToEntity(rs);
-            }
-        } catch (Exception e) {
-            System.err.println("Error PatientDAO.seek: " + e.getMessage());
-        }
-
-        DbConnect.closeBank();
-        return patient;
-    }
-
-    @Override
-    public List<Patient> findAll() {
-        List<Patient> patients = new ArrayList<Patient>();
-
-        String query = "SELECT * FROM Patient";
-
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            ResultSet rSet = pstmt.executeQuery();
-
-            if (rSet.next()) {
-                Patient patient = this.mapResultSetToEntity(rSet);
-                patients.add(patient);
-            }
-        } catch (Exception e) {
-            System.err.println("Error PatientDAO.findAll: " + e.getMessage());
-        }
-
-        DbConnect.closeBank();
-        return patients;
-    }
-
-    public boolean existPatient(Cpf cpf) {
+    public boolean existPatient(String cpf) {
         // Patient patient = PatientDAO.findById(cpf);
-        Patient patient = this.findById(cpf);
+        Patient patient = this.findById("cpf_id", cpf);
         if (patient == null)
             return false;
         return true;
@@ -153,6 +51,51 @@ public class PatientDAO implements Idao<Patient, Cpf> {
         }
         DbConnect.closeBank();
         return count;
+    }
+
+    @Override
+    public Patient mapResultSetToEntity(ResultSet rs) throws InvalidCpfException, SQLException {
+        String cpf = rs.getString("cpf_id");
+        String name = rs.getString("name");
+
+        return new Patient(cpf, name);
+    }
+
+    @Override
+    public String getTableName() {
+        return "patient";
+    }
+
+    @Override
+    protected String getSaveQuery() {
+        String query = "";
+        query += "INSERT INTO " + this.getTableName() + " ";
+        query += "(cpf_id, name)";
+        query += "VALUES (?, ?);";
+
+        return query;
+    }
+
+    @Override
+    protected void setPstmtForSave(PreparedStatement pstmt, Patient obj) throws SQLException {
+        pstmt.setString(1, obj.geCpft());
+        pstmt.setString(2, obj.getName());
+    }
+
+    @Override
+    protected String getUpdateQuery() {
+        String query = "";
+        query += "UPDATE " + this.getTableName() + " SET ";
+        query += "name = ?";
+        query += "WHERE cpf_id = ?;";
+
+        return query;
+    }
+
+    @Override
+    protected void setPstmtForUdate(PreparedStatement pstmt, Patient obj) throws SQLException {
+        pstmt.setString(1, obj.getName());
+        pstmt.setString(2, obj.geCpft());
     }
 
 }

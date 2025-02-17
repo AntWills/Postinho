@@ -96,7 +96,6 @@ public class InitialMenu {
     }
 
     private void scheduleNewAppointment() {
-        Cpf cpf = null;
         Patient patient = null;
         Doctor doctor = null;
         Date date = null;
@@ -111,7 +110,7 @@ public class InitialMenu {
         int type = ReadDataFromTerminal.INT();
 
         System.out.println("Digite o CPF do paciente: ");
-        String cpfString = ReadDataFromTerminal.STRING();
+        String cpf = ReadDataFromTerminal.STRING();
 
         System.out.println("Digite o codigo do doutor de plantao: ");
         int idDoctor = ReadDataFromTerminal.INT();
@@ -125,7 +124,6 @@ public class InitialMenu {
         // Consultation mConsultation = new Consultation();
 
         try {
-            cpf = new Cpf(cpfString);
             patient = PatientService.findById(cpf);
             doctor = DoctorService.findById(idDoctor);
             date = new Date(dateString);

@@ -1,34 +1,42 @@
 package com.project.model;
 
 import java.util.List;
-import com.project.entity.Cpf;
+
+import com.project.exception.InvalidCpfException;
+import com.project.exception.UtilCpf;
+
 import java.util.ArrayList;
 
 public class Patient {
-    Cpf cpf;
+    String cpf;
     String name;
     List<Consultation> consultations;
 
     public Patient() {
     }
 
-    public Patient(Cpf cpf, String name) {
+    public Patient(String cpf, String name) throws InvalidCpfException {
+        UtilCpf.validator(cpf);
         this.cpf = cpf;
         this.name = name;
         this.consultations = new ArrayList<>();
     }
 
-    public Patient(Cpf cpf, String name, List<Consultation> cultateList) {
+    public Patient(String cpf, String name, List<Consultation> cultateList) throws InvalidCpfException {
+        UtilCpf.validator(cpf);
+
         this.cpf = cpf;
         this.name = name;
         this.consultations = cultateList;
     }
 
-    public Cpf geCpft() {
+    public String geCpft() {
         return cpf;
     }
 
-    public void setCpfId(Cpf cpf) {
+    public void setCpfId(String cpf) throws InvalidCpfException {
+        UtilCpf.validator(cpf);
+
         this.cpf = cpf;
     }
 

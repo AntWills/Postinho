@@ -25,7 +25,7 @@ public class DoctorService {
     }
 
     public static Doctor findById(int id) {
-        return doctorDAO.findById(id);
+        return doctorDAO.findById("doctor_id", id);
     }
 
     public static List<Doctor> findAll() {
