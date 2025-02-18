@@ -2,12 +2,8 @@ package com.project.dao;
 
 import java.util.List;
 
-import com.project.entity.Date;
 import com.project.model.Consultation;
-import com.project.model.Doctor;
 import com.project.model.Patient;
-import com.project.service.DoctorService;
-import com.project.service.PatientService;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +13,7 @@ import java.util.ArrayList;
 
 public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
     @Override
-    public void start() {
+    public void start() throws SQLException {
         DbConnect.openBank();
         String query = "";
         query += "CREATE TABLE IF NOT EXISTS " + this.getTableName() + " (";
@@ -31,15 +27,12 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         query += "FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_id)";
         query += ");";
 
-        try {
-            DbConnect.execQuery(query);
-        } catch (Exception e) {
-            System.err.println("Error MedicalAppointmentDAO: " + e.getMessage());
-        }
+        DbConnect.execQuery(query);
+
         DbConnect.closeBank();
     }
 
-    public List<Consultation> findByPatient(Patient patient) {
+    public List<Consultation> findByPatient(Patient patient) throws SQLException {
         List<Consultation> list = new ArrayList<>();
 
         String query = "SELECT * FROM " + this.getTableName() + " ";
@@ -64,7 +57,7 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         return list;
     }
 
-    public Consultation findByIdAndPatient(Integer id, Patient patient) {
+    public Consultation findByIdAndPatient(Integer id, Patient patient) throws SQLException {
         Consultation consultation = null;
 
         String query = "SELECT * FROM MedicalAppointment "
@@ -91,7 +84,7 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         return consultation;
     }
 
-    public List<Consultation> findByDate(Date date) {
+    public List<Consultation> findByDate(LocalDate date) throws SQLException {
         List<Consultation> consultations = new ArrayList<>();
 
         String query = "SELECT * FROM " + this.getTableName() + " ";
@@ -113,7 +106,7 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         return consultations;
     }
 
-    public Consultation findByPatientAndDate(Patient patient, LocalDate date) {
+    public Consultation findByPatientAndDate(Patient patient, LocalDate date) throws SQLException {
         Consultation consultation = null;
 
         String query = "SELECT * FROM " + this.getTableName() + " ";
@@ -136,7 +129,7 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         return consultation;
     }
 
-    public List<Consultation> findByPatientAndDateBefore(Patient patient, Date date) {
+    public List<Consultation> findByPatientAndDateBefore(Patient patient, LocalDate date) throws SQLException {
         List<Consultation> consultations = new ArrayList<>();
 
         String query = "SELECT * FROM " + this.getTableName() + " ";
@@ -160,7 +153,7 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         return consultations;
     }
 
-    public List<Consultation> findByPatientAndDateAfter(Patient patient, Date date) {
+    public List<Consultation> findByPatientAndDateAfter(Patient patient, LocalDate date) throws SQLException {
         List<Consultation> consultations = new ArrayList<>();
 
         String query = "SELECT * FROM " + this.getTableName() + " ";
@@ -185,21 +178,19 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
     }
 
     @Override
-    public Consultation mapResultSetToEntity(ResultSet rs) throws Exception {
+    public Consultation mapResultSetToEntity(ResultSet rs) throws SQLException {
         int idConsultation = rs.getInt("consultation_id");
 
-        String cpf = rs.getString("patient_id");
-        Patient patient = PatientService.findById(cpf);
+        String patientId = rs.getString("patient_id");
 
-        int idDoctor = rs.getInt("doctor_id");
-        Doctor doctor = DoctorService.findById(idDoctor);
+        int doctorId = rs.getInt("doctor_id");
 
         int status = rs.getInt("status");
 
         LocalDate date = LocalDate.parse(rs.getString("date_consultation"));
         String reazon = rs.getString("reazon");
 
-        return new Consultation(idConsultation, status, patient, doctor, date, reazon);
+        return new Consultation(idConsultation, status, patientId, doctorId, date, reazon);
     }
 
     @Override
@@ -219,8 +210,8 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
 
     @Override
     protected void setPstmtForSave(PreparedStatement pstmt, Consultation obj) throws SQLException {
-        pstmt.setString(1, obj.getPatient().geCpf());
-        pstmt.setInt(2, obj.getDoctor().getId());
+        pstmt.setString(1, obj.getPatientId());
+        pstmt.setInt(2, obj.getDoctorId());
         pstmt.setInt(3, obj.getStatus());
         pstmt.setString(4, obj.getDate().toString());
         pstmt.setString(5, obj.getReasonForService());
@@ -242,8 +233,8 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
 
     @Override
     protected void setPstmtForUdate(PreparedStatement pstmt, Consultation obj) throws SQLException {
-        pstmt.setString(1, obj.getPatient().geCpf());
-        pstmt.setInt(2, obj.getDoctor().getId());
+        pstmt.setString(1, obj.getPatientId());
+        pstmt.setInt(2, obj.getDoctorId());
         pstmt.setInt(3, obj.getStatus());
         pstmt.setString(4, obj.getDate().toString());
         pstmt.setString(5, obj.getReasonForService());

@@ -1,16 +1,14 @@
 package com.project.view.Menu;
 
-import com.project.entity.*;
 import com.project.exception.InvalidCpfException;
-import com.project.exception.InvalidDateException;
-import com.project.exception.UtilCpf;
 import com.project.model.*;
 import com.project.service.*;
+import com.project.util.EntityUtil;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
-import com.project.dao.*;
+import com.project.util.UtilCpf;
 
-import java.nio.charset.Charset;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -67,6 +65,8 @@ public class InitialMenu {
 
     public void options() {
         switch (op) {
+            case 0:
+                break;
             case 1:
                 registerNewConsultation();
                 break;
@@ -80,7 +80,7 @@ public class InitialMenu {
                 assistPatientToday();
                 break;
             case 5:
-                DbMedicalAppointmentMenu.runDbMedicalAppointmentMenu();
+                DbConsultationMenu.runDbMedicalAppointmentMenu();
                 break;
             case 6:
                 DbPatientMenu.runDbPatientMenu();
@@ -88,10 +88,7 @@ public class InitialMenu {
             case 7:
                 // changeDate();
                 break;
-            case 0:
-                break;
             default:
-
                 break;
         }
     }
@@ -111,24 +108,50 @@ public class InitialMenu {
         System.out.print("Motivacao da consulta (opcional): ");
         String reazon = ReadDataFromTerminal.STRING();
 
-        ConsultationService.save(status, cpf, idDoctor, today, reazon);
+        Terminal.clear();
+
+        Patient patient;
+        try {
+            patient = PatientService.findById(cpf);
+        } catch (SQLException e) {
+            System.err.println("Ouvi um erro ao buscar os dados do paciente.\n");
+            Terminal.pause();
+            return;
+        }
+
+        if (patient == null) {
+            System.out.println("Paciente não cadastrado.");
+            System.out.println("Por favor, cadastrar o paciente.\n");
+            Terminal.pause();
+            return;
+        }
+
+        Doctor doctor;
+        try {
+            doctor = DoctorService.findById(idDoctor);
+        } catch (SQLException e) {
+            System.err.println("Ouvi um erro ao buscar os dados do doutor.\n");
+            Terminal.pause();
+            return;
+        }
+
+        if (doctor == null) {
+            System.out.println("Doutor não cadastrado.");
+            System.out.println("Por favor, cadastrar o doutor.\n");
+            Terminal.pause();
+            return;
+        }
+
+        try {
+            ConsultationService.save(status, patient, doctor, today, reazon);
+        } catch (SQLException e) {
+            System.err.println("Ouvi um erro ao salvar os dados da consulta.\n");
+        }
         Terminal.pause();
-
-        // Patient patient = PatientService.findById(cpf);
-
-        // if (patient == null) {
-        // Terminal.clear();
-        // System.out.println("-- ERRO --\n");
-        // System.out.println("O paciente nao esta cadastrado.");
-        // System.out.println("Por favor, cadastra-lo e depois retorne.");
-        // Terminal.pause();
-        // }
 
     }
 
     private void scheduleNewConsultation() {
-        Patient patient = null;
-        Doctor doctor = null;
         LocalDate date = null;
 
         System.out.println("Tipo de status: ");
@@ -150,14 +173,46 @@ public class InitialMenu {
         String dateString = ReadDataFromTerminal.STRING();
 
         System.out.print("\nDigite a razão da consulta (Opcional): ");
-        String reaso = ReadDataFromTerminal.STRING();
+        String reazon = ReadDataFromTerminal.STRING();
 
         // Consultation mConsultation = new Consultation();
 
+        Terminal.clear();
+
+        Patient patient;
+        try {
+            patient = PatientService.findById(cpf);
+        } catch (SQLException e) {
+            System.err.println("Ouvi um erro ao buscar os dados do paciente.\n");
+            Terminal.pause();
+            return;
+        }
+
+        if (patient == null) {
+            System.out.println("Paciente não cadastrado.");
+            System.out.println("Por favor, cadastrar o paciente.\n");
+            Terminal.pause();
+            return;
+        }
+
+        Doctor doctor;
+        try {
+            doctor = DoctorService.findById(idDoctor);
+        } catch (SQLException e) {
+            System.err.println("Ouvi um erro ao buscar os dados do doutor.\n");
+            Terminal.pause();
+            return;
+        }
+
+        if (doctor == null) {
+            System.out.println("Doutor não cadastrado.");
+            System.out.println("Por favor, cadastrar o doutor.\n");
+            Terminal.pause();
+            return;
+        }
+
         try {
             UtilCpf.validator(cpf);
-            patient = PatientService.findById(cpf);
-            doctor = DoctorService.findById(idDoctor);
             date = LocalDate.parse(dateString);
 
         } catch (InvalidCpfException e) {
@@ -165,46 +220,50 @@ public class InitialMenu {
             System.out.println("- Cpf digitado de forma incorreta.");
             System.out.println("- O cpf é invalido.");
 
+            Terminal.pause();
             return;
         } catch (DateTimeParseException e) {
             System.out.println("## Erro ##");
             System.out.println(e.getMessage());
 
+            Terminal.pause();
             return;
         }
 
-        if (patient == null) {
-            System.out.println("## Erro ##");
-            System.out.println("O paciente nao esta cadastrado.");
-            System.out.println("Favor cadastrar.");
+        try {
+            ConsultationService.save(status, patient, doctor, date, reazon);
+        } catch (SQLException e) {
+            System.err.println("Ouvi um erro ao salvar os dados da consulta.\n");
         }
-
-        if (doctor == null) {
-            System.out.println("## Erro ##");
-            System.out.println("O doutor nao esta cadastrado.");
-            System.out.println("Favor cadastrar.");
-        }
-
-        ConsultationService.save(status, patient, doctor, date, reaso);
+        Terminal.pause();
     }
 
     private void consultationRegisterToday() {
-        // List<Consultation> mcList = FutureMedicalAppointmentDAO.search(today);
+        List<Consultation> consultationList = null;
+        Terminal.clear();
+        try {
+            consultationList = ConsultationService.findByDate(today);
+        } catch (SQLException e) {
+            System.err.println("Ouvi um erro ao buscar os dados as consultas para hoje.\n");
 
-        // Terminal.clear();
-        // if (mcList.size() == 0) {
-        // System.out.println("Não há consultas agendadas para hoje.\n");
-        // } else {
-        // System.out.println("-- Consultas para hoje --\n");
+            Terminal.pause();
+            return;
+        }
 
-        // for (Consultation mc : mcList) {
-        // System.out.println(mc + "\n");
-        // }
-        // System.out.println("Um total de " + mcList.size()
-        // + " agendadas para hoje.\n\n");
-        // }
+        if (consultationList.size() == 0) {
+            System.out.println("Não há consultas agendadas para hoje.\n");
+        } else {
+            System.out.println("-- Consultas para hoje --\n");
 
-        // Terminal.pause();
+            for (Consultation consultation : consultationList) {
+                EntityUtil.printInTerminal(consultation);
+                System.out.println("---------------------------------------");
+            }
+            System.out.println("\nUm total de " + consultationList.size()
+                    + " agendadas para hoje.\n\n");
+        }
+
+        Terminal.pause();
     }
 
     private void assistPatientToday() {
@@ -222,22 +281,38 @@ public class InitialMenu {
             System.out.println("- O cpf é invalido.");
         }
 
-        Consultation consultation = ConsultationService.findByPatientAndDate(patient, today);
+        Consultation consultation = null;
+        try {
+            consultation = ConsultationService.findByPatientAndDate(patient, today);
+        } catch (SQLException e) {
+            System.err.println("Ouvi um erro ao buscar a consulta.\n");
+        }
 
         if (consultation == null) {
-            System.out.println("\nId da consulta não encontrado.\n");
+            System.out.println("\nCódigo da consulta não encontrado.\n");
             Terminal.pause();
             return;
         }
 
-        System.out.print("\nDeseja antender está consulta?\n\n"
-                + "\n\n:[y][n]");
-        if (ReadDataFromTerminal.CHAR() == 'y') {
-            consultation.setStatus(1);
-            ConsultationService.update(consultation);
+        System.out.print("\nDeseja antender está consulta? [y][n]\n");
+        EntityUtil.printInTerminal(consultation);
+        System.out.println("\n::");
 
-            System.out.println("Paciente atendido, seu status da consulta foi atualizado.\n");
+        if (ReadDataFromTerminal.CHAR() != 'y') {
+            return;
         }
+
+        consultation.setStatus(1);
+        try {
+            ConsultationService.update(consultation);
+        } catch (SQLException e) {
+            System.err.println("## ERRO ##");
+            System.err.println("Ouvi um erro ao buscar a consulta.\n");
+            Terminal.pause();
+            return;
+        }
+
+        System.out.println("Paciente atendido, seu status da consulta foi atualizado.\n");
 
         System.out.println("\n\nVoltando ao menu inicial.\n\n");
         Terminal.pause();

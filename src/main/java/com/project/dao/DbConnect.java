@@ -37,7 +37,7 @@ public class DbConnect {
         return connection;
     }
 
-    public static void execQuery(String query) throws Exception {
+    public static void execQuery(String query) throws SQLException {
         Connection dbConnection = getConnection();
         Statement stm = dbConnection.createStatement();
         stm.executeUpdate(query);

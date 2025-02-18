@@ -1,9 +1,9 @@
 package com.project.view.Menu;
 
-import com.project.entity.Date;
 import com.project.model.Consultation;
 import com.project.model.Patient;
 import com.project.service.ConsultationService;
+import com.project.util.EntityUtil;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 
@@ -34,9 +34,10 @@ public class PatientMenu {
         Terminal.clear();
         System.out.println("## Paciente : " + patient.getName() + " ##\n");
 
-        System.out.println("Dados do paciente:\n" + patient + "\n");
+        System.out.println("Dados do paciente:\n");
+        EntityUtil.printInTerminal(patient);
 
-        System.out.println("[1] : Imprimir ultimas consultas.");
+        System.out.println("\n[1] : Imprimir ultimas consultas.");
         System.out.println("[2] : Imprimir consultas futuras.");
         System.out.println("[3] : Atualizar ultimas consulta.");
         System.out.println("[4] : Remarcar consultas futuras.");
@@ -58,7 +59,7 @@ public class PatientMenu {
                 updateConsultation();
                 break;
             case 4:
-                updateFutureMedicalAppointment();
+                updateFutureConsultation();
                 break;
             default:
                 break;
@@ -123,7 +124,7 @@ public class PatientMenu {
 
         Consultation consultation = consultationOp.get();
 
-        ConsultationMenu.runMedicalAppointmentMenu(consultation);
+        ConsultationMenu.runMedicalConsultation(consultation);
 
         // if (mAppointment == null) {
         // Terminal.clear();
@@ -138,7 +139,7 @@ public class PatientMenu {
         // MedicalConsultationDAO.updade(id, mAppointment);
     }
 
-    private void updateFutureMedicalAppointment() {
+    private void updateFutureConsultation() {
         // Terminal.clear();
         // System.out.print("Digite o id da consulta: ");
         // int id = ReadDataFromTerminal.INT();

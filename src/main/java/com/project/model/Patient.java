@@ -3,9 +3,7 @@ package com.project.model;
 import java.util.List;
 
 import com.project.exception.InvalidCpfException;
-import com.project.exception.UtilCpf;
-
-import java.util.ArrayList;
+import com.project.util.UtilCpf;
 
 public class Patient {
     String cpf;

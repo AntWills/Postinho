@@ -14,7 +14,7 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
 
     // @Override;
     @Override
-    public void start() {
+    public void start() throws SQLException {
         DbConnect.openBank();
         String query = "";
         query += "CREATE TABLE IF NOT EXISTS " + this.getTableName() + " (";
@@ -22,11 +22,8 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
         query += "name TEXT";
         query += ");";
 
-        try {
-            DbConnect.execQuery(query);
-        } catch (Exception e) {
-            System.err.println("Error PatientDAO: " + e.getMessage());
-        }
+        DbConnect.execQuery(query);
+
     }
 
     // public List<Consultation> findAllConsultation(String cpf) {
@@ -47,14 +44,6 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
     // return consultations;
     // }
 
-    public boolean existPatient(String cpf) {
-        // Patient patient = PatientDAO.findById(cpf);
-        Patient patient = this.findById("cpf_id", cpf);
-        if (patient == null)
-            return false;
-        return true;
-    }
-
     public int numberPatient() {
         String query = "SELECT COUNT(*) FROM Patient;";
 
@@ -74,10 +63,16 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
     }
 
     @Override
-    public Patient mapResultSetToEntity(ResultSet rs) throws InvalidCpfException, SQLException {
+    public Patient mapResultSetToEntity(ResultSet rs) throws SQLException {
         String cpf = rs.getString("cpf_id");
         String name = rs.getString("name");
-        Patient patient = new Patient(cpf, name);
+
+        Patient patient = null;
+        try {
+            patient = new Patient(cpf, name);
+        } catch (InvalidCpfException e) {
+            throw new SQLException("CPF invalido.");
+        }
 
         patient.setConsultations(
                 ConsultationService.findByPatient(patient));

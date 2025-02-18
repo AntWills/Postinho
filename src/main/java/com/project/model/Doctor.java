@@ -7,6 +7,10 @@ public class Doctor {
     public Doctor() {
     }
 
+    public Doctor(String name) {
+        this.name = name;
+    }
+
     public Doctor(int id, String name) {
         this.id = id;
         this.name = name;

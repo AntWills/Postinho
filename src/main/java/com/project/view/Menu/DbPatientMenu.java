@@ -1,10 +1,12 @@
 package com.project.view.Menu;
 
+import java.sql.SQLException;
+
 import com.project.exception.InvalidCpfException;
-import com.project.exception.UtilCpf;
 import com.project.model.Patient;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
+import com.project.util.UtilCpf;
 import com.project.service.PatientService;
 
 public class DbPatientMenu {
@@ -85,14 +87,20 @@ public class DbPatientMenu {
         try {
             UtilCpf.validator(cpf);
         } catch (InvalidCpfException e) {
-            System.out.println("## Erro ##");
+            System.out.println("## ERRO ##");
             System.out.println("- Cpf digitado de forma incorreta.");
             System.out.println("- O cpf é invalido.");
 
             return;
         }
 
-        Patient patient = PatientService.findById(cpf);
+        Patient patient = null;
+        try {
+            patient = PatientService.findById(cpf);
+        } catch (SQLException e) {
+            System.err.println("## ERRO ##");
+            System.err.println("Ouvi um erro ao buscar p paciente.");
+        }
 
         if (patient == null) {
             System.out.println("paciente não encontrado.\n");

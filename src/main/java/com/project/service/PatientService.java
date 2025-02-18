@@ -1,26 +1,27 @@
 package com.project.service;
 
 import com.project.dao.PatientDAO;
+import com.project.exception.ExistEntityException;
 import com.project.exception.InvalidCpfException;
-import com.project.exception.UtilCpf;
 // import com.project.exception.InvalidCpfException;
 import com.project.model.Patient;
+import com.project.util.UtilCpf;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class PatientService {
 
     private static PatientDAO patientDAO = new PatientDAO();
 
-    public static void start() {
+    public static void start() throws SQLException {
         patientDAO.start();
     }
 
-    public static void save(String cpf, String name) throws InvalidCpfException, IllegalArgumentException {
-        if (patientDAO.existPatient(cpf)) {
-            throw new IllegalArgumentException("Paciente com este CPF já existe");
+    public static void save(String cpf, String name) throws InvalidCpfException, SQLException, ExistEntityException {
+        if (PatientService.findById(cpf) != null) {
+            throw new ExistEntityException("O paciente já existe.");
         }
-
         Patient patient = new Patient(cpf, name);
         patientDAO.save(patient);
     }
@@ -30,11 +31,11 @@ public class PatientService {
         patientDAO.update(patient);
     }
 
-    public static void delete(String cpf) {
+    public static void delete(String cpf) throws SQLException {
         patientDAO.delete(cpf);
     }
 
-    public static Patient findById(String cpf) {
+    public static Patient findById(String cpf) throws SQLException {
         try {
             UtilCpf.validator(cpf);
         } catch (InvalidCpfException e) {
@@ -45,12 +46,8 @@ public class PatientService {
         return patient;
     }
 
-    public static List<Patient> findAll() {
+    public static List<Patient> findAll() throws SQLException {
         return patientDAO.findAll();
-    }
-
-    public static boolean exist(String cpf) {
-        return patientDAO.existPatient(cpf);
     }
 
     public static int cauntPatients() {

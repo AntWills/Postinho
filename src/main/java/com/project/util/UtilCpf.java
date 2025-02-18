@@ -1,4 +1,6 @@
-package com.project.exception;
+package com.project.util;
+
+import com.project.exception.InvalidCpfException;
 
 import br.com.caelum.stella.validation.CPFValidator;
 

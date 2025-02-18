@@ -7,7 +7,7 @@ import com.project.model.Doctor;
 
 public class DoctorDAO extends AbstractDAO<Doctor, Integer> {
     @Override
-    public void start() {
+    public void start() throws SQLException {
         DbConnect.openBank();
         String query = "";
         query += "CREATE TABLE IF NOT EXISTS " + this.getTableName() + " (";
@@ -15,16 +15,13 @@ public class DoctorDAO extends AbstractDAO<Doctor, Integer> {
         query += "name TEXT NOT NULL";
         query += ");";
 
-        try {
-            DbConnect.execQuery(query);
-        } catch (Exception e) {
-            System.err.println("Error MedicalAppointmentDAO: " + e.getMessage());
-        }
+        DbConnect.execQuery(query);
+
         DbConnect.closeBank();
     }
 
     @Override
-    public Doctor mapResultSetToEntity(ResultSet rs) throws Exception {
+    public Doctor mapResultSetToEntity(ResultSet rs) throws SQLException {
         int id = rs.getInt("doctor_id");
         String name = rs.getString("name");
 

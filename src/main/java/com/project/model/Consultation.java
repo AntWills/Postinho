@@ -2,11 +2,6 @@ package com.project.model;
 
 import java.time.LocalDate;
 
-// import com.project.entity.Cpf;
-import com.project.entity.Date;
-// import com.project.model.Doctor;
-// import com.project.service.PatientService;
-
 public class Consultation {
     private int id;
     /**
@@ -16,8 +11,8 @@ public class Consultation {
      * 3 -> Não realizado.
      */
     private int status;
-    private Patient patient;
-    private Doctor doctor;
+    private String patientId;
+    private int doctorId;
     private LocalDate date;
     private String reasonForService;
 
@@ -27,39 +22,29 @@ public class Consultation {
     public Consultation(
             int id,
             int status,
-            Patient patient,
-            Doctor doctor,
+            String patientId,
+            int doctorId,
             LocalDate dateService,
             String reasonForService) {
         this.id = id;
         this.status = status;
-        this.patient = patient;
-        this.doctor = doctor;
+        this.patientId = patientId;
+        this.doctorId = doctorId;
         this.date = dateService;
         this.reasonForService = reasonForService;
     }
 
     public Consultation(
             int status,
-            Patient patient,
-            Doctor doctor,
+            String patientId,
+            int doctorId,
             LocalDate dateService,
             String reasonForService) {
         this.status = status;
-        this.patient = patient;
-        this.doctor = doctor;
+        this.patientId = patientId;
+        this.doctorId = doctorId;
         this.date = dateService;
         this.reasonForService = reasonForService;
-    }
-
-    @Override
-    public String toString() {
-        // return ColorOut.getText(typeServiceString(typeService),
-        // colorType(typeService))
-        // + " Data: " + dateConsultation.toString() + "\n"
-        // + "CPF do paciente: " + idPatient + " ID: " + id + "\n"
-        // + "Motivação: " + reasonForService + ".";
-        return "";
     }
 
     public int getId() {
@@ -70,20 +55,20 @@ public class Consultation {
         this.id = id;
     }
 
-    public Patient getPatient() {
-        return this.patient;
+    public String getPatientId() {
+        return this.patientId;
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
+    public void setPatient(String patientId) {
+        this.patientId = patientId;
     }
 
-    public Doctor getDoctor() {
-        return this.doctor;
+    public int getDoctorId() {
+        return this.doctorId;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setDoctor(int doctorId) {
+        this.doctorId = doctorId;
     }
 
     public LocalDate getDate() {

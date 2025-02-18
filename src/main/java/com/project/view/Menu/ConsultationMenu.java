@@ -1,5 +1,6 @@
 package com.project.view.Menu;
 
+import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
@@ -16,7 +17,7 @@ public class ConsultationMenu {
         this.consultation = medicalAppointment;
     }
 
-    public static void runMedicalAppointmentMenu(Consultation medicalAppointment) {
+    public static void runMedicalConsultation(Consultation medicalAppointment) {
         ConsultationMenu mAppointmentMenu = new ConsultationMenu(medicalAppointment);
 
         do {
@@ -45,7 +46,13 @@ public class ConsultationMenu {
     public void options() {
         switch (this.op) {
             case 0:
-                ConsultationService.update(consultation);
+                try {
+                    ConsultationService.update(consultation);
+                } catch (SQLException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    Terminal.pause();
+                }
                 break;
             case 1:
                 updateType();

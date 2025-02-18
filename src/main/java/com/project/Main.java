@@ -8,10 +8,14 @@ import com.project.view.Menu.InitialMenu;
 public class Main {
 
     public static void main(String[] args) {
-        PatientService.start();
-        DoctorService.start();
-        ConsultationService.start();
-
+        try {
+            PatientService.start();
+            DoctorService.start();
+            ConsultationService.start();
+        } catch (Exception e) {
+            System.err.println("Ouvi um erro: " + e.getMessage());
+            return;
+        }
         InitialMenu.runInitialMenu();
     }
 }
