@@ -4,27 +4,33 @@ import com.project.entity.*;
 import com.project.exception.InvalidCpfException;
 import com.project.exception.InvalidDateException;
 import com.project.exception.UtilCpf;
-import com.project.model.Consultation;
-import com.project.model.Doctor;
-import com.project.model.Patient;
-import com.project.service.ConsultationService;
-import com.project.service.DoctorService;
-import com.project.service.PatientService;
+import com.project.model.*;
+import com.project.service.*;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 import com.project.dao.*;
+
+import java.nio.charset.Charset;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public class InitialMenu {
     private int op;
-    private Date today;
+    private LocalDate today;
+
+    // static {
+    // System.setProperty("file.encoding", "UTF-8");
+    // Charset.defaultCharset(); // Atualiza a configuração global
+    // }
 
     public InitialMenu() {
-        try {
-            this.today = new Date("2007-12-03");
-        } catch (InvalidDateException e) {
-            e.printStackTrace();
-        }
+        // try {
+        // this.today = new Date("2007-12-03");
+        this.today = LocalDate.now();
+        // } catch (InvalidDateException e) {
+        // e.printStackTrace();
+        // }
     }
 
     public static void runInitialMenu() {
@@ -41,6 +47,7 @@ public class InitialMenu {
     public void menu() {
         Terminal.clear();
         System.out.println("## Postinho - Data: " + today + " ##\n");
+
         System.out.println("[1] : Registrar nova consultas.");
         System.out.println("[2] : Agender consulta.");
         System.out.println("[3] : Consultas agendados para hoje.");
@@ -61,13 +68,13 @@ public class InitialMenu {
     public void options() {
         switch (op) {
             case 1:
-                registerNewAppointment();
+                registerNewConsultation();
                 break;
             case 2:
                 scheduleNewConsultation();
                 break;
             case 3:
-                appointmentRegisterToday();
+                consultationRegisterToday();
                 break;
             case 4:
                 assistPatientToday();
@@ -89,17 +96,40 @@ public class InitialMenu {
         }
     }
 
-    private void registerNewAppointment() {
+    private void registerNewConsultation() {
+        Terminal.clear();
+        int status = 1;
 
-        // MedicalConsultation mAppointment = MedicalConsultation.inTerminal(true, "##
-        // Insira os dados da consulta ##\n");
-        // MedicalAppointmentDAO.add(mAppointment);
+        System.out.print("## Resgitrando Uma nova consulta ##\n");
+
+        System.out.print("Digite o cpf do paciente: ");
+        String cpf = ReadDataFromTerminal.STRING();
+
+        System.out.print("Digite o codigo do doutor: ");
+        int idDoctor = ReadDataFromTerminal.INT();
+
+        System.out.print("Motivacao da consulta (opcional): ");
+        String reazon = ReadDataFromTerminal.STRING();
+
+        ConsultationService.save(status, cpf, idDoctor, today, reazon);
+        Terminal.pause();
+
+        // Patient patient = PatientService.findById(cpf);
+
+        // if (patient == null) {
+        // Terminal.clear();
+        // System.out.println("-- ERRO --\n");
+        // System.out.println("O paciente nao esta cadastrado.");
+        // System.out.println("Por favor, cadastra-lo e depois retorne.");
+        // Terminal.pause();
+        // }
+
     }
 
     private void scheduleNewConsultation() {
         Patient patient = null;
         Doctor doctor = null;
-        Date date = null;
+        LocalDate date = null;
 
         System.out.println("Tipo de status: ");
         System.out.println("(0) : Agendado");
@@ -128,7 +158,7 @@ public class InitialMenu {
             UtilCpf.validator(cpf);
             patient = PatientService.findById(cpf);
             doctor = DoctorService.findById(idDoctor);
-            date = new Date(dateString);
+            date = LocalDate.parse(dateString);
 
         } catch (InvalidCpfException e) {
             System.out.println("## Erro ##");
@@ -136,7 +166,7 @@ public class InitialMenu {
             System.out.println("- O cpf é invalido.");
 
             return;
-        } catch (InvalidDateException e) {
+        } catch (DateTimeParseException e) {
             System.out.println("## Erro ##");
             System.out.println(e.getMessage());
 
@@ -158,7 +188,7 @@ public class InitialMenu {
         ConsultationService.save(status, patient, doctor, date, reaso);
     }
 
-    private void appointmentRegisterToday() {
+    private void consultationRegisterToday() {
         // List<Consultation> mcList = FutureMedicalAppointmentDAO.search(today);
 
         // Terminal.clear();

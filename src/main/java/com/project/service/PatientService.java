@@ -2,8 +2,10 @@ package com.project.service;
 
 import com.project.dao.PatientDAO;
 import com.project.exception.InvalidCpfException;
+import com.project.exception.UtilCpf;
 // import com.project.exception.InvalidCpfException;
 import com.project.model.Patient;
+
 import java.util.List;
 
 public class PatientService {
@@ -33,10 +35,12 @@ public class PatientService {
     }
 
     public static Patient findById(String cpf) {
-        Patient patient = patientDAO.findById("cpf_id", cpf);
-        if (patient == null) {
-            throw new IllegalArgumentException("Paciente não encontrado");
+        try {
+            UtilCpf.validator(cpf);
+        } catch (InvalidCpfException e) {
+            return null;
         }
+        Patient patient = patientDAO.findById("cpf_id", cpf);
 
         return patient;
     }

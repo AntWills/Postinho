@@ -1,17 +1,19 @@
 package com.project.view.Menu;
 
-import com.project.entity.Date;
-import com.project.exception.InvalidDateException;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+
 import com.project.model.Consultation;
+import com.project.service.ConsultationService;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 
 public class ConsultationMenu {
     private int op;
-    private Consultation mAppointment;
+    private Consultation consultation;
 
     public ConsultationMenu(Consultation medicalAppointment) {
-        this.mAppointment = medicalAppointment;
+        this.consultation = medicalAppointment;
     }
 
     public static void runMedicalAppointmentMenu(Consultation medicalAppointment) {
@@ -27,12 +29,13 @@ public class ConsultationMenu {
         Terminal.clear();
         System.out.println("## Alterando Dados da Consulta Médica ##\n");
         System.out.println("Dados da consulta: ");
-        System.out.println(this.mAppointment + "\n");
+        System.out.println(this.consultation + "\n");
 
-        System.out.println("[1] : O tipo de consulta.");
-        System.out.println("[2] : O CPF.");
-        System.out.println("[3] : A data.");
-        System.out.println("[4] : A razão da consulta.");
+        System.out.println("[1] : Status da consulta.");
+        System.out.println("[2] : O cpf do paciente.");
+        System.out.println("[2] : O código do doutor.");
+        System.out.println("[4] : A data.");
+        System.out.println("[5] : A razão da consulta.");
         System.out.println("[0] : Voltar.\n");
 
         System.out.print("Digite uma das opções para alterar: ");
@@ -42,6 +45,7 @@ public class ConsultationMenu {
     public void options() {
         switch (this.op) {
             case 0:
+                ConsultationService.update(consultation);
                 break;
             case 1:
                 updateType();
@@ -49,10 +53,10 @@ public class ConsultationMenu {
             case 2:
                 updateCPF();
                 break;
-            case 3:
+            case 4:
                 updateDate();
                 break;
-            case 4:
+            case 5:
                 updateReazon();
                 break;
         }
@@ -78,24 +82,24 @@ public class ConsultationMenu {
     private void updateDate() {
         System.out.println("Digite a nova data da consulta: ");
         String dateStr = ReadDataFromTerminal.STRING();
-        Date date = new Date();
+        LocalDate date = null;
 
         try {
-            date.setData(dateStr);
-        } catch (InvalidDateException e) {
+            date = LocalDate.parse(dateStr);
+        } catch (DateTimeException e) {
             System.out.println("## Erro ##");
             System.out.println(e.getMessage());
 
             return;
         }
 
-        this.mAppointment.setDateConsultation(date);
+        this.consultation.setDate(date);
     }
 
     private void updateReazon() {
         Terminal.clear();
         System.out.print("\nDigite a razão da consulta: ");
-        this.mAppointment.setReasonForService(ReadDataFromTerminal.STRING());
+        this.consultation.setReasonForService(ReadDataFromTerminal.STRING());
     }
 
     public int getOp() {

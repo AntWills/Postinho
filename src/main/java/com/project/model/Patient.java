@@ -19,15 +19,14 @@ public class Patient {
         UtilCpf.validator(cpf);
         this.cpf = cpf;
         this.name = name;
-        this.consultations = new ArrayList<>();
     }
 
-    public Patient(String cpf, String name, List<Consultation> cultateList) throws InvalidCpfException {
+    public Patient(String cpf, String name, List<Consultation> consultationList) throws InvalidCpfException {
         UtilCpf.validator(cpf);
 
         this.cpf = cpf;
         this.name = name;
-        this.consultations = cultateList;
+        this.consultations = consultationList;
     }
 
     public String geCpf() {
@@ -50,5 +49,9 @@ public class Patient {
 
     public List<Consultation> getConsultations() {
         return consultations;
+    }
+
+    public void setConsultations(List<Consultation> consultationList) {
+        this.consultations = consultationList;
     }
 }

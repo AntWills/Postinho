@@ -12,6 +12,7 @@ import com.project.service.PatientService;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
@@ -25,7 +26,7 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         query += "doctor_id INTEGER NOT NULL, ";
         query += "status INTEGER NOT NULL, ";
         query += "date_consultation TEXT, ";
-        query += "reason TEXT";
+        query += "reason TEXT, ";
         query += "FOREIGN KEY (patient_id) REFERENCES Patient(cpf_id), ";
         query += "FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_id)";
         query += ");";
@@ -112,7 +113,7 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         return consultations;
     }
 
-    public Consultation findByPatientAndDate(Patient patient, Date date) {
+    public Consultation findByPatientAndDate(Patient patient, LocalDate date) {
         Consultation consultation = null;
 
         String query = "SELECT * FROM " + this.getTableName() + " ";
@@ -195,10 +196,10 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
 
         int status = rs.getInt("status");
 
-        Date dateconsultation = new Date(rs.getString("date_consultation"));
+        LocalDate date = LocalDate.parse(rs.getString("date_consultation"));
         String reazon = rs.getString("reazon");
 
-        return new Consultation(idConsultation, status, patient, doctor, dateconsultation, reazon);
+        return new Consultation(idConsultation, status, patient, doctor, date, reazon);
     }
 
     @Override
@@ -221,7 +222,7 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         pstmt.setString(1, obj.getPatient().geCpf());
         pstmt.setInt(2, obj.getDoctor().getId());
         pstmt.setInt(3, obj.getStatus());
-        pstmt.setString(4, obj.getDateConsultation().getData().toString());
+        pstmt.setString(4, obj.getDate().toString());
         pstmt.setString(5, obj.getReasonForService());
     }
 
@@ -244,7 +245,7 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         pstmt.setString(1, obj.getPatient().geCpf());
         pstmt.setInt(2, obj.getDoctor().getId());
         pstmt.setInt(3, obj.getStatus());
-        pstmt.setString(4, obj.getDateConsultation().getData().toString());
+        pstmt.setString(4, obj.getDate().toString());
         pstmt.setString(5, obj.getReasonForService());
         pstmt.setInt(6, obj.getId());
     }

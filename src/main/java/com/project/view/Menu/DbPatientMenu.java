@@ -35,7 +35,7 @@ public class DbPatientMenu {
     public void options() {
         switch (this.op) {
             case 1:
-                registerNewCleinte();
+                registerNewPatient();
                 break;
             case 2:
                 searchPatientForCPF();
@@ -48,7 +48,7 @@ public class DbPatientMenu {
         }
     }
 
-    private void registerNewCleinte() {
+    private void registerNewPatient() {
         Terminal.clear();
         // Patient patient = new Patient();
 

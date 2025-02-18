@@ -1,5 +1,6 @@
 package com.project.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.project.dao.ConsultationDAO;
@@ -17,9 +18,22 @@ public class ConsultationService {
 
     public static void save(
             int status,
+            String patient_cpf,
+            int idDoctor,
+            LocalDate dateService,
+            String reasonForService) {
+        Patient patient = PatientService.findById(patient_cpf);
+        Doctor doctor = DoctorService.findById(idDoctor);
+        Consultation mc = new Consultation(status, patient, doctor, dateService, reasonForService);
+
+        consultationDao.save(mc);
+    }
+
+    public static void save(
+            int status,
             Patient patient,
             Doctor doctor,
-            Date dateService,
+            LocalDate dateService,
             String reasonForService) {
         Consultation mc = new Consultation(status, patient, doctor, dateService, reasonForService);
 
@@ -31,7 +45,7 @@ public class ConsultationService {
             int status,
             Patient patient,
             Doctor doctor,
-            Date dateService,
+            LocalDate dateService,
             String reasonForService) {
         Consultation consultation = new Consultation(id, status, patient, doctor, dateService, reasonForService);
         consultationDao.update(consultation);
@@ -75,8 +89,12 @@ public class ConsultationService {
         return consultationDao.findByDate(date);
     }
 
-    public static Consultation findByPatientAndDate(Patient patient, Date date) {
+    public static Consultation findByPatientAndDate(Patient patient, LocalDate date) {
         return consultationDao.findByPatientAndDate(patient, date);
+    }
+
+    public static List<Consultation> findByPatientAndDateAfter(Patient patient, Date date) {
+        return consultationDao.findByPatientAndDateAfter(patient, date);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.project.model;
 
+import java.time.LocalDate;
+
 // import com.project.entity.Cpf;
 import com.project.entity.Date;
 // import com.project.model.Doctor;
@@ -16,7 +18,7 @@ public class Consultation {
     private int status;
     private Patient patient;
     private Doctor doctor;
-    private Date dateConsultation;
+    private LocalDate date;
     private String reasonForService;
 
     public Consultation() {
@@ -27,13 +29,13 @@ public class Consultation {
             int status,
             Patient patient,
             Doctor doctor,
-            Date dateService,
+            LocalDate dateService,
             String reasonForService) {
         this.id = id;
         this.status = status;
         this.patient = patient;
         this.doctor = doctor;
-        this.dateConsultation = dateService;
+        this.date = dateService;
         this.reasonForService = reasonForService;
     }
 
@@ -41,12 +43,12 @@ public class Consultation {
             int status,
             Patient patient,
             Doctor doctor,
-            Date dateService,
+            LocalDate dateService,
             String reasonForService) {
         this.status = status;
         this.patient = patient;
         this.doctor = doctor;
-        this.dateConsultation = dateService;
+        this.date = dateService;
         this.reasonForService = reasonForService;
     }
 
@@ -84,12 +86,12 @@ public class Consultation {
         this.doctor = doctor;
     }
 
-    public Date getDateConsultation() {
-        return dateConsultation;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateConsultation(Date dateService) {
-        this.dateConsultation = dateService;
+    public void setDate(LocalDate dateService) {
+        this.date = dateService;
     }
 
     public String getReasonForService() {

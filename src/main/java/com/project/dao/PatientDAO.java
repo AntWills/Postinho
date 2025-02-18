@@ -2,6 +2,8 @@ package com.project.dao;
 
 import com.project.exception.InvalidCpfException;
 import com.project.model.Patient;
+import com.project.service.ConsultationService;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +17,7 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
     public void start() {
         DbConnect.openBank();
         String query = "";
-        query += "CREATE TABLE IF NOT EXISTS " + this.getTableName() + " ";
+        query += "CREATE TABLE IF NOT EXISTS " + this.getTableName() + " (";
         query += "cpf_id TEXT PRIMARY KEY,";
         query += "name TEXT";
         query += ");";
@@ -75,8 +77,11 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
     public Patient mapResultSetToEntity(ResultSet rs) throws InvalidCpfException, SQLException {
         String cpf = rs.getString("cpf_id");
         String name = rs.getString("name");
+        Patient patient = new Patient(cpf, name);
 
-        return new Patient(cpf, name);
+        patient.setConsultations(
+                ConsultationService.findByPatient(patient));
+        return patient;
     }
 
     @Override

@@ -1,11 +1,17 @@
 package com.project.view.Menu;
 
+import com.project.entity.Date;
 import com.project.model.Consultation;
 import com.project.model.Patient;
+import com.project.service.ConsultationService;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
-import com.project.dao.*;
+
+import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PatientMenu {
     private int op;
@@ -43,13 +49,13 @@ public class PatientMenu {
     public void options() {
         switch (this.op) {
             case 1:
-                printAppointmentPatient();
+                printConsultatioinPatient();
                 break;
             case 2:
-                printFutureAppointmentPatient();
+                printFutureConsultationPatient();
                 break;
             case 3:
-                updateMedicalAppointment();
+                updateConsultation();
                 break;
             case 4:
                 updateFutureMedicalAppointment();
@@ -59,7 +65,7 @@ public class PatientMenu {
         }
     }
 
-    private void printAppointmentPatient() {
+    private void printConsultatioinPatient() {
         Terminal.clear();
         List<Consultation> list = this.patient.getConsultations();
 
@@ -75,30 +81,49 @@ public class PatientMenu {
         Terminal.pause();
     }
 
-    private void printFutureAppointmentPatient() {
-        // Terminal.clear();
-        // List<Consultation> list =
-        // FutureMedicalAppointmentDAO.search(this.patient.geCpft());
+    private void printFutureConsultationPatient() {
+        Terminal.clear();
+        LocalDate today = LocalDate.now();
+        List<Consultation> list = this.patient
+                .getConsultations().stream()
+                .filter(consultation -> consultation.getDate().isAfter(today))
+                .collect(Collectors.toList());
 
-        // if (list.size() == 0) {
-        // System.out.println("Não há consultas agendadas para este paciente.\n");
-        // } else {
-        // System.out.println("Consultas marcadas pelo paciente: " +
-        // this.patient.getName() + "\n");
+        if (list.size() == 0) {
+            System.out.println("Não há consultas agendadas para este paciente.\n");
+            Terminal.pause();
+            return;
+        }
 
-        // for (Consultation mAppointment : list) {
-        // System.out.println(mAppointment + "\n");
-        // }
-        // }
-        // Terminal.pause();
+        System.out.println("Consultas marcadas pelo paciente: " +
+                this.patient.getName() + "\n");
+
+        for (Consultation mAppointment : list) {
+            System.out.println(mAppointment + "\n");
+        }
+
+        Terminal.pause();
     }
 
-    private void updateMedicalAppointment() {
-        // Terminal.clear();
-        // System.out.print("Digite o id da consulta: ");
-        // int id = ReadDataFromTerminal.INT();
+    private void updateConsultation() {
+        Terminal.clear();
+        System.out.print("Digite o id da consulta: ");
+        int id = ReadDataFromTerminal.INT();
 
-        // MedicalConsultation mAppointment = patient.getMedicalAppointmentID(id);
+        Optional<Consultation> consultationOp = this.patient
+                .getConsultations().stream()
+                .filter(consultation -> consultation.getId() == id)
+                .findFirst();
+
+        if (!consultationOp.isPresent()) {
+            System.out.println("\nConsulta com o id igual a " + id + " não foi encontrada.\n");
+            Terminal.pause();
+            return;
+        }
+
+        Consultation consultation = consultationOp.get();
+
+        ConsultationMenu.runMedicalAppointmentMenu(consultation);
 
         // if (mAppointment == null) {
         // Terminal.clear();

@@ -125,7 +125,7 @@ public class DbMedicalAppointmentMenu {
         Date date = new Date();
 
         try {
-            date.setData(dateStr);
+            date.setDate(dateStr);
         } catch (InvalidDateException e) {
             System.out.println("## Erro ##");
             System.out.println(e.getMessage());
