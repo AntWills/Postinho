@@ -1,11 +1,17 @@
 package com.project.dao;
 
+import java.io.File;
 import java.sql.*;
 
 public class DbConnect {
     private static Connection connection;
 
     public static void openBank() {
+        File directory = new File("data");
+        if (!directory.exists()) {
+            directory.mkdir(); // Cria o diretório se ele não existir
+
+        }
         try {
             // Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:data/PostinhoDB.sqlite");
