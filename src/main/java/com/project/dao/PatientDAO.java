@@ -10,9 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class PatientDAO extends AbstractDAO<Patient, String> {
-    // public static PatientDAO staticPatient = new PatientDAO();
-
-    // @Override;
     @Override
     public void start() throws SQLException {
         DbConnect.openBank();
@@ -25,24 +22,6 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
         DbConnect.execQuery(query);
 
     }
-
-    // public List<Consultation> findAllConsultation(String cpf) {
-    // List<Consultation> consultations = new ArrayList<>();
-
-    // String query = "";
-    // query += "SELECT";
-    // query += "consultation.consultation_id,";
-    // query += "consultation.patient_id,";
-    // query += "consultation.doctor_id,";
-    // query += "consultation.date_consultation";
-    // query += "FROM " + this.getTableName() + " ";
-    // query += "LEFT JOIN consultation ON patient.cpf_id =
-    // consultation.patient_id";
-    // query += "WHERE";
-    // query += "consultation.patient_id = ?;";
-
-    // return consultations;
-    // }
 
     public int numberPatient() {
         String query = "SELECT COUNT(*) FROM Patient;";
@@ -115,5 +94,4 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
         pstmt.setString(1, obj.getName());
         pstmt.setString(2, obj.geCpf());
     }
-
 }

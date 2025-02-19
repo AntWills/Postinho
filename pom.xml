@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>main.java.com.project</groupId>
+    <groupId>com.project</groupId>
     <artifactId>Postinho</artifactId>
     <version>1.0-SNAPSHOT</version>
 
@@ -15,6 +15,18 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <!-- <executions>
+            <execution>
+                <goals>
+                    <goal>java</goal>
+                </goals>
+                <configuration>
+
+                    <mainClass>com.project.Main</mainClass>
+                </configuration>
+            </execution>
+    </executions> -->
 
     <dependencies>
         <dependency>
@@ -41,13 +53,24 @@
             <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- Biblioteca de Assertions para Testes -->
-        <!-- <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>3.24.2</version>
-            <scope>test</scope>
-        </dependency> -->
     </dependencies>
+
+    <!-- <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.1.0</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>java</goal>
+                    </goals>
+                    <configuration>
+                        <mainClass>com.project.Main</mainClass> 
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins> -->
+
 </project>

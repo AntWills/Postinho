@@ -124,18 +124,6 @@ public class PatientMenu {
         Consultation consultation = consultationOp.get();
 
         ConsultationMenu.runMedicalConsultation(consultation);
-
-        // if (mAppointment == null) {
-        // Terminal.clear();
-        // System.out.println("\nConsulta com o id igual a " + id + " não foi
-        // encontrada.");
-        // System.out.println("Voltando ao menu.\n");
-        // Terminal.pause();
-        // return;
-        // }
-
-        // MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
-        // MedicalConsultationDAO.updade(id, mAppointment);
     }
 
     private void updateFutureConsultation() {
