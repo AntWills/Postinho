@@ -1,3 +1,4 @@
-data/PostinhoDB.sqlite
+data/*
+!data/
 /.vscode/
 /target/
