@@ -1,5 +1,6 @@
 package com.project.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +13,9 @@ public abstract class AbstractDAO<T, K> implements Idao<T, K> {
     public void save(T obj) throws SQLException {
         String query = this.getSaveQuery();
 
-        PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+        Connection con = DbConnect.getConnection();
+        PreparedStatement pstmt = con.prepareStatement(query);
+
         this.setPstmtForSave(pstmt, obj);
         pstmt.executeUpdate();
 

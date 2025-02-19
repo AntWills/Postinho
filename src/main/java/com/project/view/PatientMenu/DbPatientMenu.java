@@ -1,4 +1,4 @@
-package com.project.view.Menu;
+package com.project.view.PatientMenu;
 
 import java.sql.SQLException;
 
@@ -80,8 +80,9 @@ public class DbPatientMenu {
     }
 
     private void searchPatientForCPF() {
-
-        System.out.println("Digite o CPF: ");
+        Terminal.clear();
+        System.out.println("-- Buscando Paciente --\n");
+        System.out.print("Digite o CPF: ");
         String cpf = ReadDataFromTerminal.STRING();
 
         try {
@@ -99,7 +100,9 @@ public class DbPatientMenu {
             patient = PatientService.findById(cpf);
         } catch (SQLException e) {
             System.err.println("## ERRO ##");
-            System.err.println("Ouvi um erro ao buscar p paciente.");
+            System.err.println("- Ouvi um erro ao buscar o paciente.");
+            Terminal.pause();
+            return;
         }
 
         if (patient == null) {

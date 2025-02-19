@@ -3,7 +3,7 @@ package com.project;
 import com.project.service.ConsultationService;
 import com.project.service.DoctorService;
 import com.project.service.PatientService;
-import com.project.view.Menu.InitialMenu;
+import com.project.view.InitialMenu;
 
 public class Main {
 

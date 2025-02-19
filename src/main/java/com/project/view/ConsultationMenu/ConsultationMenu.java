@@ -1,11 +1,15 @@
-package com.project.view.Menu;
+package com.project.view.ConsultationMenu;
 
 import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
+import com.project.exception.InvalidCpfException;
 import com.project.model.Consultation;
+import com.project.model.Patient;
 import com.project.service.ConsultationService;
+import com.project.service.PatientService;
+import com.project.util.EntityUtil;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 
@@ -29,8 +33,9 @@ public class ConsultationMenu {
     public void menu() {
         Terminal.clear();
         System.out.println("## Alterando Dados da Consulta Médica ##\n");
-        System.out.println("Dados da consulta: ");
-        System.out.println(this.consultation + "\n");
+        System.out.println("Dados da consulta:\n");
+        EntityUtil.printInTerminal(consultation);
+        System.out.println("");
 
         System.out.println("[1] : Status da consulta.");
         System.out.println("[2] : O cpf do paciente.");
@@ -49,8 +54,9 @@ public class ConsultationMenu {
                 try {
                     ConsultationService.update(consultation);
                 } catch (SQLException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    Terminal.pause();
+                    System.out.println("## ERRO ##");
+                    System.out.println("- Não foi possivel atualizar os dados.\n");
                     Terminal.pause();
                 }
                 break;
@@ -70,33 +76,69 @@ public class ConsultationMenu {
     }
 
     private void updateType() {
-        // Terminal.clear();
-        // System.out.println("Digite o novo tipo de atendimento: ");
-        // System.out.println("(0) : [NOT URGENT] : Blue");
-        // System.out.println("(1) : [LITTLE URGENT] : Green");
-        // System.out.println("(2) : [URGENT] : Yellow");
-        // System.out.println("(3) : [EMERGING] : Red\n");
+        Terminal.clear();
+        System.out.println("-- Atualizando status da consulta --\n");
 
-        // System.out.print("Digite o tipo: ");
-        // this.mAppointment.setTypeService(ReadDataFromTerminal.INT());
+        System.out.println("(0) : [Agendado]");
+        System.out.println("(1) : [Atendido]");
+        System.out.println("(2) : [Cancelado]");
+        System.out.println("(3) : [Não realizado]\n");
+
+        System.out.print("Digite o novo status: ");
+        this.consultation.setStatus(ReadDataFromTerminal.INT());
     }
 
     private void updateCPF() {
-        // this.mAppointment.setCpfPatient(CPF.inTerminal(true,
-        // "Digite o novo CPF: "));
+        Terminal.clear();
+        System.out.println("-- Atualizando o cpf do paciente --\n");
+
+        System.out.print("Digite o novo cpf: ");
+        String cpf = ReadDataFromTerminal.STRING();
+
+        Patient patient = new Patient();
+
+        Terminal.clear();
+        try {
+            patient.setCpfId(cpf);
+        } catch (InvalidCpfException e) {
+            System.out.println("## Erro ##");
+            System.out.println("- Cpf digitado de forma incorreta.");
+            System.out.println("- O cpf é invalido.");
+
+            return;
+        }
+        Patient patientAux = null;
+        try {
+            patientAux = PatientService.findById(cpf);
+        } catch (SQLException e) {
+            System.err.println("## ERRO ##");
+            System.err.println("- Ouvi um erro ao buscar o paciente.");
+            Terminal.pause();
+            return;
+        }
+
+        if (patientAux == null) {
+            System.out.println("O cpf " + cpf + " não corresponde a nenhuma paciente.\n");
+            Terminal.pause();
+            return;
+        }
+        this.consultation.setPatient(cpf);
     }
 
     private void updateDate() {
-        System.out.println("Digite a nova data da consulta: ");
-        String dateStr = ReadDataFromTerminal.STRING();
-        LocalDate date = null;
+        Terminal.clear();
+        System.out.println("-- Atualizando a data da consulta --\n");
 
+        System.out.println("Digite a nova data: ");
+        String dateStr = ReadDataFromTerminal.STRING();
+
+        LocalDate date = null;
         try {
             date = LocalDate.parse(dateStr);
         } catch (DateTimeException e) {
             System.out.println("## Erro ##");
-            System.out.println(e.getMessage());
-
+            System.out.println("- Data digitada de forma errada.\n");
+            Terminal.pause();
             return;
         }
 
@@ -105,7 +147,9 @@ public class ConsultationMenu {
 
     private void updateReazon() {
         Terminal.clear();
-        System.out.print("\nDigite a razão da consulta: ");
+        System.out.println("-- Atualizando a razão --\n");
+
+        System.out.print("Digite a razão da consulta: ");
         this.consultation.setReasonForService(ReadDataFromTerminal.STRING());
     }
 

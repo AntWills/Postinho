@@ -188,21 +188,21 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         int status = rs.getInt("status");
 
         LocalDate date = LocalDate.parse(rs.getString("date_consultation"));
-        String reazon = rs.getString("reazon");
+        String reazon = rs.getString("reason");
 
         return new Consultation(idConsultation, status, patientId, doctorId, date, reazon);
     }
 
     @Override
     public String getTableName() {
-        return "Consultation";
+        return "consultation";
     }
 
     @Override
     protected String getSaveQuery() {
         String query = "";
         query += "INSERT INTO " + this.getTableName() + " ";
-        query += "(patient_id, doctor_id, status, date_consultation, reazon) ";
+        query += "(patient_id, doctor_id, status, date_consultation, reason) ";
         query += "VALUES(?, ?, ?, ?, ?)";
 
         return query;
@@ -225,7 +225,7 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         query += "doctor_id = ?, ";
         query += "status = ?, ";
         query += "date_consultation = ?, ";
-        query += "reazon = ?";
+        query += "reason = ?";
         query += "WHERE consultation_id = ?";
 
         return query;

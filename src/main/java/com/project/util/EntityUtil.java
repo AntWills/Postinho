@@ -16,7 +16,24 @@ public class EntityUtil {
     }
 
     public static void printInTerminal(Consultation consultation) {
+        String[] statuStrings = {
+                "Agendado",
+                "Realizado",
+                "Cancelado",
+                "Não realizado"
+        };
+        String[] colorStatus = {
+                ColorOut.blue,
+                ColorOut.green,
+                ColorOut.yellow,
+                ColorOut.red
+        };
+
         System.out.println("Código: " + consultation.getId() + ".");
+        System.out.println("Status: "
+                + colorStatus[consultation.getStatus()]
+                + statuStrings[consultation.getStatus()]
+                + ColorOut.reset);
         System.out.println("Cpf do paciente: " + consultation.getPatientId() + ".");
         System.out.println("Código do doutor: " + consultation.getDoctorId() + ".");
         System.out.println("Data: " + consultation.getDate() + ".");

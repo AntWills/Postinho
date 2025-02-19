@@ -1,4 +1,4 @@
-package com.project.view.Menu;
+package com.project.view;
 
 import com.project.exception.InvalidCpfException;
 import com.project.model.*;
@@ -7,6 +7,9 @@ import com.project.util.EntityUtil;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
 import com.project.util.UtilCpf;
+import com.project.view.ConsultationMenu.DbConsultationMenu;
+import com.project.view.MenuDoctor.DbDoctorMenu;
+import com.project.view.PatientMenu.DbPatientMenu;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -47,12 +50,13 @@ public class InitialMenu {
         System.out.println("## Postinho - Data: " + today + " ##\n");
 
         System.out.println("[1] : Registrar nova consultas.");
-        System.out.println("[2] : Agender consulta.");
+        System.out.println("[2] : Agendar consulta.");
         System.out.println("[3] : Consultas agendados para hoje.");
         System.out.println("[4] : Atender consulta de hoje.");
         System.out.println("[5] : Acessar banco de consultas(+).");
         System.out.println("[6] : Acessar banco de pacientes(+).");
-        System.out.println("[7] : Alterar data do dia atual.");
+        System.out.println("[7] : Acessar banco de doutores(+).");
+        System.out.println("[8] : Alterar data do dia atual.");
         System.out.println("[0] : Encerrar programa.");
 
         System.out.print("\nDigite uma das opções: ");
@@ -86,7 +90,7 @@ public class InitialMenu {
                 DbPatientMenu.runDbPatientMenu();
                 break;
             case 7:
-                // changeDate();
+                DbDoctorMenu.runDoctorMenu();
                 break;
             default:
                 break;
@@ -97,7 +101,7 @@ public class InitialMenu {
         Terminal.clear();
         int status = 1;
 
-        System.out.print("## Resgitrando Uma nova consulta ##\n");
+        System.out.println("## Resgitrando Uma nova consulta ##\n");
 
         System.out.print("Digite o cpf do paciente: ");
         String cpf = ReadDataFromTerminal.STRING();
@@ -145,7 +149,9 @@ public class InitialMenu {
         try {
             ConsultationService.save(status, patient, doctor, today, reazon);
         } catch (SQLException e) {
-            System.err.println("Ouvi um erro ao salvar os dados da consulta.\n");
+            System.err.println("## ERRO ##");
+            System.err.println("- Ouvi um erro ao salvar os dados da consulta.\n");
+            System.err.println(": " + e.getMessage());
         }
         Terminal.pause();
 
@@ -153,23 +159,17 @@ public class InitialMenu {
 
     private void scheduleNewConsultation() {
         LocalDate date = null;
+        int status = 0;
+        Terminal.clear();
+        System.out.println("-- Agendando Consulta --\n");
 
-        System.out.println("Tipo de status: ");
-        System.out.println("(0) : Agendado");
-        System.out.println("(1) : Realizado");
-        System.out.println("(2) : Cancelado");
-        System.out.println("(3) : Nao realizado\n");
-
-        System.out.print("Digite o tipo: ");
-        int status = ReadDataFromTerminal.INT();
-
-        System.out.println("Digite o CPF do paciente: ");
+        System.out.print("Digite o CPF do paciente: ");
         String cpf = ReadDataFromTerminal.STRING();
 
-        System.out.println("Digite o codigo do doutor de plantao: ");
+        System.out.print("Digite o código do doutor de plantão: ");
         int idDoctor = ReadDataFromTerminal.INT();
 
-        System.out.println("Digite a data: ");
+        System.out.print("Digite a data: ");
         String dateString = ReadDataFromTerminal.STRING();
 
         System.out.print("\nDigite a razão da consulta (Opcional): ");
@@ -183,7 +183,9 @@ public class InitialMenu {
         try {
             patient = PatientService.findById(cpf);
         } catch (SQLException e) {
-            System.err.println("Ouvi um erro ao buscar os dados do paciente.\n");
+            System.err.println("## ERRO ##");
+            System.err.println("- Ouvi um erro ao buscar os dados do paciente.\n");
+            System.err.println(":: " + e.getMessage() + "\n");
             Terminal.pause();
             return;
         }
@@ -226,6 +228,12 @@ public class InitialMenu {
             System.out.println("## Erro ##");
             System.out.println(e.getMessage());
 
+            Terminal.pause();
+            return;
+        }
+
+        if (date.isBefore(today)) {
+            System.out.println("\nA data marcada não pode anteior a data atual.\n");
             Terminal.pause();
             return;
         }

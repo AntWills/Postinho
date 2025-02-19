@@ -1,14 +1,13 @@
-package com.project.view.Menu;
+package com.project.view.PatientMenu;
 
 import com.project.model.Consultation;
 import com.project.model.Patient;
-import com.project.service.ConsultationService;
 import com.project.util.EntityUtil;
 import com.project.util.ReadDataFromTerminal;
 import com.project.util.Terminal;
+import com.project.view.ConsultationMenu.ConsultationMenu;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,7 +31,7 @@ public class PatientMenu {
 
     public void menu() {
         Terminal.clear();
-        System.out.println("## Paciente : " + patient.getName() + " ##\n");
+        System.out.println("-- Paciente : " + patient.getName() + " --\n");
 
         System.out.println("Dados do paciente:\n");
         EntityUtil.printInTerminal(patient);
