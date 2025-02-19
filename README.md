@@ -50,4 +50,5 @@ de aprimorar o uso de SQL por meio de classes DAO e gerenciar dependências util
 <ul>
     <li>Certifique-se de ter o Java 17 e o Maven instalados corretamente.</li>
     <li>Se necessário, configure o banco SQLite antes de executar o programa.</li>
+    <li>Se o programa não executar, abra o vs code e tente executar por lá.</li>
 </ul>
