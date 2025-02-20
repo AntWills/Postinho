@@ -52,14 +52,13 @@ public class DbPatientMenu {
 
     private void registerNewPatient() {
         Terminal.clear();
-        // Patient patient = new Patient();
 
         System.out.println("-- Cadastrando novo paciente --\n");
 
-        System.out.println("Digite o CPF: ");
+        System.out.print("Digite o CPF: ");
         String cpf = ReadDataFromTerminal.STRING();
 
-        System.out.println("Digite o nome: ");
+        System.out.print("Digite o nome: ");
         String name = ReadDataFromTerminal.STRING();
 
         try {

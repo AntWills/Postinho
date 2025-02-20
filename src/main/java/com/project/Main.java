@@ -13,7 +13,7 @@ public class Main {
             DoctorService.start();
             ConsultationService.start();
         } catch (Exception e) {
-            System.err.println("Ouvi um erro: " + e.getMessage());
+            System.err.println("Ouvi um erro na inicialização: " + e.getMessage());
             return;
         }
         InitialMenu.runInitialMenu();

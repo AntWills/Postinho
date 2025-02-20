@@ -60,7 +60,6 @@ public abstract class AbstractDAO<T, K> implements Idao<T, K> {
         }
 
         DbConnect.closeBank();
-
         return obj;
     }
 
@@ -70,21 +69,14 @@ public abstract class AbstractDAO<T, K> implements Idao<T, K> {
 
         String query = "SELECT * FROM " + this.getTableName();
 
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            ResultSet rs = pstmt.executeQuery();
+        PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                listObj.add(this.mapResultSetToEntity(rs));
-            }
-
-        } catch (SQLException e) {
-            System.err.println("Error." + this.getTableName() + ".findAll: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Error." + this.getTableName() + ".findAll: " + e.getMessage());
+        if (rs.next()) {
+            listObj.add(this.mapResultSetToEntity(rs));
         }
-        DbConnect.closeBank();
 
+        DbConnect.closeBank();
         return listObj;
     }
 

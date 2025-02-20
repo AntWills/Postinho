@@ -23,20 +23,17 @@ public class PatientDAO extends AbstractDAO<Patient, String> {
 
     }
 
-    public int numberPatient() {
+    public int numberPatient() throws SQLException {
         String query = "SELECT COUNT(*) FROM Patient;";
 
         int count = 0;
 
-        try {
-            Statement stmt = DbConnect.getConnection().createStatement();
-            ResultSet rSet = stmt.executeQuery(query);
+        Statement stmt = DbConnect.getConnection().createStatement();
+        ResultSet rSet = stmt.executeQuery(query);
 
-            if (rSet.next())
-                count = rSet.getInt("COUNT(*)");
-        } catch (Exception e) {
-            System.err.println("Error PatientDAO.numberPatient: " + e.getMessage());
-        }
+        if (rSet.next())
+            count = rSet.getInt("COUNT(*)");
+
         DbConnect.closeBank();
         return count;
     }

@@ -38,19 +38,13 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         String query = "SELECT * FROM " + this.getTableName() + " ";
         query += "WHERE patient_id = ?";
 
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, patient.geCpf());
+        PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+        pstmt.setString(1, patient.geCpf());
+        ResultSet rs = pstmt.executeQuery();
 
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                Consultation mc = this.mapResultSetToEntity(rs);
-                list.add(mc);
-            }
-
-        } catch (Exception e) {
-            System.err.println("Error.MedicalAppointment.findByCpf: " + e.getMessage());
+        while (rs.next()) {
+            Consultation mc = this.mapResultSetToEntity(rs);
+            list.add(mc);
         }
 
         DbConnect.closeBank();
@@ -63,21 +57,14 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         String query = "SELECT * FROM MedicalAppointment "
                 + "WHERE id_MedicalAppointment = ? AND " +
                 "cpf_patient_MedicalAppointment ?";
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
 
-            pstmt.setInt(1, id);
-            pstmt.setString(2, patient.geCpf());
+        PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+        pstmt.setInt(1, id);
+        pstmt.setString(2, patient.geCpf());
+        ResultSet rSet = pstmt.executeQuery();
 
-            ResultSet rSet = pstmt.executeQuery();
-
-            while (rSet.next()) {
-                consultation = this.mapResultSetToEntity(rSet);
-            }
-        } catch (SQLException e) {
-            System.err.println("Error FutureMedicalAppointmentDAO.seek(int): " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("Error FutureMedicalAppointmentDAO.seek(int): " + e.getMessage());
+        while (rSet.next()) {
+            consultation = this.mapResultSetToEntity(rSet);
         }
 
         DbConnect.closeBank();
@@ -89,17 +76,14 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
 
         String query = "SELECT * FROM " + this.getTableName() + " ";
         query += "WHERE date_consultation = ?";
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, date.toString());
-            ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                Consultation mc = this.mapResultSetToEntity(rs);
-                consultations.add(mc);
-            }
-        } catch (Exception e) {
-            System.err.println("Error MedicalAppointment.findByDate: " + e.getMessage());
+        PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+        pstmt.setString(1, date.toString());
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            Consultation mc = this.mapResultSetToEntity(rs);
+            consultations.add(mc);
         }
 
         DbConnect.closeBank();
@@ -112,17 +96,13 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         String query = "SELECT * FROM " + this.getTableName() + " ";
         query += "WHERE patient_id = ? AND date_consultation = ?";
 
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, patient.geCpf());
-            pstmt.setString(2, date.toString());
-            ResultSet rs = pstmt.executeQuery();
+        PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+        pstmt.setString(1, patient.geCpf());
+        pstmt.setString(2, date.toString());
+        ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                consultation = this.mapResultSetToEntity(rs);
-            }
-        } catch (Exception e) {
-            System.err.println("Error MedicalAppointment.findByDateAfter: " + e.getMessage());
+        if (rs.next()) {
+            consultation = this.mapResultSetToEntity(rs);
         }
 
         DbConnect.closeBank();
@@ -135,18 +115,14 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         String query = "SELECT * FROM " + this.getTableName() + " ";
         query += "WHERE patient_id = ? AND date_consultation < ?";
 
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, patient.geCpf());
-            pstmt.setString(2, date.toString());
-            ResultSet rs = pstmt.executeQuery();
+        PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+        pstmt.setString(1, patient.geCpf());
+        pstmt.setString(2, date.toString());
+        ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                Consultation consultation = this.mapResultSetToEntity(rs);
-                consultations.add(consultation);
-            }
-        } catch (Exception e) {
-            System.err.println("Error MedicalAppointment.findByDateAfter: " + e.getMessage());
+        while (rs.next()) {
+            Consultation consultation = this.mapResultSetToEntity(rs);
+            consultations.add(consultation);
         }
 
         DbConnect.closeBank();
@@ -159,18 +135,14 @@ public class ConsultationDAO extends AbstractDAO<Consultation, Integer> {
         String query = "SELECT * FROM " + this.getTableName() + " ";
         query += "WHERE patient_id = ? AND date_consultation > ?";
 
-        try {
-            PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
-            pstmt.setString(1, patient.geCpf());
-            pstmt.setString(2, date.toString());
-            ResultSet rs = pstmt.executeQuery();
+        PreparedStatement pstmt = DbConnect.getConnection().prepareStatement(query);
+        pstmt.setString(1, patient.geCpf());
+        pstmt.setString(2, date.toString());
+        ResultSet rs = pstmt.executeQuery();
 
-            while (rs.next()) {
-                Consultation consultation = this.mapResultSetToEntity(rs);
-                consultations.add(consultation);
-            }
-        } catch (Exception e) {
-            System.err.println("Error MedicalAppointment.findByDateAfter: " + e.getMessage());
+        while (rs.next()) {
+            Consultation consultation = this.mapResultSetToEntity(rs);
+            consultations.add(consultation);
         }
 
         DbConnect.closeBank();

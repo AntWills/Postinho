@@ -39,7 +39,6 @@ public class PatientMenu {
         System.out.println("\n[1] : Imprimir ultimas consultas.");
         System.out.println("[2] : Imprimir consultas futuras.");
         System.out.println("[3] : Atualizar ultimas consulta.");
-        System.out.println("[4] : Remarcar consultas futuras.");
         System.out.println("[0] : Voltar.\n");
 
         System.out.print("Digite uma das opções: ");
@@ -56,9 +55,6 @@ public class PatientMenu {
                 break;
             case 3:
                 updateConsultation();
-                break;
-            case 4:
-                updateFutureConsultation();
                 break;
             default:
                 break;
@@ -107,7 +103,7 @@ public class PatientMenu {
 
     private void updateConsultation() {
         Terminal.clear();
-        System.out.print("Digite o id da consulta: ");
+        System.out.print("Digite o código da consulta: ");
         int id = ReadDataFromTerminal.INT();
 
         Optional<Consultation> consultationOp = this.patient
@@ -124,27 +120,6 @@ public class PatientMenu {
         Consultation consultation = consultationOp.get();
 
         ConsultationMenu.runMedicalConsultation(consultation);
-    }
-
-    private void updateFutureConsultation() {
-        // Terminal.clear();
-        // System.out.print("Digite o id da consulta: ");
-        // int id = ReadDataFromTerminal.INT();
-
-        // Consultation mAppointment = FutureMedicalAppointmentDAO.search(id,
-        // patient.geCpft());
-
-        // if (mAppointment == null) {
-        // Terminal.clear();
-        // System.out.println("\nConsulta com o id igual a " + id + " não foi
-        // encontrada.");
-        // System.out.println("Voltando ao menu.\n");
-        // Terminal.pause();
-        // return;
-        // }
-
-        // MedicalAppointmentMenu.runMedicalAppointmentMenu(mAppointment);
-        // FutureMedicalAppointmentDAO.updade(id, mAppointment);
     }
 
     public int getOp() {

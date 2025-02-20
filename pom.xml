@@ -16,18 +16,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <!-- <executions>
-            <execution>
-                <goals>
-                    <goal>java</goal>
-                </goals>
-                <configuration>
-
-                    <mainClass>com.project.Main</mainClass>
-                </configuration>
-            </execution>
-    </executions> -->
-
     <dependencies>
         <dependency>
             <groupId>org.xerial</groupId>
@@ -54,23 +42,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <!-- <plugins>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>3.1.0</version>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>java</goal>
-                    </goals>
-                    <configuration>
-                        <mainClass>com.project.Main</mainClass> 
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins> -->
-
 </project>

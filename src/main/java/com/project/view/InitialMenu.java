@@ -277,7 +277,7 @@ public class InitialMenu {
     private void assistPatientToday() {
         Terminal.clear();
         System.out.println("-- Atendendo consulta marcada para " + today + " --\n");
-        System.out.println("Digite o CPF do paciente: ");
+        System.out.print("Digite o CPF do paciente: ");
         String cpf = ReadDataFromTerminal.STRING();
         Patient patient = new Patient();
 

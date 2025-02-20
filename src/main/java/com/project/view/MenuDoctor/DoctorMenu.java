@@ -30,10 +30,6 @@ public class DoctorMenu {
         EntityUtil.printInTerminal(doctor);
         System.out.println("");
 
-        // System.out.println("\n[1] : Imprimir ultimas consultas.");
-        // System.out.println("[2] : Imprimir consultas futuras.");
-        // System.out.println("[3] : Atualizar ultimas consulta.");
-        // System.out.println("[4] : Remarcar consultas futuras.");
         System.out.println("[#] Não sei o que colocar aqui.");
         System.out.println("[0] : Voltar.\n");
 

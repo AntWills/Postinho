@@ -51,6 +51,10 @@ public class PatientService {
     }
 
     public static int cauntPatients() {
-        return patientDAO.numberPatient();
+        try {
+            return patientDAO.numberPatient();
+        } catch (SQLException e) {
+            return -1;
+        }
     }
 }
