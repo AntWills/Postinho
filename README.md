@@ -1,8 +1,10 @@
-<h1>🏥Postinho - Sistema de Gerenciamento de Consultas Médicas </h1>
+<h1>🏥 Postinho - Sistema de Gerenciamento de Consultas Médicas </h1>
 
-<p>Postinho é um sistema terminal desenvolvido para gerenciar pacientes e médicos em um pequeno hospital. Ele permite 
+<p>
+Postinho é um sistema terminal desenvolvido para gerenciar pacientes e médicos em um pequeno hospital. Ele permite 
 cadastrar profissionais de saúde e pacientes, além de agendar e registrar consultas médicas. O projeto foi desenvolvido com o objetivo 
-de aprimorar o uso de SQL por meio de classes DAO e gerenciar dependências utilizando Maven.</p>
+de aprimorar o uso de SQL por meio de classes DAO e gerenciar dependências utilizando Maven.
+</p>
 
 <h2>✨ Funcionalidades</h2>
 <ul>
@@ -17,6 +19,7 @@ de aprimorar o uso de SQL por meio de classes DAO e gerenciar dependências util
     <li>💻 <b>Linguagem:</b> Java 17</li>
     <li>🗃️ <b>Banco de Dados:</b> SQLite 3.45.3</li>
     <li>🚀 <b>Gerenciador de Dependências:</b> Maven 3.9.6</li>
+    <li>🐳 <b>Containerização:</b> Docker</li>
     <li>🛠️ <b>Plataforma de Desenvolvimento:</b> Visual Studio Code</li>
 </ul>
 
@@ -28,27 +31,40 @@ de aprimorar o uso de SQL por meio de classes DAO e gerenciar dependências util
 </ul>
 
 <h2>🚀 Como Executar</h2>
+
+<h3>🧩 Usando Maven</h3>
 <ol>
     <li>📥 <b>Clone o repositório</b>:
         <pre><code>git clone https://github.com/AntWills/Postinho.git</code></pre>
     </li>
 
-  <li> 📂 <b>Acesse a pasta do projeto</b>:
+    <li>📂 <b>Acesse a pasta do projeto</b>:
         <pre><code>cd Postinho</code></pre>
     </li>
 
-  <li>🔧 <b>Compile o projeto com Maven</b>:
-        <pre><code>mvn compile</code></pre>
+    <li>🔧 <b>Compile e empacote o projeto</b>:
+        <pre><code>mvn clean package</code></pre>
     </li>
 
-  <li>⚡ <b>Execute o projeto</b>:
-        <pre><code>mvn exec:java -Dexec.mainClass="com.project.Main"</code></pre>
+    <li>▶️ <b>Execute o projeto</b>:
+        <pre><code>java -jar target/Postinho-jar-with-dependencies.jar</code></pre>
+    </li>
+</ol>
+
+<h3>🐳 Usando Docker</h3>
+<ol>
+    <li>⚙️ <b>Construa a imagem Docker</b>:
+        <pre><code>docker build -t postinho .</code></pre>
+    </li>
+
+    <li>▶️ <b>Execute o sistema em um contêiner</b>:
+        <pre><code>docker run -it --rm postinho</code></pre>
     </li>
 </ol>
 
 <h2>📝 Observações</h2>
 <ul>
-    <li>Certifique-se de ter o Java 17 e o Maven instalados corretamente.</li>
-    <li>Se necessário, configure o banco SQLite antes de executar o programa.</li>
-    <li>Se o programa não executar, abra o vs code e tente executar por lá.</li>
+    <li>Certifique-se de ter o Java 17 e o Maven instalados corretamente para execução local.</li>
+    <li>Para usar Docker, verifique se a pasta <code>data/</code> com o banco <code>PostinhoDB.sqlite</code> existe no diretório do projeto.</li>
+    <li>Se o programa não executar, abra o Visual Studio Code e tente rodar por lá para obter mensagens mais detalhadas.</li>
 </ul>
