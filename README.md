@@ -37,15 +37,12 @@ de aprimorar o uso de SQL por meio de classes DAO e gerenciar dependências util
     <li>📥 <b>Clone o repositório</b>:
         <pre><code>git clone https://github.com/AntWills/Postinho.git</code></pre>
     </li>
-
     <li>📂 <b>Acesse a pasta do projeto</b>:
         <pre><code>cd Postinho</code></pre>
     </li>
-
     <li>🔧 <b>Compile e empacote o projeto</b>:
         <pre><code>mvn clean package</code></pre>
     </li>
-
     <li>▶️ <b>Execute o projeto</b>:
         <pre><code>java -jar target/Postinho-jar-with-dependencies.jar</code></pre>
     </li>
@@ -56,7 +53,6 @@ de aprimorar o uso de SQL por meio de classes DAO e gerenciar dependências util
     <li>⚙️ <b>Construa a imagem Docker</b>:
         <pre><code>docker build -t postinho .</code></pre>
     </li>
-
     <li>▶️ <b>Execute o sistema em um contêiner</b>:
         <pre><code>docker run -it --rm postinho</code></pre>
     </li>
@@ -65,6 +61,5 @@ de aprimorar o uso de SQL por meio de classes DAO e gerenciar dependências util
 <h2>📝 Observações</h2>
 <ul>
     <li>Certifique-se de ter o Java 17 e o Maven instalados corretamente para execução local.</li>
-    <li>Para usar Docker, verifique se a pasta <code>data/</code> com o banco <code>PostinhoDB.sqlite</code> existe no diretório do projeto.</li>
     <li>Se o programa não executar, abra o Visual Studio Code e tente rodar por lá para obter mensagens mais detalhadas.</li>
 </ul>
